@@ -1,11 +1,11 @@
-@extends('layouts.map')
+@extends('layouts.layout')
 
 @section('title')
     Tracking Map - Jelajah Kuliner
 @endsection
 
 @section('css')
-    <link rel="stylesheet" href="css/map.css">
+    <link rel="stylesheet" href="css/style.css">
 @endsection
 
 @section('main')

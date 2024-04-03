@@ -1,36 +1,14 @@
-<nav class="navbar navbar-expand-lg" style="background-color : #E4DBD2 ">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">Welcome!</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/profile">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Dropdown link
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">Coming Soon</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+<div class="sidebar">
+<nav>
+    <h1><a href="">Jelajah Kuliner</a></h1>
+    <ul>
+        <li><a href=""></a>Home</li>
+        <li><a href=""></a>Dashboard</li>
+        <li><a href=""></a>History</li>
+        <li><a href=""></a>Order</li>
+        <li><a href=""></a>Products</li>
+    </ul>
+    <hr>
+    <a class="btn btn-primary" href="#" role="button">Login</a>
 </nav>
+</div>

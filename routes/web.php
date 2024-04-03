@@ -14,15 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('index');
+    return view('map');
 });
 
 Route::get('/profile', function () {
     return view('profile');
-});
-
-Route::get('/map', function () {
-    return view('map');
 });
 
 Route::get('/login', function () {
