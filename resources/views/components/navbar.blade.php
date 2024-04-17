@@ -1,14 +1,13 @@
 <div class="sidebar">
 <nav>
-    <h1><a href="">Jelajah Kuliner</a></h1>
+    <h1><a href="/">Jelajah Kuliner</a></h1>
     <ul>
-        <li><a href=""></a>Home</li>
-        <li><a href=""></a>Dashboard</li>
-        <li><a href=""></a>History</li>
-        <li><a href=""></a>Order</li>
-        <li><a href=""></a>Products</li>
+        <li><a href="/spots">Best Spots</a></li>
+        <li><a href="/list-products">Products</a></li>
     </ul>
     <hr>
-    <a class="btn btn-primary" href="#" role="button">Login</a>
+    <a class="btn btn-primary" href="/login" role="button">Login</a>
+    <a class="btn btn-warning" href="/account/create" role="button">Register</a>
+    <a class="btn btn-primary" href="/account" role="button">List Account</a>
 </nav>
 </div>

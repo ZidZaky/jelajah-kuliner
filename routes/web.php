@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,15 +17,22 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('map');
 });
-
+Route::get('/dashboard', function () {
+    return view('dashboard');
+});
 Route::get('/profile', function () {
     return view('profile');
 });
 
+Route::post('loginAccount', [AccountController::class, 'login']);
+Route::get('logout', [AccountController::class, 'logoutAccount']);
+
 Route::get('/login', function () {
+    if (session()->has('account')) {
+        return redirect('/dashboard');
+    }
     return view('login');
 });
 
-Route::get('/register', function () {
-    return view('register');
-});
+
+Route::resource('/account', AccountController::class);
