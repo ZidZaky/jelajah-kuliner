@@ -29,20 +29,90 @@
         }
 
         .sidebar {
-            position: absolute;
-            z-index: 100;
-            height: 100vh;
-            padding: 10px;
-            background: #FFEBB2;
-        }
+    position: absolute;
+    z-index: 100;
+    height: 100vh;
+    padding: 10px;
+    background: #F9ED69;
+    left: -18%;
+    transition: left 0.3s ease;
+}
 
-        .sidebar a.btn.btn-primary{
-            background: #A34343;
-        }
+.sidebar:hover {
+    left: 0;
+}
 
-        .sidebar ul {
-            list-style-type: none;
-        }
+
+    .menu {
+    position: absolute;
+    top: 0;
+    left: 220px;
+    width: 60px;
+    height: 50px;
+    background: #F9ED69;
+    border-radius: 5px; ;
+
+}
+
+.menu p{
+    text-align: center;
+    margin-top: 21%;
+}
+
+.sidebar a.btn {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    background: #A34343;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+h1 {
+    font-family: 'Arial', sans-serif;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+h1 a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+h1 a:hover {
+    color: #ff6f61;
+    text-decoration: underline;
+}
+
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+
+}
+
+.sidebar ul li a {
+    color: black;
+    text-decoration: none;
+    text-align: center;
+}
+
+.sidebar ul li a:hover {
+    text-decoration: underline;
+}
 
         #map {
             height: 100vh;

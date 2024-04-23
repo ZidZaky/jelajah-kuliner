@@ -20,7 +20,7 @@ class Account extends Model implements Authenticatable
 
     // Specify the columns that are mass assignable
     protected $fillable = [
-        'nama', 'email', 'nohp', 'password',
+        'nama', 'email', 'nohp', 'password', 'status'
     ];
 
     // Specify the columns that should be hidden from JSON serialization

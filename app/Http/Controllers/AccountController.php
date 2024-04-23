@@ -6,6 +6,7 @@ use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class AccountController extends Controller
 {
@@ -73,15 +74,28 @@ class AccountController extends Controller
     //save
     public function store(Request $request)
     {
-        $valdata = $request->validate([
-            'nama' => 'required',
-            'email' => 'required',
-            'nohp' => 'required',
-            'password' => 'required'
-        ]);
-        $valdata['password'] = Hash::make($valdata['password']);
-        Account::create($valdata);
-        return redirect('/login');
+        if ($request->password == $request->passwordkonf) {
+            $valdata = $request->validate([
+                'nama' => 'required',
+                'email' => 'required',
+                'nohp' => 'required',
+                'password' => 'required',
+                'status' => 'required'
+            ]);
+            $valdata['password'] = Hash::make($valdata['password']);
+            // Account::create($valdata);
+            DB::insert('INSERT INTO accounts (nama, email, nohp, password, status) VALUES (?, ?, ?, ?, ?)', [
+                $valdata['nama'],
+                $valdata['email'],
+                $valdata['nohp'],
+                $valdata['password'],
+                $valdata['status']
+            ]);
+            
+            return redirect('/login');
+        } else {
+            return redirect('/account/create')->with('error','Password berbeda');
+        }
     }
 
     //edit

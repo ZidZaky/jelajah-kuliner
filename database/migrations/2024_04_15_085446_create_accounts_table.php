@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('nohp');
             $table->string('password');
-            $table->timestamps();
+            $table->string('status');
         });
     }
 
