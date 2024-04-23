@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\PKLController;
+use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\UlasanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +30,8 @@ Route::get('/profile', function () {
 Route::post('loginAccount', [AccountController::class, 'login']);
 Route::get('logout', [AccountController::class, 'logoutAccount']);
 
+Route::get('/dataPKL/{idAccount}', [PKLController::class, 'showDetail']);
+
 Route::get('/login', function () {
     if (session()->has('account')) {
         return redirect('/dashboard');
@@ -36,3 +41,9 @@ Route::get('/login', function () {
 
 
 Route::resource('/account', AccountController::class);
+Route::resource('/PKL', PKLController::class);
+Route::resource('/produk', ProdukController::class);
+Route::resource('/ulasan', UlasanController::class);
+
+// Define a route to fetch coordinates from the database
+Route::get('/getCoordinates', [PKLController::class, 'getCoordinates']);
