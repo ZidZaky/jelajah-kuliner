@@ -28,15 +28,15 @@
 
         </div>
         <div id="contentWrapper">
-            <p id="pButton" style="max-height: 70px">
-
-                <button id="reviewButton">
-                    <img src="https://www.gstatic.com/images/icons/material/system_gm/2x/rate_review_gm_blue_18dp.png"
-                        alt="Gambar">
-                    Berikan Reviewmu
-                </button>
-            </p>
-
+            @if (session('account')['status'] != 'PKL')
+                <p id="pButton" style="max-height: 70px">
+                    <button id="reviewButton">
+                        <img src="https://www.gstatic.com/images/icons/material/system_gm/2x/rate_review_gm_blue_18dp.png"
+                            alt="Gambar">
+                        Berikan Reviewmu
+                    </button>
+                </p>
+            @endif
 
             <div id="contentUlasan" style="display: ;">
 
@@ -160,7 +160,7 @@
 
             // Show the corresponding content div
             document.getElementById('content' + buttonName).style.display = 'block';
-            if(buttonName == 'Ulasan'){
+            if (buttonName == 'Ulasan') {
                 document.getElementById('reviewButton').style.display = 'block';
                 document.getElementById('pButton').style.display = 'block';
             }

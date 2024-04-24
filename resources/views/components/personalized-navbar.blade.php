@@ -1,6 +1,6 @@
 <div class="sidebar">
     <nav>
-        <h1><a href="/">Jelajah Kuliner</a></h1>
+        <h1><a href="/dashboard">Jelajah Kuliner</a></h1>
         <ul>
             <li><a href="/spots">Best Spots</a></li>
             <li><a href="/list-products">Products</a></li>

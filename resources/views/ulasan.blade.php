@@ -36,8 +36,8 @@
                 <label for="ulasan">deskripsi</label>
             </div>
 
-            <input type="text" name="idPKL" id="idPKL" value="{{$idPKL}}">
-            <input type="text" name="idAccount" id="idAccount" value="{{session('account')['id']}}">
+            <input type="text" name="idPKL" id="idPKL" value="{{$idPKL}}" hidden>
+            <input type="text" name="idAccount" id="idAccount" value="{{session('account')['id']}}" hidden>
 
             <button class="btn btn-success" type="submit">Post</button>
 
