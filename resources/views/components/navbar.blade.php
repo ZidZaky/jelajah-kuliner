@@ -9,7 +9,6 @@
     <a class="btn btn-primary" href="/login" role="button">Login</a>
     <a class="btn btn-warning" href="/account/create" role="button">Register</a>
     <!-- iki lapo kok warning -->
-    <a class="btn btn-primary" href="/account" role="button">List Account</a>
 </nav>
     <div class="menu">
         <p>=</p>

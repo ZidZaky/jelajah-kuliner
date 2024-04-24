@@ -13,7 +13,7 @@
     <div id="accountDetails"
         style=" position: absolute; z-index: 100; top: 0; right: 0; width: 25%; height: 100%; padding: 10px; border: 1px solid #ccc; display: none; background-color: #B83B5E;">
         <button onclick="closeAccountDetails()" style="float: right; border-radius: 6px;" class="btn btn-danger">X</button>
-        <h2  style="color: #F9ED69"><STRONG>[PKL NAME]</STRONG></h2><br>
+        <h2 id="namaPKL" style="color: #F9ED69"></h2><br>
         <img src="path_to_image" alt="PKL Photo Goes Here"
             style="width: 100%; max-width: 100%; height: 230px; display: block; margin: 0 auto; border: #F9ED69 3px solid; border-radius: 5px">
 
@@ -69,12 +69,13 @@
 
 
         // Function to display account details in the accountDetails div
-        function displayAccountDetails(id) {
+        function displayAccountDetails(id, namaPKL) {
             // document.getElementById('accountName').innerText = 'Nama: ' + account.nama;
             // document.getElementById('accountEmail').innerText = 'Email: ' + account.email;
             // document.getElementById('accountNohp').innerText = 'No HP: ' + account.nohp;
             // document.getElementById('accountStatus').innerText = 'Status: ' + account.status;
             // document.getElementById('idAccount').innerText = 'ID: ' + id;
+            document.getElementById('namaPKL').innerText = namaPKL;
             document.getElementById('accountDetails').style.display = 'block';
         }
 

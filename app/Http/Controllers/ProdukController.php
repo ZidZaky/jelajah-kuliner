@@ -30,6 +30,7 @@ class ProdukController extends Controller
             'desc' => 'required',
             'harga' => 'required',
             'stok' => 'required',
+            'jenisProduk' => 'required',
             'foto' => 'nullable',
             'idAccount' => 'required'
         ]);

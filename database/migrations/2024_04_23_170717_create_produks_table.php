@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('produks', function (Blueprint $table) {
             $table->id();
             $table->string('namaProduk');
-            $table->string('desc');
+            $table->longText('desc');
             $table->string('harga');
             $table->string('stok');
+            $table->string('jenisProduk');
             $table->string('foto');
             // $table->foreignId('idPKL')->constrained('PKLS'); // Correct the table name here
             $table->foreignId('idAccount')->constrained('p_k_l_s'); // Correct the table name here

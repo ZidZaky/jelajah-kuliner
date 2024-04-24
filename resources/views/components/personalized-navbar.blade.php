@@ -15,8 +15,9 @@
                     PKL</a>
             @elseif (session('account')['status'] == 'PKL')
                 <a class="btn btn-primary" href="/PKL/create" role="button">Create Data PKL</a>
+            @elseif (session('account')['status'] == 'Admin')
+            <a class="btn btn-primary" href="/account" role="button">List Account</a>
             @endif
-
         </ul>
         <hr>
         <a class="btn btn-warning" href="/logout" role="button">Logout</a>

@@ -40,7 +40,7 @@ class PKLController extends Controller
         // dd($valdata);
         $berhasil = PKL::create($valdata);
         if ($berhasil) {
-            return redirect('/');
+            return redirect('/dashboard');
         } else {
             return redirect('/PKL/create')->with('error', 'Gagal menyimpan data PKL.');
         }
