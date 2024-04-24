@@ -10,10 +10,10 @@
                 $pklExists = \App\Models\PKL::where('idAccount', session('account')['id'])->exists();
             @endphp
 
-            @if ($pklExists)
+            @if ($pklExists && session('account')['status'] == 'PKL')
                 <a class="btn btn-primary" href="/dataPKL/{{ session('account')['id'] }}" role="button">Show Data
                     PKL</a>
-            @else
+            @elseif (session('account')['status'] == 'PKL')
                 <a class="btn btn-primary" href="/PKL/create" role="button">Create Data PKL</a>
             @endif
 

@@ -93,7 +93,7 @@ class PKLController extends Controller
     public function getCoordinates()
     {
         // Fetch latitude and longitude data from your database
-        $coordinates = PKL::select('latitude', 'longitude')->get();
+        $coordinates = PKL::select('id','latitude', 'longitude')->get();
 
         // Return latitude and longitude data as JSON
         return response()->json($coordinates);
