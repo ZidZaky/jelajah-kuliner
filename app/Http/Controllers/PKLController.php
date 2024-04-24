@@ -12,12 +12,29 @@ class PKLController extends Controller
     //
     public static function index($id)
     {
-        return view('dataPKL', [
-            'PKL' => PKL::find($id),
-            'Produks' => Produk::find($id),
-            'Ulasan' => Ulasan::find($id)
-        ]);
+        // Retrieve PKL data
+        $PKL = PKL::find($id);
+
+        // Check if PKL data exists
+        if ($PKL) {
+            // Retrieve associated products
+            $Produks = Produk::where('idPKL', $PKL->id)->get();
+
+            // Retrieve associated ulasan based on PKL ID
+            $ulasan = Ulasan::where('idPKL', $PKL->id)->get();;
+
+
+            return view('dataPKL', [
+                'PKL' => $PKL,
+                'Produks' => $Produks,
+                'ulasan' => $ulasan
+            ]);
+        } else {
+            // Handle case where PKL data does not exist
+            return response()->view('errors.404', [], 404);
+        }
     }
+
 
     //create
     public function create()
@@ -83,17 +100,21 @@ class PKLController extends Controller
     public static function showDetail($idAccount)
     {
         $pklData = PKL::where('idAccount', $idAccount)->first();
-        $produk = Produk::where('idAccount', $pklData->id)->get();
+        $produk = Produk::where('idPKL', $pklData->id)->get();
+        $ulasan = Ulasan::where('idPKL', $pklData->id)->get();;
+        session(['pkl' => $pklData]);
+
         return view('dataPKL', [
             'pkl' => $pklData,
-            'produk' => $produk
+            'produk' => $produk,
+            'ulasan' => $ulasan
         ]);
     }
 
     public function getCoordinates()
     {
         // Fetch latitude and longitude data from your database
-        $coordinates = PKL::select('id','desc','namaPKL','latitude', 'longitude')->get();
+        $coordinates = PKL::select('id', 'desc', 'namaPKL', 'latitude', 'longitude')->get();
 
         // Return latitude and longitude data as JSON
         return response()->json($coordinates);

@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('ulasans', function (Blueprint $table) {
             $table->id();
             $table->longText('ulasan');
+            $table->integer('rating');
             $table->foreignId('idAccount')->constrained('accounts'); // Correct the table name here
-            $table->foreignId('idProduk')->constrained('produks'); // Correct the table name here
+            $table->foreignId('idPKL')->constrained('p_k_l_s'); // Correct the table name here
             $table->timestamps();
         });
     }

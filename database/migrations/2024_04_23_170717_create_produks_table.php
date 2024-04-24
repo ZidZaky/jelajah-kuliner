@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('jenisProduk');
             $table->string('foto');
             // $table->foreignId('idPKL')->constrained('PKLS'); // Correct the table name here
-            $table->foreignId('idAccount')->constrained('p_k_l_s'); // Correct the table name here
-
+            $table->foreignId('idPKL')->constrained('p_k_l_s'); // Correct the table name here
+            $table->timestamps();
 
         });
     }

@@ -5,7 +5,8 @@ use App\Http\Controllers\PKLController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\UlasanController;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Ulasan;
+use App\Models\Produk;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,7 +22,9 @@ Route::get('/', function () {
     return view('map');
 });
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $ulasan = Ulasan::all(); // Fetch $ulasan from the database
+    $produk = Produk::all(); // Fetch $ulasan from the database
+    return view('dashboard', ['ulasan' => $ulasan,'produk' => $produk]);
 });
 Route::get('/profile', function () {
     return view('profile');
@@ -47,3 +50,8 @@ Route::resource('/ulasan', UlasanController::class);
 
 // Define a route to fetch coordinates from the database
 Route::get('/getCoordinates', [PKLController::class, 'getCoordinates']);
+// Route::get('/getUlasan', [UlasanController::class, 'getUlasan']);
+Route::get('/getUlasan/{id}', [UlasanController::class, 'getUlasan']);
+Route::get('/getProduk/{id}', [ProdukController::class, 'getProduk']);
+
+Route::get('/ulasan/create/{id}', [UlasanController::class, 'createWithId']);

@@ -51,7 +51,8 @@ class AccountController extends Controller
     public function logoutAccount(Request $request)
     {
         if (session()->has('account')) {
-            session()->forget('account'); // Remove the 'account' key from the session
+            session()->flush();
+            // Remove the 'account' key from the session
         }
         return redirect('/'); // Redirect to the homepage or any other desired location
     }
@@ -91,7 +92,7 @@ class AccountController extends Controller
                 $valdata['password'],
                 $valdata['status']
             ]);
-            
+
             return redirect('/login');
         } else {
             return redirect('/account/create')->with('error','Password berbeda');

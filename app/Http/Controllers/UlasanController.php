@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ulasan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UlasanController extends Controller
 {
@@ -18,20 +19,41 @@ class UlasanController extends Controller
     //create
     public function create()
     {
-        return view('CreateUlasan');
+        return view('ulasan');
+    }
+
+    public function createWithId($id)
+    {
+        // Handle creation with the provided ID
+        return view('ulasan', ['idPKL' => $id]);
+
     }
 
 
     //save
     public function store(Request $request)
     {
-
+        // dd($request);
         $valdata = $request->validate([
             'ulasan' => 'required',
+            'rating' => 'required',
             'idAccount' => 'required',
-            'idProduk' => 'required'
+            'idPKL' => 'required',
+            'created_at' => 'nullable', // Assuming you want to use the default value for created_at
+            'updated_at' => 'nullable',
         ]);
-        $berhasil = Ulasan::create($valdata);
+        // dd($valdata);
+        // dd($valdata);
+        $berhasil = DB::table('ulasans')->insert([
+            'ulasan' => $valdata['ulasan'],
+            'rating' => $valdata['rating'],
+            'idAccount' => $valdata['idAccount'],
+            'idPKL' => $valdata['idPKL'],
+            'created_at' => null, // Assuming you want to use the default value for created_at
+            'updated_at' => null, // Assuming you want to use the default value for updated_at
+        ]);
+
+
         if ($berhasil) {
             return redirect('/');
         } else {
@@ -67,5 +89,23 @@ class UlasanController extends Controller
     {
         Ulasan::destroy($Ulasan->id);
         return redirect('/');
+    }
+
+    public function getUlasan($id)
+    {
+        // Fetch ulasan data for the specific PKL ID
+        $ulasan = Ulasan::where('idPKL', $id)->get();
+
+        // Return ulasan data as JSON
+        return response()->json($ulasan);
+    }
+
+    public function getUlasanAll()
+    {
+        // Fetch latitude and longitude data from your database
+        $ulasan = Ulasan::select('idAccount', 'ulasan', 'rating')->get();
+
+        // Return latitude and longitude data as JSON
+        return $ulasan;
     }
 }
