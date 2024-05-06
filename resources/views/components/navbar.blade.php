@@ -6,11 +6,11 @@
         <li><a href="/list-products">Products</a></li>
     </ul>
     <hr>
-    <a class="btn btn-primary" href="/login" role="button">Login</a>
-    <a class="btn btn-warning" href="/account/create" role="button">Register</a>
+    <a class="btn" href="/login" role="button">Login</a>
+    <a class="btn" href="/account/create" role="button">Register</a>
     <!-- iki lapo kok warning -->
 </nav>
     <div class="menu">
-        <p>=</p>
+        <p>≡</p>
     </div>
 </div>

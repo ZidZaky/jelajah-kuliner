@@ -57,7 +57,7 @@ class ProdukController extends Controller
             ]);
 
             if ($berhasil) {
-                return redirect('/dataPKL/'.session('pkl')['id']);
+                return redirect('/dataPKL/'.session('account')['id']);
             } else {
                 return redirect('/produk/create')->with('error', 'Password berbeda');
             }

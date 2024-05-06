@@ -1,5 +1,7 @@
 html{
     scrollbar-width: none;
+    overflow-y: hidden;
+    /* overflow-x: none; */
 
 }
 body {
@@ -9,7 +11,7 @@ body {
 /* Custom styles for the popup */
 .custom-popup {
     background-color: #ffffff;
-    border: 2px solid #1e90ff;
+    border: 2px solid #9c242c;
     border-radius: 6px;
     padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -54,7 +56,7 @@ body {
     padding: 10px;
     border: 1px solid #ccc;
     display: none;
-    background-color: #007bff;
+    background-color: #9c242c;
 }
 #accountDetails>*{
     /* border-style: double; */
@@ -104,21 +106,34 @@ body {
     align-items: center;
     /* justify-content: center; */
 }
+#contentWrapper>div{
+    overflow-y: scroll;
+    flex-direction: column;
+    height: 370px;
+
+
+    
+}
 #contentWrapper>*{
     padding: 10px 10px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     /* justify-content: center; */
     width: 95%;
-    overflow-y: scroll;
-    height: 370px;
     scrollbar-width: none;
+    /* color: white; */
+
     /* flex-direction: column;
     align-items: center; */
+}
+#contentWrapper>*>h1{
+    color: white;
 
 }
-#contentWrapper>*>*{
+#contentPesan{
+    color: white;
+}
+#contentWrapper>*>div{
     margin-top: 7px;
     border-radius: 5px;
     background-color: #ffffff;
@@ -135,21 +150,61 @@ body {
 
 /* ---------- CARD ULASAN ------ */
 #contentUlasan{
+
     /* align-items: center; */
     /* justify-content: center; */
     /* justify-items: center; */
 }
 #contentUlasan>button{
     display: flex;
-    flex-direction: row;
+    flex-direction:column;
     border-radius: 20px;
     align-items: center;
-    justify-content: center;
-    width: 100%;
+    /* justify-content: center; */
+    width: auto;
     background-color: yellow;
+    height: auto;
+    padding: 0 0;
+    margin: 0 0;
+    /* margin-bottom: 20px !important; */
     /* border: none; */
     /* margin-left: 7%; */
 }
+#reviewButton{
+    display: flex;
+    flex-direction: row;
+    background-color: #ffffff;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px 2px;
+}
+#reviewButton>*{
+    /* border-style: double; */
+}
+#reviewButton>p{
+    font-size: 70%;
+    margin: 0 0;
+    padding: 0 0;
+    margin-left: 2%;
+}
+#reviewButton>img{
+    width: 15px;
+    margin: 0 0;
+    padding: 0 0;
+    margin-left: 3px;
+}
+
+@media screen and (max-width: 900px) {
+    .card{
+        width: 95%;
+    }
+}
+
+
+
 .cardUlasan>*{
     /* border-style: double; */
 }
@@ -199,6 +254,7 @@ body {
     font-size: 12px;
     text-align: justify;
     margin-bottom: 0;
+    height: auto;
     /* max-width: 100%; */
 }
 
@@ -262,6 +318,9 @@ body {
 #deskrip{
     font-size: 8px;
     margin-bottom: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+
 }
 .leffft{
     padding: 0 0;

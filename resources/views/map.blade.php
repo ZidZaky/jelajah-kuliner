@@ -30,7 +30,7 @@
         <div id="contentWrapper">
 
 
-            <div id="contentUlasan" style="display: ;">
+            <div id="contentUlasan">
 
 
 
@@ -77,6 +77,20 @@
 
     <script src="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.js"></script>
     <script>
+
+    function deBintang(rtg) {
+        let back = "kosong";
+        for (let i = 1; i <= rtg; i++) {
+            if (back === 'kosong') {
+                back = '⭐️';
+            } else {
+                let temp = '⭐️' + back;
+                back = temp;
+            }
+        }
+        // console.log(back);
+        return back;
+    }
         // document.getElementById('accountDetails').style.display = 'block';
         let ulas = document.getElementById('contentUlasan');
         let menu = document.getElementById('contentMenu');
@@ -162,58 +176,72 @@
                     const ulasanContainer = document.getElementById('contentUlasan');
                     ulasanContainer.innerHTML = ''; // Clear previous ulasan
 
-                    data.forEach(ulasan => {
-                        const ulasanDiv = document.createElement('div');
-                        ulasanDiv.classList.add('cardUlasan');
+                    if (data.length === 0) {
+                        console.log('tes');
+                        const emptyDataMessage = document.createElement('h1');
+                        emptyDataMessage.innerText = 'Data Ulasan Kosong';
+                        console.log('apani :'+emptyDataMessage.innerText);
 
-                        const divWrapper = document.createElement('div');
-                        divWrapper.classList.add('ulasan-content');
+                        ulasanContainer.appendChild(emptyDataMessage);
+                    }
+                    else{
 
-                        const img = document.createElement('img');
-                        img.src = 'https://i.pinimg.com/564x/02/b8/50/02b850fcc321beaa87d8459daa6509de.jpg';
-                        img.classList.add('ulasan-image');
-                        divWrapper.appendChild(img);
+                    
+                        data.forEach(ulasan => {
+                            const ulasanDiv = document.createElement('div');
+                            ulasanDiv.classList.add('cardUlasan');
 
-                        const detailDiv = document.createElement('div');
-                        detailDiv.classList.add('ulasan-details');
+                            const divWrapper = document.createElement('div');
+                            divWrapper.classList.add('ulasan-content');
 
-                        const namaAkun = document.createElement('p');
-                        namaAkun.innerText = ulasan.idAccount;
-                        namaAkun.classList.add('nmAkun');
-                        detailDiv.appendChild(namaAkun);
+                            const img = document.createElement('img');
+                            img.src = 'https://i.pinimg.com/564x/02/b8/50/02b850fcc321beaa87d8459daa6509de.jpg';
+                            img.classList.add('ulasan-image');
+                            divWrapper.appendChild(img);
 
-                        const tanggal = document.createElement('p');
-                        tanggal.innerText = 'tanggal';
-                        tanggal.classList.add('nmAkun');
-                        detailDiv.appendChild(tanggal);
+                            const detailDiv = document.createElement('div');
+                            detailDiv.classList.add('ulasan-details');
+                            console.log(ulasan);
+                            console.log("iniapa");
 
-                        divWrapper.appendChild(detailDiv);
+                            const namaAkun = document.createElement('p');
+                            namaAkun.innerText = ulasan.idAccount;
+                            namaAkun.classList.add('nmAkun');
+                            detailDiv.appendChild(namaAkun);
 
+                            const tanggal = document.createElement('p');
+                            tanggal.innerText = 'tanggal';
+                            tanggal.classList.add('nmAkun');
+                            detailDiv.appendChild(tanggal);
 
-
-                        divWrapper.appendChild(detailDiv);
-
-
-
-
-                        ulasanDiv.appendChild(divWrapper);
-
-                        const hr = document.createElement('hr');
-                        ulasanDiv.appendChild(hr);
-
-                        const ulasanParagraph = document.createElement('p');
-                        ulasanParagraph.innerText = ulasan.ulasan;
-                        ulasanParagraph.classList.add('ulasan');
-                        ulasanDiv.appendChild(ulasanParagraph);
+                            divWrapper.appendChild(detailDiv);
 
 
-                        const rating = document.createElement('p');
-                        rating.innerText = ulasan.rating + '⭐️';
-                        rating.classList.add('rating');
-                        divWrapper.appendChild(rating);
 
-                        ulasanContainer.appendChild(ulasanDiv);
-                    });
+                            divWrapper.appendChild(detailDiv);
+
+
+
+
+                            ulasanDiv.appendChild(divWrapper);
+
+                            const hr = document.createElement('hr');
+                            ulasanDiv.appendChild(hr);
+
+                            const ulasanParagraph = document.createElement('p');
+                            ulasanParagraph.innerText = ulasan.ulasan;
+                            ulasanParagraph.classList.add('ulasan');
+                            ulasanDiv.appendChild(ulasanParagraph);
+
+
+                            const rating = document.createElement('p');
+                            rating.innerText = deBintang(ulasan.rating);
+                            rating.classList.add('rating');
+                            divWrapper.appendChild(rating);
+
+                            ulasanContainer.appendChild(ulasanDiv);
+                        });
+                    }
                 })
                 .catch(error => {
                     console.error('Error fetching ulasan:', error);
@@ -227,60 +255,69 @@
                 .then(data => {
                     const menuContainer = document.getElementById('contentMenu');
                     menuContainer.innerHTML = ''; // Clear previous menu
+                    if (data.length === 0) {
+                        const emptyDataMessage = document.createElement('h1');
+                        emptyDataMessage.innerText = 'Data Menu Kosong';
+                        menuContainer.appendChild(emptyDataMessage);
 
-                    data.forEach(product => {
-                        const cardMenuDiv = document.createElement('div');
-                        cardMenuDiv.classList.add('cardMenu');
+                        ulasanContainer.appendChild(emptyDataMessage);
+                    }
+                    else{
 
-                        const leftDiv = document.createElement('div');
-                        leftDiv.classList.add('leffft');
+                        data.forEach(product => {
+                            const cardMenuDiv = document.createElement('div');
+                            cardMenuDiv.classList.add('cardMenu');
 
-                        const img = document.createElement('img');
-                        img.src = "https://i.pinimg.com/564x/b8/cf/ab/b8cfabff7a8e6a304d82a0a33c2c5e8e.jpg";
-                        img.alt = product.namaProduk;
-                        leftDiv.appendChild(img);
+                            const leftDiv = document.createElement('div');
+                            leftDiv.classList.add('leffft');
 
-                        const hargaP = document.createElement('p');
-                        hargaP.innerText = `Rp.${product.harga},-`;
-                        leftDiv.appendChild(hargaP);
+                            const img = document.createElement('img');
+                            img.src = "https://i.pinimg.com/564x/b8/cf/ab/b8cfabff7a8e6a304d82a0a33c2c5e8e.jpg";
+                            img.alt = product.namaProduk;
+                            leftDiv.appendChild(img);
 
-                        cardMenuDiv.appendChild(leftDiv);
+                            const hargaP = document.createElement('p');
+                            hargaP.innerText = `Rp.${product.harga},-`;
+                            leftDiv.appendChild(hargaP);
 
-                        const rightDiv = document.createElement('div');
-                        rightDiv.classList.add('RightSide');
+                            cardMenuDiv.appendChild(leftDiv);
 
-                        const namaProdukP = document.createElement('p');
-                        namaProdukP.id = 'nmProduct';
-                        namaProdukP.innerText = product.namaProduk;
-                        rightDiv.appendChild(namaProdukP);
+                            const rightDiv = document.createElement('div');
+                            rightDiv.classList.add('RightSide');
 
-                        const deskripP = document.createElement('p');
-                        deskripP.id = 'deskrip';
-                        deskripP.innerText = product.desc;
-                        rightDiv.appendChild(deskripP);
+                            const namaProdukP = document.createElement('p');
+                            namaProdukP.id = 'nmProduct';
+                            namaProdukP.innerText = product.namaProduk;
+                            rightDiv.appendChild(namaProdukP);
 
-                        const hr = document.createElement('hr');
-                        rightDiv.appendChild(hr);
+                            const deskripP = document.createElement('p');
+                            deskripP.id = 'deskrip';
+                            deskripP.innerText = product.desc;
+                            rightDiv.appendChild(deskripP);
 
-                        const forStokDiv = document.createElement('div');
-                        forStokDiv.classList.add('forStok');
+                            const hr = document.createElement('hr');
+                            rightDiv.appendChild(hr);
 
-                        const stockP = document.createElement('p');
-                        stockP.id = 'stock';
-                        stockP.innerText = 'Stok :';
-                        forStokDiv.appendChild(stockP);
+                            const forStokDiv = document.createElement('div');
+                            forStokDiv.classList.add('forStok');
 
-                        const numStokP = document.createElement('p');
-                        numStokP.id = 'numstok';
-                        numStokP.innerText = product.stok;
-                        forStokDiv.appendChild(numStokP);
+                            const stockP = document.createElement('p');
+                            stockP.id = 'stock';
+                            stockP.innerText = 'Stok :';
+                            forStokDiv.appendChild(stockP);
 
-                        rightDiv.appendChild(forStokDiv);
+                            const numStokP = document.createElement('p');
+                            numStokP.id = 'numstok';
+                            numStokP.innerText = product.stok;
+                            forStokDiv.appendChild(numStokP);
 
-                        cardMenuDiv.appendChild(rightDiv);
+                            rightDiv.appendChild(forStokDiv);
 
-                        menuContainer.appendChild(cardMenuDiv);
-                    });
+                            cardMenuDiv.appendChild(rightDiv);
+
+                            menuContainer.appendChild(cardMenuDiv);
+                        });
+                    }
                 })
                 .catch(error => {
                     console.error('Error fetching product data:', error);

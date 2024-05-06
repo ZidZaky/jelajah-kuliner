@@ -26,12 +26,11 @@
                         <textarea class="form-control" id="desc" name="desc" placeholder="Deskripsi PKL"></textarea>
                     </div>
 
-                    <input type="text" name="latitude" id="latitude" placeholder="Latitude">
-                    <input type="text" name="longitude" id="longitude" placeholder="Longitude">
+                    <input type="text" name="latitude" id="latitude" placeholder="Latitude" hidden>
+                    <input type="text" name="longitude" id="longitude" placeholder="Longitude" hidden>
 
                     <input type="text" class="form-control" id="idAccount" name="idAccount" placeholder="ID Akun"
-                        value="{{ session('account')['id'] }}" readonly>
-
+                        value="{{ session('account')['id'] }}" readonly hidden>
 
                     <button type="submit" class="btn btn-success d-grid gap-2 col-4 mx-auto">Simpan Data</button>
                 </form>

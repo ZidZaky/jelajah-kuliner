@@ -11,10 +11,14 @@ body{
     border: 2px solid #B83B5E;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background-color: #f9ed69e8;
+    background-color: #9c242c;
 
     /* background-color: #702c74; */
 }
+form>.mb-3>label,h5>strong{
+    color: white;
+}
+
 
 .form-label {
     font-weight: bold;

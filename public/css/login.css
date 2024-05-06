@@ -5,7 +5,7 @@ body {
     background-image: url(/assets/JELAJAHKULINER.jpg);
     background-size: cover;
     /* border: #000000; */
-    border-style: double;
+    /* border-style: double; */
     /* background-color: rgba(0, 255, 255, 0); */
 }
 
@@ -15,7 +15,7 @@ body {
 .main {
     border: black;
     height: 100%;
-    border-style: double;
+    /* border-style: double; */
     /* margin-left: 25%; */
     display: flex;
     justify-content: center;
@@ -53,7 +53,7 @@ body {
     border: 1px solid #000000;
     border-radius: 20px;
     /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.841); */
-    background-color: #f9ed69e8;
+    background-color: #9c242c;
 }
 
 #titleLogin {
@@ -64,6 +64,7 @@ body {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     font-size: 24px;
     margin-bottom: 0px;
+    color: white;
 }
 
 .form-signin input[type=text],
@@ -103,7 +104,7 @@ body {
     width: 100%;
     height: 1px;
     /* Ketebalan garis */
-    background-color: #00000038;
+    background-color: #ffffff99;
     margin-top: 10px;
     /* Warna garis */
     /* Jarak di atas dan di bawah garis */
@@ -293,3 +294,14 @@ p {
     align-items: center;
     margin-bottom: 0px !important;
 }
+.mb-3>label{
+    color: white;
+}
+
+.regisPkl{
+    color: white;
+}
+.regisPkl>*{
+    color: white;
+}
+

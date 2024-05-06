@@ -49,13 +49,13 @@ class UlasanController extends Controller
             'rating' => $valdata['rating'],
             'idAccount' => $valdata['idAccount'],
             'idPKL' => $valdata['idPKL'],
-            'created_at' => null, // Assuming you want to use the default value for created_at
+            'created_at' => now(), // Assuming you want to use the default value for created_at
             'updated_at' => null, // Assuming you want to use the default value for updated_at
         ]);
 
 
         if ($berhasil) {
-            return redirect('/');
+            return redirect('/dashboard');
         } else {
             return redirect('/Ulasan/create')->with('error', 'Password berbeda');
         }

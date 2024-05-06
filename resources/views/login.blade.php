@@ -38,7 +38,7 @@
         <div class="line-divider"></div>
         <div class="regisPkl">
             <p>Belum Punya Akun? </p>
-            <a href=""><p>Register</p></a>
+            <a href="/account/create"><p>Register</p></a>
         </div>
     </div>
 </div>

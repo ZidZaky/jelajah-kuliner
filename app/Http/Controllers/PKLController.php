@@ -98,8 +98,9 @@ class PKLController extends Controller
             ['dataPKL' => $pkl];
     }
     public static function showDetail($idAccount)
-    {
+    {   
         $pklData = PKL::where('idAccount', $idAccount)->first();
+        // dd($pklData);
         $produk = Produk::where('idPKL', $pklData->id)->get();
         $ulasan = Ulasan::where('idPKL', $pklData->id)->get();;
         session(['pkl' => $pklData]);

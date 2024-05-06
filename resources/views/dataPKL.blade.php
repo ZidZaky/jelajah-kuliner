@@ -53,6 +53,9 @@
                     <p class="namap">Ulasan PKL</p>
                 </div>
                 <hr>
+                @if(count($ulasan) == 0)
+                <p class="namap" style="text-align: center">Data Ulasan Kosong</p>
+                @else
                 <div class="batasRev">
                     <div class="chart">
                         @php
@@ -78,13 +81,30 @@
                         <div class="cardRev">
                             <p id="namaRev">{{ $ul->idAccount }}</p>
                             <hr>
-                            <p id="bintangRev">⭐️{{ $ul->rating }}</p>
+                            <p id="bintangRev">{{ Bintang($ul->rating) }}</p>
                             <p id="desRev">{{ $ul->ulasan }}</p>
                             <hr>
                         </div>
                     @endforeach
                 </div>
+                @endif
             </div>
         </div>
     </div>
 @endsection
+
+@php 
+    function Bintang($rating){
+        $back='kosong';
+        for($k=1;$k<=$rating;$k++){
+            if($back==='kosong'){
+                $back ='⭐️';
+            }
+            else{
+                $back .= '⭐️';
+            }
+        }
+        return $back;
+    }
+
+@endphp
