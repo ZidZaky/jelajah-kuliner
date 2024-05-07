@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('idAccount')->constrained('accounts'); // Correct the table name here
             $table->foreignId('idPKL')->constrained('p_k_l_s'); // Correct the table name here
             $table->string('Keterangan');
+            $table->string('TotalBayar');
+            $table->string('status');
             $table->timestamps();
         });
     }

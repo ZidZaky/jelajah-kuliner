@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('idPesanan')->constrained('pesanans'); // Correct the table name here
             $table->foreignId('idProduk')->constrained('produks'); // Correct the table name here
+            $table->string('JumlahProduk'); // Correct the table name here
         });
     }
 

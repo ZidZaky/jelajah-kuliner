@@ -17,6 +17,6 @@ class Pesanan extends Model
 
     // Specify the columns that are mass assignable
     protected $fillable = [
-        'idPKL', 'idAccount', 'Keterangan'
+        'idPKL', 'idAccount', 'Keterangan', 'status'
     ];
 }
