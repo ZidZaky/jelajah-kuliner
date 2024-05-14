@@ -25,15 +25,20 @@ class ProdukController extends Controller
     //save
     public function store(Request $request)
     {
+
+
         $valdata = $request->validate([
             'namaProduk' => 'required',
             'desc' => 'required',
             'harga' => 'required',
             'stok' => 'required',
+            'stokSaatIni' => 'required',
             'jenisProduk' => 'required',
             'fotoProduk' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // This ensures 'foto' can be null
             'idPKL' => 'required'
         ]);
+        $valdata['stokSaatIni'] =  $valdata['stok'];
+        // dd($valdata);
 
         if ($request->hasFile('fotoProduk')) {
             $file = $request->file('fotoProduk');
@@ -46,15 +51,18 @@ class ProdukController extends Controller
         }
 
         try {
-            $berhasil = DB::insert('INSERT INTO `produks` (`id`, `namaProduk`, `desc`, `harga`, `stok`, `jenisProduk`, `foto`, `idPKL`) VALUES (NULL, ?, ?,?,?,?,?,?);', [
+            $berhasil = DB::insert('INSERT INTO `produks` (`id`, `namaProduk`, `desc`, `harga`, `stok`, `stokSaatIni`, `jenisProduk`, `foto`, `idPKL`) VALUES (NULL, ?, ?,?,?,?,?,?,?);', [
                 $valdata['namaProduk'],
                 $valdata['desc'],
                 $valdata['harga'],
                 $valdata['stok'],
+                $valdata['stokSaatIni'],
                 $valdata['jenisProduk'],
                 $valdata['fotoProduk'],
                 $valdata['idPKL']
             ]);
+
+            // dd($berhasil);
 
             if ($berhasil) {
                 return redirect('/dataPKL/'.session('account')['id']);

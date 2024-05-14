@@ -14,7 +14,7 @@ class Produk extends Model
     ];
     // Specify the columns that are mass assignable
     protected $fillable = [
-        'namaProduk', 'desc', 'harga', 'stok', 'jenisProduk', 'fotoProduk', 'idPKL'
+        'namaProduk', 'desc', 'harga', 'stok', 'stokSaatIni', 'jenisProduk', 'fotoProduk', 'idPKL'
     ];
 
     protected $nullable = [

@@ -9,7 +9,7 @@
             @php
                 $pklExists = \App\Models\PKL::where('idAccount', session('account')['id'])->exists();
             @endphp
-
+            <button onclick="OpenPesanan()" style="backgorund-color: white; margin-bottom:10px; border-radius:6px; height:5vh;">List Pesanan</button>
             @if ($pklExists && session('account')['status'] == 'PKL')
                 <a class="btn btn-primary" href="/dataPKL/{{ session('account')['id'] }}" role="button">Show Data
                     PKL</a>

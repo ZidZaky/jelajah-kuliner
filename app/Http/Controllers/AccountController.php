@@ -126,4 +126,6 @@ class AccountController extends Controller
         Account::destroy($account->id);
         return redirect('account-list');
     }
+
+
 }

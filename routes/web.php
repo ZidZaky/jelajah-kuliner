@@ -5,6 +5,7 @@ use App\Http\Controllers\PKLController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\PesananController;
+use App\Models\Pesanan;
 use Illuminate\Support\Facades\Route;
 use App\Models\Ulasan;
 use App\Models\Produk;
@@ -25,7 +26,8 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     $ulasan = Ulasan::all(); // Fetch $ulasan from the database
     $produk = Produk::all(); // Fetch $ulasan from the database
-    return view('dashboard', ['ulasan' => $ulasan,'produk' => $produk]);
+    $pesanan = Pesanan::all();
+    return view('dashboard', ['ulasan' => $ulasan,'produk' => $produk, 'pesanan' => $pesanan]);
 });
 Route::get('/profile', function () {
     return view('profile');
@@ -33,6 +35,7 @@ Route::get('/profile', function () {
 
 Route::post('loginAccount', [AccountController::class, 'login']);
 Route::get('logout', [AccountController::class, 'logoutAccount']);
+Route::get('pesanDetail/{id}', [PesananController::class, 'pesanDetail']);
 
 Route::get('/dataPKL/{idAccount}', [PKLController::class, 'showDetail']);
 

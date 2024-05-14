@@ -11,7 +11,201 @@
 @endsection
 
 @section('main')
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert" style="z-index: 100">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <div id="map"></div>
+    <div class="listPesanan" style="display:none;">
+        <div class="NavbarAtasPesanan">
+            <p>Pesanan</p>
+            <button id="butClosePesanan"onclick="closePesanan()">X</button>
+        </div>
+        <div class="ContentPesanan">
+            <div class="tablePesanan">
+                <div class="miniNavbar" style="padding-bottom:0; margin-bottom:0;">
+                    <?php
+                    $jmlh = 0;
+                    $jmlh_pb = 0;
+                    $jmlh_pd = 0;
+                    $jmlh_ps = 0;
+                    foreach ($pesanan as $pesan) {
+                        if ($pesan->idAccount == session('account')['id']) {
+                            $jmlh++;
+                        }
+                    }
+                    foreach ($pesanan as $pesan) {
+                        if ($pesan->status == 'Pesanan Baru' && $pesan->idAccount == session('account')['id']) {
+                            $jmlh_pb++;
+                        }
+                    }
+                    foreach ($pesanan as $pesan) {
+                        if ($pesan->status == 'Pesanan Diproses' && $pesan->idAccount == session('account')['id']) {
+                            $jmlh_pd++;
+                        }
+                    }
+                    foreach ($pesanan as $pesan) {
+                        if ($pesan->status == 'Pesanan Selesai' && $pesan->idAccount == session('account')['id']) {
+                            $jmlh_ps++;
+                        }
+                    }
+                    $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
+
+                    ?>
+                    <button type="" id="butAllPes" onclick="changePesanan('AllPesanan')">Semua Pesanan
+                        ({{ $jmlh }})</button>
+                    <button type="" id="butNewPes" onclick="changePesanan('newPesanan')">Pesanan Baru
+                        ({{ $jmlh_pb }})</button>
+                    <button type="" id="butAccPes" onclick="changePesanan('terimaPesanan')">Pesanan
+                        Diproses({{ $jmlh_pd }})</button>
+                    <button type="" id="butDonePes" onclick="changePesanan('donePesanan')">Pesanan
+                        Selesai({{ $jmlh_ps }})</button>
+                </div>
+                <!-- <hr style="padding : 0 0; margin: 0 0; color: white;"> -->
+                <div class="table" id="tuebel">
+                    <div class="allPesanan">
+                        <div class="subTable">
+                            <p class="tpemesan">TANGGAL</p>
+                            <p class="tproduk">PEMESAN</p>
+                            <p class="tstok">TOTAL</p>
+                            <p class="ttotal">STATUS</p>
+                            <p class="tstatus">DETIL</p>
+                        </div>
+                        <div class="TableSide" id="SemuaPesanan" style="display: none;">
+                            @if ($jmlh != 0)
+                                @foreach ($pesanan as $pesan)
+                                    @if ($pesan->idAccount == session('account')['id'])
+                                        <div class="deTable">
+                                            <div class="isiDeTable">
+                                                <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
+                                                <p class="tproduk">{{ $account->nama }}</p>
+                                                <p class="tstok">Rp. {{ $pesan->TotalBayar }},-</p>
+                                                <div class="ttotal">
+                                                    <p class="dstatus">{{ $pesan->status }}</p>
+                                                </div>
+                                                <!-- <p class="ttotal">MENUNGGU DITERIMA</p> -->
+                                                <div class="tstatus">
+                                                    <button><a href="/pesanDetail/{{$pesan->id}}"
+                                                            style="text-decoration:none; color:white">DETIL</a></button>
+                                                    @php
+                                                        $pklExists = \App\Models\PKL::where(
+                                                            'idAccount',
+                                                            session('account')['id'],
+                                                        )->exists();
+                                                    @endphp
+                                                    @if ($pesan->status == 'Pesanan Baru' && $pklExists && session('account')['status'] == 'PKL')
+                                                        <button class="btn btn-success" style="background-color: green"><a
+                                                                href=""
+                                                                style="text-decoration:none; color:white">Terima
+                                                                Pesanan</a></button>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @else
+                                <h2>Data Kosong</h2>
+                            @endif
+                        </div>
+                        <div class="TableSide" id="NewPesanan" style="display: none;">
+
+                            @if ($jmlh_pb != 0)
+                                @foreach ($pesanan as $pesan)
+                                    @if ($pesan->idAccount == session('account')['id'] && $pesan->status == 'Pesanan Baru')
+                                        <div class="deTable">
+                                            <div class="isiDeTable">
+                                                <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
+                                                <p class="tproduk">{{ $account->nama }}</p>
+                                                <p class="tstok">Rp. {{ $pesan->TotalBayar }},-</p>
+                                                <div class="ttotal">
+                                                    <p class="dstatus">{{ $pesan->status }}</p>
+                                                </div>
+                                                <!-- <p class="ttotal">MENUNGGU DITERIMA</p> -->
+                                                <div class="tstatus">
+                                                    <button>DETIL</button>
+                                                    @php
+                                                        $pklExists = \App\Models\PKL::where(
+                                                            'idAccount',
+                                                            session('account')['id'],
+                                                        )->exists();
+                                                    @endphp
+                                                    @if ($pesan->status == 'Pesanan Baru' && $pklExists && session('account')['status'] == 'PKL')
+                                                        <button class="btn btn-success" style="background-color: green"><a
+                                                                href=""
+                                                                style="text-decoration:none; color:white">Terima
+                                                                Pesanan</a></button>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @else
+                                <h2>Data Kosong</h2>
+                            @endif
+
+
+                        </div>
+                        <div class="TableSide" id="DiterimaPesanan" style="display:none;">
+                            @if ($jmlh_pd != 0)
+                                @foreach ($pesanan as $pesan)
+                                    @if ($pesan->idAccount == session('account')['id'] && $pesan->status == 'Pesanan Diproses')
+                                        <div class="deTable">
+                                            <div class="isiDeTable">
+                                                <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
+                                                <p class="tproduk">{{ $account->nama }}</p>
+                                                <p class="tstok">Rp. {{ $pesan->TotalBayar }},-</p>
+                                                <div class="ttotal">
+                                                    <p class="dstatus">{{ $pesan->status }}</p>
+                                                </div>
+                                                <!-- <p class="ttotal">MENUNGGU DITERIMA</p> -->
+                                                <div class="tstatus">
+                                                    <button>DETIL</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @else
+                                <h2>Data Kosong</h2>
+                            @endif
+
+                        </div>
+                        <div class="TableSide" id="DonePesanan" style="display:none;">
+                            @if ($jmlh_ps != 0)
+                                @foreach ($pesanan as $pesan)
+                                    @if ($pesan->idAccount == session('account')['id'] && $pesan->status == 'Pesanan Selesai')
+                                        <div class="deTable">
+                                            <div class="isiDeTable">
+                                                <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
+                                                <p class="tproduk">{{ $account->nama }}</p>
+                                                <p class="tstok">Rp. {{ $pesan->TotalBayar }},-</p>
+                                                <div class="ttotal">
+                                                    <p class="dstatus">{{ $pesan->status }}</p>
+                                                </div>
+                                                <!-- <p class="ttotal">MENUNGGU DITERIMA</p> -->
+                                                <div class="tstatus">
+                                                    <button>DETIL</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @else
+                                <h2>Data Kosong</h2>
+                            @endif
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="accountDetails">
         <button onclick="closeAccountDetails()" class="btn btn-danger">X</button>
         {{-- <button class="btn btn-danger">X</button> --}}
@@ -19,9 +213,10 @@
         <img src="https://i.pinimg.com/736x/da/5e/ba/da5eba94367e1a2aaa683f1acc105f97.jpg" alt="PKL Photo Goes Here">
 
         <div id="tsur" style="">
-            <button onclick="changeContent('Ulasan')" type="button" class="btn btn-success">Ulasan</button>
-            <button onclick="changeContent('Menu')" type="button" class="btn btn-success">Menu</button>
-            <button onclick="changeContent('Pesan')" type="button" class="btn btn-success">Pesan</button>
+            <button id="butUlasan" onclick="changeContent('Ulasan')" type="button" class="btn btn-success"
+                style="opacity:100%">Ulasan</button>
+            <button id="butMenu"onclick="changeContent('Menu')" type="button" class="btn btn-success">Menu</button>
+            <button id="butPesan"onclick="changeContent('Pesan')" type="button" class="btn btn-success">Pesan</button>
         </div>
 
         <div id="createUlasan" style="margin: 0">
@@ -41,18 +236,6 @@
 
 
 
-                <div class="cardUlasan">
-                    <div>
-                        <img src="https://i.pinimg.com/564x/02/b8/50/02b850fcc321beaa87d8459daa6509de.jpg" alt="">
-                        <div>
-                            <p id="nmAkun"></p>
-                            <p> - </p>
-                        </div>
-                        <p id="rating"></p>
-                    </div>
-                    <hr>
-                    <p id="ulasan"></p>
-                </div>
 
             </div>
 
@@ -81,10 +264,24 @@
             </div>
         </div>
     </div>
+    <!-- <script>
+        src = "js/pesanan.js"
+    </script> -->
+    <script src="/js/pesanan.js"></script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.js"></script>
     <script>
-        // console.log('tes');
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                var alert = document.querySelector('.alert');
+                if (alert) {
+                    var bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                }
+            }, 5000); // 5 seconds
+        });
+        // opacityList('Ulasan');
         function deBintang(rtg) {
             let back = "kosong";
             for (let i = 1; i <= rtg; i++) {
@@ -167,6 +364,7 @@
         // Function to change content based on button click
         function changeContent(buttonName) {
             // Hide all content divs
+
             document.getElementById('contentUlasan').style.display = 'none';
             document.getElementById('contentMenu').style.display = 'none';
             document.getElementById('contentPesan').style.display = 'none';
@@ -177,13 +375,30 @@
             //     document.getElementById('reviewButton').style.display = 'block';
             // }
             document.getElementById('content' + buttonName).style.display = 'block';
-
+            opacityList(buttonName);
+        }
+        // opacityList('Ulasan');
+        // opacityList("Ulasan");
+        function opacityList(jenis) {
+            let menu = document.getElementById('butMenu');
+            let ulas = document.getElementById('butUlasan');
+            let pesan = document.getElementById('butPesan');
+            menu.style.opacity = "50%";
+            ulas.style.opacity = "50%";
+            pesan.style.opacity = "50%";
+            if (jenis == 'Ulasan') {
+                ulas.style.opacity = "100%";
+            }
+            if (jenis == 'Menu') {
+                menu.style.opacity = "100%"
+            }
+            if (jenis == 'Pesan') {
+                pesan.style.opacity = "100%";
+            }
         }
 
 
-        // let rtg;
 
-        // deBintang(5);
 
         function fillContentUlasan(id) {
             // Fetch ulasan data for the specific PKL ID
@@ -217,6 +432,7 @@
                             detailDiv.classList.add('ulasan-details');
 
                             const namaAkun = document.createElement('p');
+                            console.log(ulasan);
                             namaAkun.innerText = ulasan.idAccount;
                             namaAkun.classList.add('nmAkun');
                             detailDiv.appendChild(namaAkun);
@@ -338,31 +554,26 @@
         }
 
         function fillContentPesan(id) {
+            // Get the contentPesan div
+            var contentPesanDiv = document.getElementById("contentPesan");
+
+            // Clear any existing content in the contentPesan div
+            contentPesanDiv.innerHTML = '';
+
             // Create a button element
             var button = document.createElement("button");
+
             // Set the button text
             button.textContent = "Pesan Sekarang!";
+
             // Set up a click event listener
             button.addEventListener("click", function() {
                 // Redirect to the order page with the provided ID
                 window.location.href = "pesanan/create/" + id;
             });
+
             // Append the button to the contentPesan div
-            document.getElementById("contentPesan").appendChild(button);
+            contentPesanDiv.appendChild(button);
         }
     </script>
 @endsection
-
-@php
-    function Bintang($rating)
-    {
-        $back = 'kosong';
-        for ($k = 1; $k <= $rating; $k++) {
-            if ($back === 'kosong') {
-                $back = '⭐️';
-            } else {
-                $back .= '⭐️';
-            }
-        }
-        return $back;
-} @endphp

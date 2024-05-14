@@ -162,7 +162,7 @@ class PesananController extends Controller
             // Retrieve associated products
             $Produks = Produk::where('idPKL', $PKL->id)->get();
 
-            return view('CreatePesanan', [
+            return view('pesan', [
                 'pkl' => $PKL,
                 'produk' => $Produks
             ]);
@@ -170,5 +170,12 @@ class PesananController extends Controller
             // Handle case where Pesanan data does not exist
             return response()->view('errors.404', [], 404);
         }
+    }
+    public function pesanDetail($id){
+        $pesan = Pesanan::find($id);
+        // $pesan = Pesanan::find($id);
+        return view('detilPesan', [
+            'pesan' => $pesan
+        ]);
     }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->longText('desc');
             $table->string('harga');
             $table->string('stok');
+            $table->string('stokSaatIni');
             $table->string('jenisProduk');
             $table->string('foto');
             // $table->foreignId('idPKL')->constrained('PKLS'); // Correct the table name here

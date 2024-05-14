@@ -40,6 +40,13 @@
                                     <p class="stok">Stok</p>
                                     <p class="numberr">{{ $p->stok }}</p>
                                 </div>
+                                <form action="/ubahStokSekarang" method="POST">
+                                    <div class="inCard" id="leftt2">
+                                        <p class="stok">Stok Saat Ini</p>
+                                        <input type="numberr" name="stokSaatIni" id="" value="{{ $p->stokSaatIni }}">
+                                        <button type="submit">Ubah Stok</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     @endforeach
@@ -93,7 +100,7 @@
     </div>
 @endsection
 
-@php 
+@php
     function Bintang($rating){
         $back='kosong';
         for($k=1;$k<=$rating;$k++){

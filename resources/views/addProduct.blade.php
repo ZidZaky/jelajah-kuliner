@@ -65,6 +65,7 @@
                         <input class="form-control" name="fotoProduk" type="file" id="foto">
                     </div>
                     <br>
+                    <input class="form-control" name="stokSaatIni" type="text" id="stokSaatIni" value="0" hidden>
 
                     <input type="text" name="idPKL" id="idPKL" value="{{ session('pkl')['id'] }}" readonly hidden>
 
