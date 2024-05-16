@@ -9,7 +9,7 @@
 @endsection
 
 @section('main')
-    <div class="content">
+    {{-- <div class="content">
         <div class="up">
             <div class="upside">
                 <p class="namaakun">Hi, {{ session('account')['nama'] }} 👋</p>
@@ -24,7 +24,7 @@
                     <p class="deskri">{{ $pkl->desc }}</p>
                     <p>Produk Anda</p>
                 </div>
-                @if ($produk->count() > 0)
+                @if ($riwayat->count() > 0)
                     @foreach ($produk as $p)
                         <div class="batas">
                             <div class="card">
@@ -49,7 +49,7 @@
                 @endif
                 <div style="align-items:center;">
                     <br>
-                    <a href="/riwayatProduk/{{ $pkl->id }}">
+                    <a href="/riwayatProduk/{{ $pkl->namaPKL }}">
                         <button class="btn btn-success" style="width: 10vh;">
                             Riwayat Stok Produk
                         </button>
@@ -101,10 +101,50 @@
                 @endif
             </div>
         </div>
-    </div>
+    </div> --}}
+    <div class="kanan border border-right d-flex flex-column justify-content-between"
+    style="height: 100%; width: 50%; margin-left: 5px;">
+    <p style="margin-top: 1vh; margin-bottom: 1vh;">Hari dan Tanggal: {{ now()->format('l, d F Y') }}</p>
+    <table id="tabelStruk" class="table" style="position: absolute; width: 33%; margin-top: 5vh">
+        <thead>
+            <tr>
+                <th>ID PRODUK</th>
+                <th>Stok Awal</th>
+                <th>Stok Akhir</th>
+                <th>Selisih</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+            @foreach ($riwayat as $r)
+                @php
+                    $pkl = App\Models\PKL::where('id', session('account')['id'])->first();
+                @endphp
+                @if ($r->idPKL == $pkl->id )
+
+                @endif
+                <tr>
+                    <td>{{ $r->idProduk }}</td>
+                    <td>{{ $r->stokAwal }}</td>
+                    <td>{{ $r->stokAkhir }}</td>
+                    <td>{{ $r->stokAwal -  $r->stokAkhir}}</td>
+                </tr>
+            @endforeach
+            {{-- <tr>
+                <td colspan="3">Total Quantity</td>
+                <td id="totalQuantity">{{ $jmlhtotal }}</td>
+            </tr>
+            <tr>
+                <td colspan="3">Total Keseluruhan</td>
+                <td id="totalKeseluruhan">{{ $pesan->TotalBayar }}</td>
+            </tr> --}}
+        </tfoot>
+    </table>
+</div>
 @endsection
 
-@php
+{{-- @php
     function Bintang($rating)
     {
         $back = 'kosong';
@@ -118,4 +158,4 @@
         return $back;
     }
 
-@endphp
+@endphp --}}

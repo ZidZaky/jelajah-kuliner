@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
+use App\Models\PKL;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -113,5 +114,23 @@ class ProdukController extends Controller
 
         // Return ulasan data as JSON
         return response()->json($produk);
+    }
+
+    public function riwayatProduk($id) {
+        // Find the Pesanan by its ID
+        $pkl = PKL::find($id);
+
+         // Retrieve the related products for the Pesanan
+         $query = "select * from history_stok where idPKL = ?";
+         $riwayat = DB::select($query, [$id]);
+
+        // Check if Pesanan is found
+
+            // Return the view with the updated Pesanan and related products
+            return view('riwayatProduk', [
+                'riwayat' => $riwayat,
+                'pkl' => $pkl
+            ]);
+
     }
 }

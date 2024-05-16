@@ -173,9 +173,141 @@ class PesananController extends Controller
     }
     public function pesanDetail($id){
         $pesan = Pesanan::find($id);
+        $query = "select * from produk_dipesan where idPesanan = ?";
+    // Execute the query
+    $produk = DB::select($query, [$pesan->id]);
+    // dd($produk);
         // $pesan = Pesanan::find($id);
         return view('detilPesan', [
-            'pesan' => $pesan
+            'pesan' => $pesan,
+            'produks' => $produk
         ]);
+    }
+
+    public function terimaPesanan($id) {
+        // Find the Pesanan by its ID
+        $pesan = Pesanan::find($id);
+
+        // Check if Pesanan is found
+        if ($pesan) {
+            // Update the status to "Pesanan Diproses"
+            $pesan->status = 'Pesanan Diproses';
+
+            // Save the changes to the database
+            $pesan->save();
+
+            // Retrieve the related products for the Pesanan
+            $query = "select * from produk_dipesan where idPesanan = ?";
+            $produk = DB::select($query, [$pesan->id]);
+
+            // Return the view with the updated Pesanan and related products
+            return view('detilPesan', [
+                'pesan' => $pesan,
+                'produks' => $produk
+            ]);
+        } else {
+            // Handle the case where Pesanan is not found
+            return redirect()->back()->with('error', 'Pesanan not found.');
+        }
+    }
+
+    public function tolakPesanan($id) {
+        // Find the Pesanan by its ID
+        $pesan = Pesanan::find($id);
+
+        // Check if Pesanan is found
+        if ($pesan) {
+            // Update the status to "Pesanan Diproses"
+            $pesan->status = 'Pesanan Ditolak';
+
+            // Save the changes to the database
+            $pesan->save();
+
+            // Retrieve the related products for the Pesanan
+            $query = "select * from produk_dipesan where idPesanan = ?";
+            $produk = DB::select($query, [$pesan->id]);
+
+            // Return the view with the updated Pesanan and related products
+            return view('detilPesan', [
+                'pesan' => $pesan,
+                'produks' => $produk
+            ]);
+        } else {
+            // Handle the case where Pesanan is not found
+            return redirect()->back()->with('error', 'Pesanan not found.');
+        }
+    }
+
+    public function batalPesanan($id) {
+        // Find the Pesanan by its ID
+        $pesan = Pesanan::find($id);
+
+        // Check if Pesanan is found
+        if ($pesan) {
+            // Update the status to "Pesanan Diproses"
+            $pesan->status = 'Pesanan Dibatalkan';
+
+            // Save the changes to the database
+            $pesan->save();
+
+            // Retrieve the related products for the Pesanan
+            $query = "select * from produk_dipesan where idPesanan = ?";
+            $produk = DB::select($query, [$pesan->id]);
+
+            // Return the view with the updated Pesanan and related products
+            return view('detilPesan', [
+                'pesan' => $pesan,
+                'produks' => $produk
+            ]);
+        } else {
+            // Handle the case where Pesanan is not found
+            return redirect()->back()->with('error', 'Pesanan not found.');
+        }
+    }
+
+    public function selesaiPesanan($id) {
+        // Find the Pesanan by its ID
+        $pesan = Pesanan::find($id);
+
+         // Retrieve the related products for the Pesanan
+         $query = "select * from produk_dipesan where idPesanan = ?";
+         $produk = DB::select($query, [$pesan->id]);
+        //  dd($produk);
+         foreach($produk as $p){
+            $barang = Produk::find($p->idProduk);
+            $idProduk = $barang->id;
+            $stokAwal = $barang->stok;
+            $barang->stok = $barang->stok - $p->JumlahProduk;
+            $stokAkhir = $barang->stok;
+            $barang->save();
+            DB::insert('INSERT INTO history_stok (id, idProduk, stokAwal, stokAkhir, idPKL, created_at, updated_at) VALUES (null, ?, ?, ?,?,?,?)', [
+                $idProduk,
+                $stokAwal,
+                $stokAkhir,
+                $pesan->idPKL,
+                now(),
+                now()
+            ]);
+         };
+
+        // Check if Pesanan is found
+        if ($pesan) {
+            // Update the status to "Pesanan Diproses"
+            $pesan->status = 'Pesanan Selesai';
+
+            // Save the changes to the database
+            $pesan->save();
+
+
+
+            // Return the view with the updated Pesanan and related products
+            return view('detilPesan', [
+                'pesan' => $pesan,
+                'produks' => $produk
+            ]);
+        } else {
+            // Handle the case where Pesanan is not found
+            return redirect()->back()->with('error', 'Pesanan not found.');
+        }
     }
 }

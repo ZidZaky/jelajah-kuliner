@@ -100,9 +100,10 @@ class AccountController extends Controller
     }
 
     //edit
-    public function edit(account $account)
+    public function editProfile($id)
     {
-        return view('edit', ['account' => $account]);
+        $account = Account::find($id)->first();
+        return view('edit',['account'=>$account]);
     }
 
     //update
@@ -111,12 +112,10 @@ class AccountController extends Controller
         $valdata = $request->validate([
             'nama' => 'required',
             'email' => 'required',
-            'nohp' => 'required',
-            'password' => 'required'
+            'nohp' => 'required'
         ]);
 
         $account->update($valdata);
-
         return redirect('profile');
     }
 

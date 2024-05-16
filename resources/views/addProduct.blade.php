@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.layout2')
 
 @section('title')
     ADDPRODUCT || JELAJAHKULINER

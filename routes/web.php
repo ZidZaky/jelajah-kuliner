@@ -36,6 +36,11 @@ Route::get('/profile', function () {
 Route::post('loginAccount', [AccountController::class, 'login']);
 Route::get('logout', [AccountController::class, 'logoutAccount']);
 Route::get('pesanDetail/{id}', [PesananController::class, 'pesanDetail']);
+Route::get('terimaPesanan/{id}', [PesananController::class, 'terimaPesanan']);
+Route::get('tolakPesanan/{id}', [PesananController::class, 'tolakPesanan']);
+Route::get('batalPesanan/{id}', [PesananController::class, 'batalPesanan']);
+Route::get('selesaiPesanan/{id}', [PesananController::class, 'selesaiPesanan']);
+Route::get('riwayatProduk/{id}', [ProdukController::class, 'riwayatProduk']);
 
 Route::get('/dataPKL/{idAccount}', [PKLController::class, 'showDetail']);
 
@@ -47,6 +52,7 @@ Route::get('/login', function () {
 });
 
 
+Route::get('/editProfile/{id}', [AccountController::class,'editProfile']);
 Route::resource('/account', AccountController::class);
 Route::resource('/PKL', PKLController::class);
 Route::resource('/produk', ProdukController::class);

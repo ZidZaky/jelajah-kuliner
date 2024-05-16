@@ -32,6 +32,7 @@
                     $jmlh_pb = 0;
                     $jmlh_pd = 0;
                     $jmlh_ps = 0;
+                    $jmlh_ptolak = 0;
                     foreach ($pesanan as $pesan) {
                         if ($pesan->idAccount == session('account')['id']) {
                             $jmlh++;
@@ -52,8 +53,12 @@
                             $jmlh_ps++;
                         }
                     }
-                    $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
-
+                    foreach ($pesanan as $pesan) {
+                        if ($pesan->status == 'Pesanan Ditolak' && $pesan->idAccount == session('account')['id']) {
+                            $jmlh_ptolak++;
+                        }
+                    }
+                    $pkl = \App\Models\PKL::where('idAccount', session('account')['id'])->first();
                     ?>
                     <button type="" id="butAllPes" onclick="changePesanan('AllPesanan')">Semua Pesanan
                         ({{ $jmlh }})</button>
@@ -63,6 +68,8 @@
                         Diproses({{ $jmlh_pd }})</button>
                     <button type="" id="butDonePes" onclick="changePesanan('donePesanan')">Pesanan
                         Selesai({{ $jmlh_ps }})</button>
+                    <button type="" id="butTolPes" onclick="changePesanan('tolakPesanan')">Pesanan
+                        Ditolak({{ $jmlh_ptolak }})</button>
                 </div>
                 <!-- <hr style="padding : 0 0; margin: 0 0; color: white;"> -->
                 <div class="table" id="tuebel">
@@ -77,7 +84,10 @@
                         <div class="TableSide" id="SemuaPesanan" style="display: none;">
                             @if ($jmlh != 0)
                                 @foreach ($pesanan as $pesan)
-                                    @if ($pesan->idAccount == session('account')['id'])
+                                    @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
+                                        @php
+                                            $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
+                                        @endphp
                                         <div class="deTable">
                                             <div class="isiDeTable">
                                                 <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
@@ -88,20 +98,8 @@
                                                 </div>
                                                 <!-- <p class="ttotal">MENUNGGU DITERIMA</p> -->
                                                 <div class="tstatus">
-                                                    <button><a href="/pesanDetail/{{$pesan->id}}"
+                                                    <button><a href="/pesanDetail/{{ $pesan->id }}"
                                                             style="text-decoration:none; color:white">DETIL</a></button>
-                                                    @php
-                                                        $pklExists = \App\Models\PKL::where(
-                                                            'idAccount',
-                                                            session('account')['id'],
-                                                        )->exists();
-                                                    @endphp
-                                                    @if ($pesan->status == 'Pesanan Baru' && $pklExists && session('account')['status'] == 'PKL')
-                                                        <button class="btn btn-success" style="background-color: green"><a
-                                                                href=""
-                                                                style="text-decoration:none; color:white">Terima
-                                                                Pesanan</a></button>
-                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -115,33 +113,24 @@
 
                             @if ($jmlh_pb != 0)
                                 @foreach ($pesanan as $pesan)
-                                    @if ($pesan->idAccount == session('account')['id'] && $pesan->status == 'Pesanan Baru')
-                                        <div class="deTable">
-                                            <div class="isiDeTable">
-                                                <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
-                                                <p class="tproduk">{{ $account->nama }}</p>
-                                                <p class="tstok">Rp. {{ $pesan->TotalBayar }},-</p>
-                                                <div class="ttotal">
-                                                    <p class="dstatus">{{ $pesan->status }}</p>
-                                                </div>
-                                                <!-- <p class="ttotal">MENUNGGU DITERIMA</p> -->
-                                                <div class="tstatus">
-                                                    <button>DETIL</button>
-                                                    @php
-                                                        $pklExists = \App\Models\PKL::where(
-                                                            'idAccount',
-                                                            session('account')['id'],
-                                                        )->exists();
-                                                    @endphp
-                                                    @if ($pesan->status == 'Pesanan Baru' && $pklExists && session('account')['status'] == 'PKL')
-                                                        <button class="btn btn-success" style="background-color: green"><a
-                                                                href=""
-                                                                style="text-decoration:none; color:white">Terima
-                                                                Pesanan</a></button>
-                                                    @endif
+                                    @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
+                                        @if ($pesan->status == 'Pesanan Baru')
+                                            <div class="deTable">
+                                                <div class="isiDeTable">
+                                                    <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
+                                                    <p class="tproduk">{{ $account->nama }}</p>
+                                                    <p class="tstok">Rp. {{ $pesan->TotalBayar }},-</p>
+                                                    <div class="ttotal">
+                                                        <p class="dstatus">{{ $pesan->status }}</p>
+                                                    </div>
+                                                    <!-- <p class="ttotal">MENUNGGU DITERIMA</p> -->
+                                                    <div class="tstatus">
+                                                        <button><a href="/pesanDetail/{{ $pesan->id }}"
+                                                                style="text-decoration:none; color:white">DETIL</a></button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     @endif
                                 @endforeach
                             @else
@@ -153,21 +142,24 @@
                         <div class="TableSide" id="DiterimaPesanan" style="display:none;">
                             @if ($jmlh_pd != 0)
                                 @foreach ($pesanan as $pesan)
-                                    @if ($pesan->idAccount == session('account')['id'] && $pesan->status == 'Pesanan Diproses')
-                                        <div class="deTable">
-                                            <div class="isiDeTable">
-                                                <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
-                                                <p class="tproduk">{{ $account->nama }}</p>
-                                                <p class="tstok">Rp. {{ $pesan->TotalBayar }},-</p>
-                                                <div class="ttotal">
-                                                    <p class="dstatus">{{ $pesan->status }}</p>
-                                                </div>
-                                                <!-- <p class="ttotal">MENUNGGU DITERIMA</p> -->
-                                                <div class="tstatus">
-                                                    <button>DETIL</button>
+                                    @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
+                                        @if ($pesan->status == 'Pesanan Diproses')
+                                            <div class="deTable">
+                                                <div class="isiDeTable">
+                                                    <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
+                                                    <p class="tproduk">{{ $account->nama }}</p>
+                                                    <p class="tstok">Rp. {{ $pesan->TotalBayar }},-</p>
+                                                    <div class="ttotal">
+                                                        <p class="dstatus">{{ $pesan->status }}</p>
+                                                    </div>
+                                                    <!-- <p class="ttotal">MENUNGGU DITERIMA</p> -->
+                                                    <div class="tstatus">
+                                                        <button><a href="/pesanDetail/{{ $pesan->id }}"
+                                                                style="text-decoration:none; color:white">DETIL</a></button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     @endif
                                 @endforeach
                             @else
@@ -178,21 +170,24 @@
                         <div class="TableSide" id="DonePesanan" style="display:none;">
                             @if ($jmlh_ps != 0)
                                 @foreach ($pesanan as $pesan)
-                                    @if ($pesan->idAccount == session('account')['id'] && $pesan->status == 'Pesanan Selesai')
-                                        <div class="deTable">
-                                            <div class="isiDeTable">
-                                                <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
-                                                <p class="tproduk">{{ $account->nama }}</p>
-                                                <p class="tstok">Rp. {{ $pesan->TotalBayar }},-</p>
-                                                <div class="ttotal">
-                                                    <p class="dstatus">{{ $pesan->status }}</p>
-                                                </div>
-                                                <!-- <p class="ttotal">MENUNGGU DITERIMA</p> -->
-                                                <div class="tstatus">
-                                                    <button>DETIL</button>
+                                    @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
+                                        @if ($pesan->status == 'Pesanan Selesai')
+                                            <div class="deTable">
+                                                <div class="isiDeTable">
+                                                    <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
+                                                    <p class="tproduk">{{ $account->nama }}</p>
+                                                    <p class="tstok">Rp. {{ $pesan->TotalBayar }},-</p>
+                                                    <div class="ttotal">
+                                                        <p class="dstatus">{{ $pesan->status }}</p>
+                                                    </div>
+                                                    <!-- <p class="ttotal">MENUNGGU DITERIMA</p> -->
+                                                    <div class="tstatus">
+                                                        <button><a href="/pesanDetail/{{ $pesan->id }}"
+                                                                style="text-decoration:none; color:white">DETIL</a></button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     @endif
                                 @endforeach
                             @else
@@ -200,6 +195,33 @@
                             @endif
 
                         </div>
+                        <div class="TableSide" id="tolakPesanan" style="display:none;">
+                            @if ($jmlh_ptolak != 0)
+                                @foreach ($pesanan as $pesan)
+                                    @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
+                                        @if ($pesan->status == 'Pesanan Ditolak' || $pesan->status == 'Pesanan Dibatalkan')
+                                            <div class="deTable">
+                                                <div class="isiDeTable">
+                                                    <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
+                                                    <p class="tproduk">{{ $account->nama }}</p>
+                                                    <p class="tstok">Rp. {{ $pesan->TotalBayar }},-</p>
+                                                    <div class="ttotal">
+                                                        <p class="dstatus">{{ $pesan->status }}</p>
+                                                    </div>
+                                                    <div class="tstatus">
+                                                        <button><a href="/pesanDetail/{{ $pesan->id }}"
+                                                                style="text-decoration:none; color:white">DETIL</a></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endif
+                                @endforeach
+                            @else
+                                <h2>Data Kosong</h2>
+                            @endif
+                        </div>
+
                     </div>
                 </div>
             </div>

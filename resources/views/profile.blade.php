@@ -9,6 +9,9 @@
 @endsection
 
 @section('main')
+@php
+    $account = \App\Models\Account::where('id', session('account')['id'])->first();
+@endphp
     <div class="container">
         <div class="card">
             <div class="card-body">
@@ -17,24 +20,29 @@
                     @csrf
                     <div class="mb-3">
                         <label for="nama" class="form-label">Nama</label>
-                        <input type="text" class="form-control" id="nama" name="nama" value="{{ session('account')->nama }}" readonly>
+                        <input type="text" class="form-control" id="nama" name="nama" value="{{ $account->nama }}" readonly>
                     </div>
 
                     <div class="mb-3">
                         <label for="status" class="form-label">Status Akun</label>
-                        <input type="text" class="form-control" id="status" name="status" value="{{ session('account')->status }}" readonly>
+                        <input type="text" class="form-control" id="status" name="status" value="{{ $account->status }}" readonly>
                     </div>
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="{{ session('account')->email }}" readonly>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ $account->email }}" readonly>
                     </div>
 
                     <div class="mb-3">
                         <label for="noHP" class="form-label">Nomor Telpon</label>
-                        <input type="number" class="form-control" id="noHP" name="noHP" value="{{ session('account')->nohp }}" readonly>
+                        <input type="number" class="form-control" id="noHP" name="noHP" value="{{ $account->nohp }}" readonly>
                     </div>
                 </form>
+                <a href="/editProfile/{{ session('account')->id }}">
+                    <button>
+                        Edit Account
+                    </button>
+                </a>
             </div>
         </div>
     </div>

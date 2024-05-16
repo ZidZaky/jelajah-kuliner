@@ -8,15 +8,22 @@
             <li><a href="/profile">Your Profile</a></li>
             @php
                 $pklExists = \App\Models\PKL::where('idAccount', session('account')['id'])->exists();
+                use Illuminate\Support\Facades\Request;
             @endphp
-            <button onclick="OpenPesanan()" style="backgorund-color: white; margin-bottom:10px; border-radius:6px; height:5vh;">List Pesanan</button>
+
+            @if (Request::is('dashboard'))
+                <button onclick="OpenPesanan()"
+                    style="background-color: white; margin-bottom: 10px; border-radius: 6px; height: 5vh;">List
+                    Pesanan</button>
+            @endif
+
             @if ($pklExists && session('account')['status'] == 'PKL')
                 <a class="btn btn-primary" href="/dataPKL/{{ session('account')['id'] }}" role="button">Show Data
                     PKL</a>
             @elseif (session('account')['status'] == 'PKL')
                 <a class="btn btn-primary" href="/PKL/create" role="button">Create Data PKL</a>
             @elseif (session('account')['status'] == 'Admin')
-            <a class="btn btn-primary" href="/account" role="button">List Account</a>
+                <a class="btn btn-primary" href="/account" role="button">List Account</a>
             @endif
         </ul>
         <hr>
