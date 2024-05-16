@@ -14,7 +14,6 @@
             <div class="upside">
                 <p class="namaakun">Hi, {{ session('account')['nama'] }} 👋</p>
             </div>
-            <a href="/produk/create"><button type="" id="butEdit"><span>Tambah Produk &#9998</span></button></a>
         </div>
         <hr id="hratas">
         <div class="outer">
@@ -24,38 +23,66 @@
                     <p class="deskri">{{ $pkl->desc }}</p>
                     <p>Produk Anda</p>
                 </div>
-                @if ($produk->count() > 0)
-                    @foreach ($produk as $p)
-                        <div class="batas">
+                <hr>
+
+                        <div class="batas" >
+                            <div class="butButtonFront" style="" >
+                                <a href="/riwayatProduk/{{ $pkl->id }}" style="display:;width:40%;">
+                                    <button class="btn btn-success" style="width: 100%;">
+                                        Riwayat Stok Produk
+                                    </button>
+                                </a>
+                                <a href="/produk/create" style="width:40%;">
+                                    <button type="" class="btn btn-success" id="butEdit">
+                                        <span>Tambah Produk &#9998</span>
+                                    </button>
+                                </a>
+                            </div>
+                        @if($produk->count()>0)
+                            @foreach($produk as $p)
                             <div class="card">
                                 <div class="inCard" id="theImage">
                                     <img src="https://i.pinimg.com/564x/34/e1/30/34e13046e8f9fd9f3360568abd453685.jpg"
                                         alt="">
                                 </div>
                                 <div class="inCard" id="mid">
-                                    <p class="np">{{ $p->namaProduk }}</p>
-                                    <p class="Des">{{ $p->desc }}</p>
-                                    <p class="hrg">Rp. {{ $p->harga }}</p>
+                                    <p class="np">{{$p->namaProduk}}</p>
+                                    <p class="Des">{{$p->desc}}</p>
+                                    <p class="hrg">Rp. {{$p->harga}}</p>
                                 </div>
                                 <div class="inCard" id="leftt">
                                     <p class="stok">Stok</p>
-                                    <p class="numberr">{{ $p->stok }}</p>
+                                    <div class="showStok">
+                                        <p class="numberr">{{$p->stok}}</p>
+                                    </div>
+                                    <div class="EditStok" style="display: none;">
+                                        <form action="">
+                                            <input type="text">
+                                        </form>
+                                    </div>
+                                    <div class="butStok">
+                                    <a href="/buatStokAwal/{{$p->id}}">
+                                        <button class="StokAwal btn-success">
+                                            <p>Set Stok Awal</p>
+                                        </button>
+                                    </a>
+                                    <a href="/buatStokAkhir/{{$p->id}}">
+                                        <button class="StokAkhir btn-success">
+                                            <p>Set Stok Akhir</p>
+                                        </button>
+                                    </a>
+                                    </div>
+
+
                                 </div>
                             </div>
+                            @endforeach
+                        @else
+                            <p class="namap" style="text-align: center;">Produk kosong</p>
+                        @endif
                         </div>
-                    @endforeach
-                @else
-                    <p class="namap" style="text-align: center">Produk Kosong</p>
-                @endif
-                <div style="align-items:center;">
-                    <br>
-                    <a href="/riwayatProduk/{{ $pkl->id }}">
-                        <button class="btn btn-success" style="width: 10vh;">
-                            Riwayat Stok Produk
-                        </button>
-                    </a>
-                    <br>
-                </div>
+
+
             </div>
 
             <hr id="hrmiring">
@@ -119,3 +146,5 @@
     }
 
 @endphp
+
+

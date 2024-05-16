@@ -109,12 +109,12 @@ class AccountController extends Controller
     //update
     public function update(Request $request, Account $account)
     {
+        // dd($request);
         $valdata = $request->validate([
             'nama' => 'required',
             'email' => 'required',
             'nohp' => 'required'
         ]);
-
         $account->update($valdata);
         return redirect('profile');
     }

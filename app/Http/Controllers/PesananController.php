@@ -275,19 +275,8 @@ class PesananController extends Controller
         //  dd($produk);
          foreach($produk as $p){
             $barang = Produk::find($p->idProduk);
-            $idProduk = $barang->id;
-            $stokAwal = $barang->stok;
             $barang->stok = $barang->stok - $p->JumlahProduk;
-            $stokAkhir = $barang->stok;
             $barang->save();
-            DB::insert('INSERT INTO history_stok (id, idProduk, stokAwal, stokAkhir, idPKL, created_at, updated_at) VALUES (null, ?, ?, ?,?,?,?)', [
-                $idProduk,
-                $stokAwal,
-                $stokAkhir,
-                $pesan->idPKL,
-                now(),
-                now()
-            ]);
          };
 
         // Check if Pesanan is found

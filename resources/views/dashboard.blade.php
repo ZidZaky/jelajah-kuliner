@@ -28,18 +28,20 @@
             <div class="tablePesanan">
                 <div class="miniNavbar" style="padding-bottom:0; margin-bottom:0;">
                     <?php
+                    $pkl = \App\Models\PKL::where('idAccount', session('account')['id'])->first();
+
                     $jmlh = 0;
                     $jmlh_pb = 0;
                     $jmlh_pd = 0;
                     $jmlh_ps = 0;
                     $jmlh_ptolak = 0;
                     foreach ($pesanan as $pesan) {
-                        if ($pesan->idAccount == session('account')['id']) {
+                        if ($pesan->idAccount == session('account')['id'] || $pesan->idPKL == $pkl->id) {
                             $jmlh++;
                         }
                     }
                     foreach ($pesanan as $pesan) {
-                        if ($pesan->status == 'Pesanan Baru' && $pesan->idAccount == session('account')['id']) {
+                        if ($pesan->status == 'Pesanan Baru' && $pesan->idAccount == session('account')['id'] || $pesan->idPKL == $pkl->id) {
                             $jmlh_pb++;
                         }
                     }
@@ -58,7 +60,6 @@
                             $jmlh_ptolak++;
                         }
                     }
-                    $pkl = \App\Models\PKL::where('idAccount', session('account')['id'])->first();
                     ?>
                     <button type="" id="butAllPes" onclick="changePesanan('AllPesanan')">Semua Pesanan
                         ({{ $jmlh }})</button>

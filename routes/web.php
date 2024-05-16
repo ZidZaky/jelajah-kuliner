@@ -41,6 +41,12 @@ Route::get('tolakPesanan/{id}', [PesananController::class, 'tolakPesanan']);
 Route::get('batalPesanan/{id}', [PesananController::class, 'batalPesanan']);
 Route::get('selesaiPesanan/{id}', [PesananController::class, 'selesaiPesanan']);
 Route::get('riwayatProduk/{id}', [ProdukController::class, 'riwayatProduk']);
+Route::get('/buatStokAkhir/{id}', [ProdukController::class, 'buatStokAkhir']);
+Route::get('/buatStokAwal/{id}', [ProdukController::class, 'buatStokAwal']);
+Route::post('/buatHistory', [ProdukController::class, 'buatHistory']);
+Route::post('/updateHistory', [ProdukController::class, 'updateHistory']);
+
+
 
 Route::get('/dataPKL/{idAccount}', [PKLController::class, 'showDetail']);
 
@@ -52,7 +58,7 @@ Route::get('/login', function () {
 });
 
 
-Route::get('/editProfile/{id}', [AccountController::class,'editProfile']);
+Route::post('/account/{id}', [AccountController::class,'editProfile']);
 Route::resource('/account', AccountController::class);
 Route::resource('/PKL', PKLController::class);
 Route::resource('/produk', ProdukController::class);
