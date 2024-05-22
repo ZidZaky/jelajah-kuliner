@@ -45,6 +45,8 @@ Route::get('/buatStokAkhir/{id}', [ProdukController::class, 'buatStokAkhir']);
 Route::get('/buatStokAwal/{id}', [ProdukController::class, 'buatStokAwal']);
 Route::post('/buatHistory', [ProdukController::class, 'buatHistory']);
 Route::post('/updateHistory', [ProdukController::class, 'updateHistory']);
+Route::get('/hst',function(){
+    return view('riwayatProduk'); });
 
 
 

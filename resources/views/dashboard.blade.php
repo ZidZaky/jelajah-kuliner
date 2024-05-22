@@ -19,6 +19,12 @@
     @endif
 
     <div id="map"></div>
+    <div class="forsearch">
+        <form action="">
+            <input type="text" placeholder="Search">
+            <input type="submit">
+        </form>
+    </div>
     <div class="listPesanan" style="display:none;">
         <div class="NavbarAtasPesanan">
             <p>Pesanan</p>
@@ -622,4 +628,28 @@
             contentPesanDiv.appendChild(button);
         }
     </script>
+    <style>
+        .forsearch{
+            position: absolute;
+            /* z-index: 900;; */
+            width: 200px;
+            height: 100px;
+            border: 1px black solid;
+            background-color: black;
+            /* position: absolute; */
+            z-index: 100;
+            top: 10%;
+            left: 40%;
+            /* transform: translate(-50%,-50%); */
+            /* width: 100vh;
+            height: 70vh; */
+            padding: 10px;
+            border: 1px solid #ccc;
+            /* display: none; */
+            background-color: #9c242c;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
 @endsection
