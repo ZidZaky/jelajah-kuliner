@@ -135,7 +135,10 @@
                     <label for="keterangan">Keterangan Tambahan (Opsional):</label><br>
                     <input type="text" name="keterangan" id="keterangan" placeholder="Contoh: Tidak pedas ya mas!" value="-" style="width: 80%; height: 5vh;">
                 </div>
-                <button class="btn btn-danger" style="width: 40%; margin-left: auto; margin-right: auto;" onclick="confirmBatalPesanan('{{ $pesan->id }}')">Batalkan Pesanan!</button>
+                @if ($pesan->status == 'Pesanan Baru')
+
+                <button class="btn btn-danger" style   ="width: 40%; margin-left: auto; margin-right: auto;" onclick="confirmBatalPesanan('{{ $pesan->id }}')">Batalkan Pesanan!</button>
+                @endif
             </div>
         </div>
     </div>

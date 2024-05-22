@@ -29,37 +29,48 @@
                 <div class="miniNavbar" style="padding-bottom:0; margin-bottom:0;">
                     <?php
                     $pkl = \App\Models\PKL::where('idAccount', session('account')['id'])->first();
-
+                    // $loopingPesanan = $pesanan;
                     $jmlh = 0;
                     $jmlh_pb = 0;
                     $jmlh_pd = 0;
                     $jmlh_ps = 0;
                     $jmlh_ptolak = 0;
-                    foreach ($pesanan as $pesan) {
-                        if ($pesan->idAccount == session('account')['id'] || $pesan->idPKL == $pkl->id) {
-                            $jmlh++;
-                        }
+                    // dump($pesanan);
+                    // Iterate through the collection of orders
+            foreach ($pesanan as $pesan) {
+                // Increment $jmlh if the order is associated with the current account or PKL
+                if ($pesan->idAccount == session('account')['id'] || ($pkl && $pkl->id == $pesan->idPKL)) {
+                    $jmlh++;
+                }
+
+                // Increment counters based on order status and account association
+                if ($pesan->idAccount == session('account')['id']) {
+                    if ($pesan->status == 'Pesanan Baru') {
+                        $jmlh_pb++;
+                    } elseif ($pesan->status == 'Pesanan Diproses') {
+                        $jmlh_pd++;
+                    } elseif ($pesan->status == 'Pesanan Selesai') {
+                        $jmlh_ps++;
+                    } elseif ($pesan->status == 'Pesanan Ditolak' || $pesan->status == 'Pesanan Dibatalkan') {
+                        $jmlh_ptolak++;
                     }
-                    foreach ($pesanan as $pesan) {
-                        if ($pesan->status == 'Pesanan Baru' && $pesan->idAccount == session('account')['id'] || $pesan->idPKL == $pkl->id) {
-                            $jmlh_pb++;
-                        }
+                } elseif ($pkl && $pkl->id == $pesan->idPKL) {
+                    if ($pesan->status == 'Pesanan Baru') {
+                        $jmlh_pb++;
+                    } elseif ($pesan->status == 'Pesanan Diproses') {
+                        $jmlh_pd++;
+                    } elseif ($pesan->status == 'Pesanan Selesai') {
+                        $jmlh_ps++;
+                    } elseif ($pesan->status == 'Pesanan Ditolak' || $pesan->status == 'Pesanan Dibatalkan') {
+                        $jmlh_ptolak++;
                     }
-                    foreach ($pesanan as $pesan) {
-                        if ($pesan->status == 'Pesanan Diproses' && $pesan->idAccount == session('account')['id']) {
-                            $jmlh_pd++;
-                        }
-                    }
-                    foreach ($pesanan as $pesan) {
-                        if ($pesan->status == 'Pesanan Selesai' && $pesan->idAccount == session('account')['id']) {
-                            $jmlh_ps++;
-                        }
-                    }
-                    foreach ($pesanan as $pesan) {
-                        if ($pesan->status == 'Pesanan Ditolak' && $pesan->idAccount == session('account')['id']) {
-                            $jmlh_ptolak++;
-                        }
-                    }
+                }
+            }
+                    // foreach ($pesanan as $pesan) {
+
+                    // }
+
+                    //
                     ?>
                     <button type="" id="butAllPes" onclick="changePesanan('AllPesanan')">Semua Pesanan
                         ({{ $jmlh }})</button>
@@ -116,6 +127,9 @@
                                 @foreach ($pesanan as $pesan)
                                     @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
                                         @if ($pesan->status == 'Pesanan Baru')
+                                        @php
+                                            $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
+                                        @endphp
                                             <div class="deTable">
                                                 <div class="isiDeTable">
                                                     <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
@@ -145,6 +159,9 @@
                                 @foreach ($pesanan as $pesan)
                                     @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
                                         @if ($pesan->status == 'Pesanan Diproses')
+                                        @php
+                                            $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
+                                        @endphp
                                             <div class="deTable">
                                                 <div class="isiDeTable">
                                                     <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
@@ -173,6 +190,9 @@
                                 @foreach ($pesanan as $pesan)
                                     @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
                                         @if ($pesan->status == 'Pesanan Selesai')
+                                        @php
+                                            $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
+                                        @endphp
                                             <div class="deTable">
                                                 <div class="isiDeTable">
                                                     <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
@@ -201,6 +221,9 @@
                                 @foreach ($pesanan as $pesan)
                                     @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
                                         @if ($pesan->status == 'Pesanan Ditolak' || $pesan->status == 'Pesanan Dibatalkan')
+                                        @php
+                                            $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
+                                        @endphp
                                             <div class="deTable">
                                                 <div class="isiDeTable">
                                                     <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>

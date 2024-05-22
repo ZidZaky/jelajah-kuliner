@@ -171,12 +171,13 @@ class PesananController extends Controller
             return response()->view('errors.404', [], 404);
         }
     }
-    public function pesanDetail($id){
+    public function pesanDetail($id)
+    {
         $pesan = Pesanan::find($id);
         $query = "select * from produk_dipesan where idPesanan = ?";
-    // Execute the query
-    $produk = DB::select($query, [$pesan->id]);
-    // dd($produk);
+        // Execute the query
+        $produk = DB::select($query, [$pesan->id]);
+        // dd($produk);
         // $pesan = Pesanan::find($id);
         return view('detilPesan', [
             'pesan' => $pesan,
@@ -184,7 +185,8 @@ class PesananController extends Controller
         ]);
     }
 
-    public function terimaPesanan($id) {
+    public function terimaPesanan($id)
+    {
         // Find the Pesanan by its ID
         $pesan = Pesanan::find($id);
 
@@ -211,7 +213,8 @@ class PesananController extends Controller
         }
     }
 
-    public function tolakPesanan($id) {
+    public function tolakPesanan($id)
+    {
         // Find the Pesanan by its ID
         $pesan = Pesanan::find($id);
 
@@ -223,13 +226,14 @@ class PesananController extends Controller
             // Save the changes to the database
             $pesan->save();
 
-            // Retrieve the related products for the Pesanan
+            $pesan2 = Pesanan::find($id);
             $query = "select * from produk_dipesan where idPesanan = ?";
-            $produk = DB::select($query, [$pesan->id]);
-
-            // Return the view with the updated Pesanan and related products
+            // Execute the query
+            $produk = DB::select($query, [$pesan2->id]);
+            // dd($produk);
+            // $pesan = Pesanan::find($id);
             return view('detilPesan', [
-                'pesan' => $pesan,
+                'pesan' => $pesan2,
                 'produks' => $produk
             ]);
         } else {
@@ -238,9 +242,12 @@ class PesananController extends Controller
         }
     }
 
-    public function batalPesanan($id) {
+    public function batalPesanan($id)
+    {
         // Find the Pesanan by its ID
+        // dd($id);
         $pesan = Pesanan::find($id);
+        // dd($pesan);
 
         // Check if Pesanan is found
         if ($pesan) {
@@ -251,12 +258,14 @@ class PesananController extends Controller
             $pesan->save();
 
             // Retrieve the related products for the Pesanan
+            $pesan2 = Pesanan::find($id);
             $query = "select * from produk_dipesan where idPesanan = ?";
-            $produk = DB::select($query, [$pesan->id]);
-
-            // Return the view with the updated Pesanan and related products
+            // Execute the query
+            $produk = DB::select($query, [$pesan2->id]);
+            // dd($produk);
+            // $pesan = Pesanan::find($id);
             return view('detilPesan', [
-                'pesan' => $pesan,
+                'pesan' => $pesan2,
                 'produks' => $produk
             ]);
         } else {
@@ -265,19 +274,20 @@ class PesananController extends Controller
         }
     }
 
-    public function selesaiPesanan($id) {
+    public function selesaiPesanan($id)
+    {
         // Find the Pesanan by its ID
         $pesan = Pesanan::find($id);
 
-         // Retrieve the related products for the Pesanan
-         $query = "select * from produk_dipesan where idPesanan = ?";
-         $produk = DB::select($query, [$pesan->id]);
+        // Retrieve the related products for the Pesanan
+        $query = "select * from produk_dipesan where idPesanan = ?";
+        $produk = DB::select($query, [$pesan->id]);
         //  dd($produk);
-         foreach($produk as $p){
+        foreach ($produk as $p) {
             $barang = Produk::find($p->idProduk);
             $barang->stok = $barang->stok - $p->JumlahProduk;
             $barang->save();
-         };
+        };
 
         // Check if Pesanan is found
         if ($pesan) {
