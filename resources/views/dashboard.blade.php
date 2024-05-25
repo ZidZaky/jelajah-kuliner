@@ -19,11 +19,19 @@
     @endif
 
     <div id="map"></div>
-    <div class="forsearch">
-        <form action="">
-            <input type="text" placeholder="Search">
-            <input type="submit">
-        </form>
+    <div class="toSearch" id="tosearch1" style="display:none;" >
+        <button onclick="hide('input')">
+            <svg alt="Search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="transform: scale(1);"><path fill="#FFFFFF" d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"></path></svg>
+
+        </button>
+    </div>
+    <div class="forsearch" id="forsearch1">
+        <div>
+            <svg alt="Search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="transform: scale(1);"><path fill="#9c242c" d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"></path></svg>
+            <input type="text" id="inpSearch" placeholder="Search">
+            <button >Cari</button>
+        </div> 
+        <button onclick="hide('cari')">X</button>
     </div>
     <div class="listPesanan" style="display:none;">
         <div class="NavbarAtasPesanan">
@@ -264,7 +272,7 @@
         <p id="namaPKL"></p><br>
         <img src="https://i.pinimg.com/736x/da/5e/ba/da5eba94367e1a2aaa683f1acc105f97.jpg" alt="PKL Photo Goes Here">
 
-        <div id="tsur" style="">
+        <div id="tsur">
             <button id="butUlasan" onclick="changeContent('Ulasan')" type="button" class="btn btn-success"
                 style="opacity:100%">Ulasan</button>
             <button id="butMenu"onclick="changeContent('Menu')" type="button" class="btn btn-success">Menu</button>
@@ -324,6 +332,23 @@
 
     <script src="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.js"></script>
     <script>
+        function hide($apa){
+            let cari = document.getElementById('tosearch1')
+            let inp = document.getElementById('forsearch1')
+            console.log('work')
+            if($apa=='input'){
+                cari.style.display="none"
+                inp.style.display="flex";
+
+            }
+            else{
+                
+                
+                inp.style.display="none";
+                cari.style.display="flex";
+
+            }
+        }
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(function() {
                 var alert = document.querySelector('.alert');
@@ -629,27 +654,123 @@
         }
     </script>
     <style>
+        .toSearch{
+            position: absolute;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            width: 100px;
+            height: 50px;
+            /* border: 1px black solid; */
+            background-color: ;
+            z-index: 100;
+            top: 2%;
+            right: 2%;
+            /* left: 50%; */
+            /* transform: translateX(-50%); */
+            margin: 0 0;
+            padding: 0;
+            /* border: 1px solid #ccc; */
+            background-color: rgb(0 0 0 0);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .toSearch>button>svg{
+            padding: 2px 2px;
+            color: white;
+        }
+        .toSearch>button{
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 20px;
+            background-color:#9c242c;
+            box-shadow: 1px 1px #471e21;
+            border: none;
+        }
         .forsearch{
             position: absolute;
-            /* z-index: 900;; */
-            width: 200px;
-            height: 100px;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            width: 400px;
+            height: 50px;
             border: 1px black solid;
-            background-color: black;
-            /* position: absolute; */
+            background-color: ;
             z-index: 100;
-            top: 10%;
-            left: 40%;
-            /* transform: translate(-50%,-50%); */
-            /* width: 100vh;
-            height: 70vh; */
-            padding: 10px;
+            top: 2%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 0 0;
+            padding: 0;
             border: 1px solid #ccc;
-            /* display: none; */
             background-color: #9c242c;
             border-radius: 8px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .forsearch>*{
+            /* border: blue 1px solid !important; */
+        }
+        .forsearch>button{
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 20px;
+            background-color: rgb(255,255,255,0.2);
+            border: none;
+        }
+        .forsearch>button:hover{
+            background-color: #471e21;
+            color: white;
+        }
+        .forsearch>div{
+            width: 80%;
+            height: 80%;
+            background-color: white;
+            display: flex;
+            flex-direction: row;
+            gap: 4px;
+            border-radius: 10px;
+            padding: 2px;
+            padding-left: 10px;
+            padding-right: 10px;
+            /* padding-right: 0; */
+            align-items: center;
+            justify-content: center;
+            border: white 1px solid !important;
+
+            /* padding-left: /; */
+            
+        }
+        .forsearch>div>svg{
+            width: 10%;
+            height: 70%;
+            /* padding-right: 10px; */
+        }
+        .forsearch>div>input{
+            width: 65%;
+            padding: 2px;
+            outline: none;
+            border: none;
+            background-color:none;
+            color: white;
+            font-size: 15px;
+            color: black;
+
+        }
+        .forsearch>div>button{
+            width: 25%;
+            border: none;
+            outline: none;
+            background-color: rgb(0 0 0 0.4) !important;
+            text-decoration: none;
+            border-radius: 10px;
+
+        }
+        .forsearch>div>button:hover{
+            background-color: #ccc;
         }
     </style>
 @endsection

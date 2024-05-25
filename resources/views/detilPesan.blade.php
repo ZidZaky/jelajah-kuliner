@@ -70,18 +70,7 @@
                 @if ($pesan->status == 'Pesanan Baru' && $pesan->idAccount == session('account')['id'])
                     <br>
                 @endif
-                @php
-                    $pkl = \App\Models\PKL::where('idAccount', session('account')['id'])->first();
-                @endphp
-                @if ($pkl)
-                    @if ($pesan->status == 'Pesanan Diproses' && @$pesan->idPKL == $pkl->id)
-                        <br>
-                        <button class="btn btn-success" onclick="selesaiPesanan('{{ @$pesan->id }}')">
-                            Pesanan Selesai
-                        </button>
-                        <br>
-                    @endif
-                @endif
+                
             </div>
 
             <div class="kanan border border-right d-flex flex-column justify-content-between"
@@ -135,6 +124,21 @@
                     <input type="text" name="keterangan" id="keterangan" placeholder="Contoh: Tidak pedas ya mas!"
                         value="-" style="width: 80%; height: 5vh;">
                 </div>
+                @php
+                    $pkl = \App\Models\PKL::where('idAccount', session('account')['id'])->first();
+                @endphp
+                @if ($pkl)
+                    @if ($pesan->status == 'Pesanan Diproses' && @$pesan->idPKL == $pkl->id)
+                        <br>
+                        <div id="butstatus">
+                            <button class="btn"  onclick="selesaiPesanan('{{ @$pesan->id }}')">
+                                Pesanan Selesai
+                            </button>
+                        </div>
+                        
+                        <br>
+                    @endif
+                @endif
                 @if ($pesan->status == 'Pesanan Baru')
                     <div style="display: flex; justify-content: center; gap: 10px;">
                         <button class="btn btn-danger" style="width: 40%;"
@@ -145,7 +149,21 @@
             </div>
         </div>
     </div>
-
+    <style>
+        #butstatus{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #butstatus>button{
+            background-color: green;
+            width: fit-content;
+            border-radius: 10px;
+            padding: 5px 10px;
+            color: white;
+        }
+    </style>
     <script>
         function confirmTerimaPesanan(id) {
             if (confirm("Apakah kamu yakin untuk menerima pesanan ini?")) {
