@@ -309,4 +309,11 @@ class PesananController extends Controller
             return redirect()->back()->with('error', 'Pesanan not found.');
         }
     }
+    public function getPesananSelesai($idPkl){
+
+    $pesanans = Pesanan::where('idPKL', 1)
+        ->where('status', 'Pesanan Selesai')
+        ->get();
+        dd($pesanans);
+    }
 }

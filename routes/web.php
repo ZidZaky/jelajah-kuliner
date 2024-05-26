@@ -47,6 +47,8 @@ Route::post('/buatHistory', [ProdukController::class, 'buatHistory']);
 Route::post('/updateHistory', [ProdukController::class, 'updateHistory']);
 Route::get('/hst',function(){
     return view('riwayatProduk'); });
+Route::get('/Dashboard-Penjualan',function(){
+    return view('dp'); });
 
 
 

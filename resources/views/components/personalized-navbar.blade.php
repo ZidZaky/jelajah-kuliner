@@ -20,6 +20,7 @@
             @if ($pklExists && session('account')['status'] == 'PKL')
                 <a class="btn btn-primary" href="/dataPKL/{{ session('account')['id'] }}" role="button">Show Data
                     PKL</a>
+                <a class="btn btn-primary" href="/Dashboard-Penjualan" role="button">Dashboard Penjualan</a>
             @elseif (session('account')['status'] == 'PKL')
                 <a class="btn btn-primary" href="/PKL/create" role="button">Create Data PKL</a>
             @elseif (session('account')['status'] == 'Admin')

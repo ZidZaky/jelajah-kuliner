@@ -697,7 +697,7 @@
             width: 400px;
             height: 50px;
             border: 1px black solid;
-            background-color: ;
+            /* background-color: ; */
             z-index: 100;
             top: 2%;
             left: 50%;
