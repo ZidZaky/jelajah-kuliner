@@ -437,5 +437,12 @@ img{
 .butStok>a>.StokAkhir{
     background-color: rgb(103, 36, 36);
 }
-
+.deskhusus{
+    /* margin-top: -2px; */
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    margin-bottom: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
 

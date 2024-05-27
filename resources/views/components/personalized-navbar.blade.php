@@ -25,6 +25,7 @@
                 <a class="btn btn-primary" href="/PKL/create" role="button">Create Data PKL</a>
             @elseif (session('account')['status'] == 'Admin')
                 <a class="btn btn-primary" href="/account" role="button">List Account</a>
+                <a class="btn btn-danger" href="/report" role="button">Account Reports</a>
             @endif
         </ul>
         <hr>

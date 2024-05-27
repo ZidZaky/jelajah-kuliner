@@ -5,6 +5,7 @@ use App\Http\Controllers\PKLController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\PesananController;
+use App\Http\Controllers\ReportController;
 use App\Models\Pesanan;
 use Illuminate\Support\Facades\Route;
 use App\Models\Ulasan;
@@ -74,8 +75,12 @@ Route::resource('/PKL', PKLController::class);
 Route::resource('/produk', ProdukController::class);
 Route::resource('/ulasan', UlasanController::class);
 Route::resource('/pesanan', PesananController::class);
+Route::resource('/report', ReportController::class);
 
 Route::get('/pesanan/create/{id}', [PesananController::class, 'createWithId'])->name('pesanan.createWithId');
+
+Route::get('banUser/{id}', [ReportController::class, 'banUser']);
+Route::get('unbanUser/{id}', [ReportController::class, 'unbanUser']);
 
 
 // Define a route to fetch coordinates from the database
