@@ -9,6 +9,7 @@ use App\Models\Pesanan;
 use Illuminate\Support\Facades\Route;
 use App\Models\Ulasan;
 use App\Models\Produk;
+use app\Models\PKL;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,11 +25,16 @@ Route::get('/', function () {
     return view('map');
 });
 Route::get('/dashboard', function () {
+    $pkl = new PKLController();
     $ulasan = Ulasan::all(); // Fetch $ulasan from the database
     $produk = Produk::all(); // Fetch $ulasan from the database
     $pesanan = Pesanan::all();
+    // $data = $pkl->getDataPKL();
+    // dd($data);
     return view('dashboard', ['ulasan' => $ulasan,'produk' => $produk, 'pesanan' => $pesanan]);
 });
+Route::get('/getData', [PKLController::class, 'getDataPKL']);
+
 Route::get('/profile', function () {
     return view('profile');
 });
@@ -53,7 +59,7 @@ Route::get('/Dashboard-Penjualan',function(){
 
 
 Route::get('/dataPKL/{idAccount}', [PKLController::class, 'showDetail']);
-
+// Route::get('/tes',[PKLController::class,'getDataPKL']);
 Route::get('/login', function () {
     if (session()->has('account')) {
         return redirect('/dashboard');

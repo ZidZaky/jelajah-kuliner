@@ -28,7 +28,7 @@
     <div class="forsearch" id="forsearch1">
         <div>
             <svg alt="Search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="transform: scale(1);"><path fill="#9c242c" d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"></path></svg>
-            <input type="text" id="inpSearch" placeholder="Search">
+            <input type="text" id="inpSearch" oninput="cari5()" placeholder="Search">
             <button >Cari</button>
         </div> 
         <button onclick="hide('cari')">X</button>
@@ -332,6 +332,60 @@
 
     <script src="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.js"></script>
     <script>
+        
+        function cari5(){
+            let pin = document.querySelectorAll(`.leaflet-marker-icon`);
+            pin.forEach(o=>{
+                o.style.display='none';
+            })
+            // console.log(pin.length);
+            let hasil = [];
+            fetch(`/getData`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(e=>{
+                        // console.log(e);
+                        let inp = document.getElementById('inpSearch');
+                        let ary = [];
+                        ary.push(e.nama)
+                        ary.push(e.menu)
+
+                        ary.forEach(i=>{
+                            // console.log(i+"tipe : "+typeof(i)+" lower : "+i.toLowerCase());
+                            if(i.toLowerCase().includes(inp.value.toLowerCase())){
+                                // console.log(hasil.includes(e.id))
+                                if(hasil.includes(e.id)==false){
+                                    hasil.push(e.id);
+                                }
+                                console.log('hasil dalam : '+hasil);
+                            }
+                        })
+                        
+                    })
+                    console.log('hasil luar : '+hasil);
+                    hasil.forEach(c=>{
+                        // console.log(('marker'+c));
+                        let depin = document.getElementById(('marker'+c));
+                        depin.style.display='';
+                    })
+                })
+            .catch(error => {
+                console.error('Error fetching coordinates:', error);
+            });
+            
+        }
+        
+        function search1(){
+            let but = document.querySelectorAll(`#content1>button`)
+            but.forEach(function(a){
+            let isi = document.getElementById('cari1');
+                a.style.display = 'none';
+                if(a.textContent.toLowerCase().includes(isi.value.toLowerCase())){
+                    a.style.display = "";
+                }
+                // console.log(a.textContent);
+            })
+        }
         function hide($apa){
             let cari = document.getElementById('tosearch1')
             let inp = document.getElementById('forsearch1')
@@ -395,7 +449,7 @@
                 data.forEach(coordinates => {
                     // Create a marker for each coordinate on the map
                     const marker = L.marker([coordinates.latitude, coordinates.longitude]).addTo(map);
-
+                    marker._icon.id = `marker${coordinates.id}`;
                     // Pass the id to the displayAccountDetails function when marker is clicked
                     marker.on('click', function() {
                         displayAccountDetails(coordinates.id, coordinates.namaPKL);
@@ -662,7 +716,7 @@
             width: 100px;
             height: 50px;
             /* border: 1px black solid; */
-            background-color: ;
+            /* background-color: ; */
             z-index: 100;
             top: 2%;
             right: 2%;

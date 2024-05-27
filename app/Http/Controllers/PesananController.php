@@ -311,9 +311,10 @@ class PesananController extends Controller
     }
     public function getPesananSelesai($idPkl){
 
-    $pesanans = Pesanan::where('idPKL', 1)
-        ->where('status', 'Pesanan Selesai')
-        ->get();
-        dd($pesanans);
+        $pesanans = Pesanan::where('idPKL', 1)
+            ->where('status', 'Pesanan Selesai')
+            ->get();
+            dd($pesanans);
+        
     }
 }
