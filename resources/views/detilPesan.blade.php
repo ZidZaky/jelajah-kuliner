@@ -1,7 +1,7 @@
 @extends('layouts.layout2')
 
 @section('title')
-    Feel Free to "JELAJAH" Kuliner di Sekitarmu!
+    DETIL PESANAN!
 @endsection
 
 @section('css')
@@ -10,11 +10,9 @@
 
 @section('main')
     <div class="all">
-        <div class="up border border-bottom">
-            <div class="upside">
-                <p class="namaakun">Hi, {{ session('account')['nama'] }} 👋</p>
-            </div>
-            <a href="/dashboard"><button class="btn btn-error">Back</button></a>
+        <div class="up border border-bottom d-flex justify-content-between align-items-center">
+            <a href="/dashboard"><button class="btn btn-danger">Back to Dashboard</button></a>
+            <p class="namaakun m-0">Mau ngerjakan orderan siapa, {{ session('account')['nama'] }}? 🤔</p>
         </div>
         <div class="nmpkl">
             @foreach ($produks as $p)
@@ -23,78 +21,62 @@
                     $pkl = App\Models\PKL::where('id', $produk->idPKL)->first();
                 @endphp
             @endforeach
-            <p class="namap">{{ $pkl->namaPKL }}</p>
-            <p class="deskri">{{ $pkl->desc }}</p>
         </div>
 
         <div class="showmenu" style="padding-top: 5px; padding-bottom: 5px">
             <div class="kiri border border-right" style="width: 100%;">
-                <p>Pesanan Anda</p>
+                <h3 class="namap" style="border-bottom: 1px solid #ccc;"><strong>{{ $pkl->namaPKL }}</strong></h3>
+                <p class="deskri">{{ $pkl->desc }}</p>
                 @if (count($produks) > 0)
                     @foreach ($produks as $p)
                         @php
                             $produk = App\Models\Produk::where('id', $p->idProduk)->first();
                             $jmlhtotal = 0;
                         @endphp
-                        @if ( $p->JumlahProduk != 0)
+                        @if ($p->JumlahProduk != 0)
+                            <div class="card">
+                                <div class="inCard" id="theImage">
+                                    <img src="https://i.pinimg.com/564x/34/e1/30/34e13046e8f9fd9f3360568abd453685.jpg"
+                                        alt="">
 
-                        <div class="card">
-                            <div class="inCard" id="theImage">
-                                <img src="https://i.pinimg.com/564x/34/e1/30/34e13046e8f9fd9f3360568abd453685.jpg"
-                                alt="">
-
-                                {{-- <img src="{{ $p->image_url }}" alt="" width="100px"> --}}
+                                    {{-- <img src="{{ $p->image_url }}" alt="" width="100px"> --}}
+                                </div>
+                                <div class="inCard" id="mid">
+                                    <p class="np">{{ $produk->namaProduk }}</p>
+                                    <p class="Des">{{ $produk->namaProduk }}</p>
+                                    <p class="hrg">Rp. {{ $produk->harga }}</p>
+                                </div>
+                                <div class="inCard" id="leftt">
+                                    <p>Quantity: {{ $p->JumlahProduk }}</p>
+                                </div>
                             </div>
-                            <div class="inCard" id="mid">
-                                <p class="np">{{ $p->idProduk }}</p>
-                                <p class="Des">{{ $produk->namaProduk }}</p>
-                                <p class="hrg">Rp. {{ $produk->harga }}</p>
-                            </div>
-                            <div class="inCard" id="leftt">
-                                <p>Jumlah Beli</p>
-                                <span class="quantity mx-2"> {{ $p->JumlahProduk }} </span>
-                            </div>
-                        </div>
                         @endif
                     @endforeach
                 @else
                     <p class="namap" style="text-align: center">Produk Kosong</p>
                 @endif
-                @if ($pesan->status == 'Pesanan Baru' && @session('account')['status'] == "PKL")
+                @if ($pesan->status == 'Pesanan Baru' && @session('account')['status'] == 'PKL')
                     <br>
-                    <button class="btn btn-success" onclick="confirmTerimaPesanan('{{ $pesan->id }}')">
-                        Terima Pesanan
-                    </button>
-                    <br>
-                    <button class="btn btn-danger" onclick="confirmTolakPesanan('{{ $pesan->id }}')">
-                        Tolak Pesanan
-                    </button>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-danger me-2" onclick="confirmTolakPesanan('{{ $pesan->id }}')">
+                            Tolak Pesanan
+                        </button>
+                        <button class="btn btn-success" onclick="confirmTerimaPesanan('{{ $pesan->id }}')">
+                            Terima Pesanan
+                        </button>
+                    </div>
                     <br>
                 @endif
                 @if ($pesan->status == 'Pesanan Baru' && $pesan->idAccount == session('account')['id'])
-                <br>
-                <button class="btn btn-danger" onclick="confirmBatalPesanan('{{ $pesan->id }}')">
-                    Batalkan Pesanan
-                </button>
-                <br>
+                    <br>
                 @endif
-                @php
-                    $pkl = \App\Models\PKL::where('idAccount', session('account')['id'])->first();
-                @endphp
-                @if ($pkl)
-                @if ($pesan->status == 'Pesanan Diproses' && @$pesan->idPKL == $pkl->id)
-                <br>
-                <button class="btn btn-success" onclick="selesaiPesanan('{{ @$pesan->id }}')">
-                    Pesanan Selesai
-                </button>
-                <br>
-                @endif
-                @endif
+
             </div>
 
             <div class="kanan border border-right d-flex flex-column justify-content-between"
                 style="height: 100%; width: 50%; margin-left: 5px;">
-                <p style="margin-top: 1vh; margin-bottom: 1vh;">Hari dan Tanggal: {{ now()->format('l, d F Y') }}</p>
+                <p style="margin-top: 1vh; margin-bottom: 1vh; text-align: center;"><strong>(👉ﾟヮﾟ)👉
+                        {{ now()->format('l, d F Y') }} 👈(ﾟヮﾟ👈)</strong></p>
                 <table id="tabelStruk" class="table" style="position: absolute; width: 33%; margin-top: 5vh">
                     <thead>
                         <tr>
@@ -112,12 +94,11 @@
                                 $produk = App\Models\Produk::where('id', $p->idProduk)->first();
                             @endphp
                             <tr>
-                                @if ($p->JumlahProduk   != 0)
-
-                                <td>{{ $p->idProduk }}</td>
-                                <td>{{ $produk->namaProduk }}</td>
-                                <td>{{ $p->JumlahProduk }}</td>
-                                <td>{{ $p->JumlahProduk * $produk->harga }}</td>
+                                @if ($p->JumlahProduk != 0)
+                                    <td>{{ $p->idProduk }}</td>
+                                    <td>{{ $produk->namaProduk }}</td>
+                                    <td>{{ $p->JumlahProduk }}</td>
+                                    <td>{{ $p->JumlahProduk * $produk->harga }}</td>
                                 @endif
                             </tr>
                             @php
@@ -134,18 +115,105 @@
                         </tr>
                     </tfoot>
                 </table>
-                <div>
+                <div style="margin-top: 30vh">
                     <label for="keterangan">Status Pesanan</label><br>
                     <input type="text" name="keterangan" id="keterangan" value="{{ $pesan->status }}" readonly>
                 </div>
-                <div>
-                    <label for="keterangan">Keterangan Tambahan (Opsional)</label><br>
-                    <input type="text" name="keterangan" id="keterangan" value="{{ $pesan->Keterangan }}" readonly>
+                <div style="margin-bottom: 20vh">
+                    <label for="keterangan">Keterangan Tambahan (Opsional):</label><br>
+                    <input type="text" name="keterangan" id="keterangan" placeholder="Contoh: Tidak pedas ya mas!"
+                        value="{{ $pesan->Keterangan }}" style="width: 80%; height: 5vh;">
+                </div>
+                @php
+                    $pkl = \App\Models\PKL::where('idAccount', session('account')['id'])->first();
+                @endphp
+                @if ($pkl)
+                    @if ($pesan->status == 'Pesanan Diproses' && @$pesan->idPKL == $pkl->id)
+                        <br>
+                        <div id="butstatus">
+                            <button class="btn" onclick="selesaiPesanan('{{ @$pesan->id }}')">
+                                Pesanan Selesai
+                            </button>
+                        </div>
+
+                        <br>
+                    @endif
+                @endif
+
+                <div style="display: flex; justify-content: center; gap: 10px;">
+                    @if ($pesan->status == 'Pesanan Baru')
+                        <button class="btn btn-danger" style="width: 40%;"
+                            onclick="confirmBatalPesanan('{{ $pesan->id }}')">Batalkan Pesanan!</button>
+                    @endif
+                    @php
+                        $report = \App\Models\Report::where('idPesanan', $pesan->id)->first();
+                    @endphp
+                    @if (session('account')['status'] == 'PKL' && $pesan->status != 'Pesanan Selesai' && !$report)
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop" style="width: 40%">
+                            Laporkan Pelanggan!
+                        </button>
+                        @php
+                            // echo $pesan->idAccount;
+                            $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
+                            // echo var_dump($account)
+                        @endphp
+                        <!-- Modal -->
+                        <div class="modal
+                                fade" id="staticBackdrop"
+                            data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Laporkan Pembeli :
+                                            {{ $account->nama }}</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form action="/report" method="POST">
+                                        <div class="modal-body">
+                                            @csrf
+                                            <input type="number" name="idPengguna" value="{{ $pesan->idAccount }}"
+                                                id="" hidden>
+                                            <input type="number" name="idPesanan" value="{{ $pesan->id }}"
+                                                id="" hidden>
+                                            <input type="number" name="idPelapor" value="{{ $pkl->id }}"
+                                                id="" hidden>
+                                            <label for="alasan">Berikan Alasanmu!</label>
+                                            <input type="text" name="alasan" id="alasan">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-danger">Laporkan!</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
+    <style>
+        #butstatus {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
+        #butstatus>button {
+            background-color: green;
+            width: fit-content;
+            border-radius: 10px;
+            padding: 5px 10px;
+            color: white;
+        }
+    </style>
     <script>
         function confirmTerimaPesanan(id) {
             if (confirm("Apakah kamu yakin untuk menerima pesanan ini?")) {

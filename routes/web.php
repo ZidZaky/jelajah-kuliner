@@ -5,10 +5,12 @@ use App\Http\Controllers\PKLController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\PesananController;
+use App\Http\Controllers\ReportController;
 use App\Models\Pesanan;
 use Illuminate\Support\Facades\Route;
 use App\Models\Ulasan;
 use App\Models\Produk;
+use app\Models\PKL;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,11 +26,16 @@ Route::get('/', function () {
     return view('map');
 });
 Route::get('/dashboard', function () {
+    $pkl = new PKLController();
     $ulasan = Ulasan::all(); // Fetch $ulasan from the database
     $produk = Produk::all(); // Fetch $ulasan from the database
     $pesanan = Pesanan::all();
+    // $data = $pkl->getDataPKL();
+    // dd($data);
     return view('dashboard', ['ulasan' => $ulasan,'produk' => $produk, 'pesanan' => $pesanan]);
 });
+Route::get('/getData', [PKLController::class, 'getDataPKL']);
+
 Route::get('/profile', function () {
     return view('profile');
 });
@@ -41,9 +48,19 @@ Route::get('tolakPesanan/{id}', [PesananController::class, 'tolakPesanan']);
 Route::get('batalPesanan/{id}', [PesananController::class, 'batalPesanan']);
 Route::get('selesaiPesanan/{id}', [PesananController::class, 'selesaiPesanan']);
 Route::get('riwayatProduk/{id}', [ProdukController::class, 'riwayatProduk']);
+Route::get('/buatStokAkhir/{id}', [ProdukController::class, 'buatStokAkhir']);
+Route::get('/buatStokAwal/{id}', [ProdukController::class, 'buatStokAwal']);
+Route::post('/buatHistory', [ProdukController::class, 'buatHistory']);
+Route::post('/updateHistory', [ProdukController::class, 'updateHistory']);
+Route::get('/hst',function(){
+    return view('riwayatProduk'); });
+Route::get('/Dashboard-Penjualan',function(){
+    return view('dp'); });
+
+
 
 Route::get('/dataPKL/{idAccount}', [PKLController::class, 'showDetail']);
-
+// Route::get('/tes',[PKLController::class,'getDataPKL']);
 Route::get('/login', function () {
     if (session()->has('account')) {
         return redirect('/dashboard');
@@ -52,14 +69,18 @@ Route::get('/login', function () {
 });
 
 
-Route::get('/editProfile/{id}', [AccountController::class,'editProfile']);
+Route::post('/account/{id}', [AccountController::class,'editProfile']);
 Route::resource('/account', AccountController::class);
 Route::resource('/PKL', PKLController::class);
 Route::resource('/produk', ProdukController::class);
 Route::resource('/ulasan', UlasanController::class);
 Route::resource('/pesanan', PesananController::class);
+Route::resource('/report', ReportController::class);
 
 Route::get('/pesanan/create/{id}', [PesananController::class, 'createWithId'])->name('pesanan.createWithId');
+
+Route::get('banUser/{id}', [ReportController::class, 'banUser']);
+Route::get('unbanUser/{id}', [ReportController::class, 'unbanUser']);
 
 
 // Define a route to fetch coordinates from the database

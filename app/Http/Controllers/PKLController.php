@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PKL;
 use App\Models\Produk;
 use App\Models\Ulasan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class PKLController extends Controller
@@ -119,6 +120,17 @@ class PKLController extends Controller
 
         // Return latitude and longitude data as JSON
         return response()->json($coordinates);
+    }
+
+    public function getDataPKL(){
+
+        $results = DB::table('p_k_l_s as p')
+        ->select('p.id as id', 'p.namaPKL as nama', DB::raw("GROUP_CONCAT(b.namaProduk SEPARATOR ',') as menu"))
+        ->join('produks as b', 'p.id', '=', 'b.idPKL')
+        ->groupBy('p.id', 'p.namaPKL')
+        ->get();
+
+        return $results;
     }
 
 }

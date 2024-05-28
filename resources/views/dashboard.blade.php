@@ -19,6 +19,20 @@
     @endif
 
     <div id="map"></div>
+    <div class="toSearch" id="tosearch1" style="display:none;" >
+        <button onclick="hide('input')">
+            <svg alt="Search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="transform: scale(1);"><path fill="#FFFFFF" d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"></path></svg>
+
+        </button>
+    </div>
+    <div class="forsearch" id="forsearch1">
+        <div>
+            <svg alt="Search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="transform: scale(1);"><path fill="#9c242c" d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"></path></svg>
+            <input type="text" id="inpSearch" oninput="cari5()" placeholder="Search">
+            <button >Cari</button>
+        </div> 
+        <button onclick="hide('cari')">X</button>
+    </div>
     <div class="listPesanan" style="display:none;">
         <div class="NavbarAtasPesanan">
             <p>Pesanan</p>
@@ -28,37 +42,49 @@
             <div class="tablePesanan">
                 <div class="miniNavbar" style="padding-bottom:0; margin-bottom:0;">
                     <?php
+                    $pkl = \App\Models\PKL::where('idAccount', session('account')['id'])->first();
+                    // $loopingPesanan = $pesanan;
                     $jmlh = 0;
                     $jmlh_pb = 0;
                     $jmlh_pd = 0;
                     $jmlh_ps = 0;
                     $jmlh_ptolak = 0;
-                    foreach ($pesanan as $pesan) {
-                        if ($pesan->idAccount == session('account')['id']) {
-                            $jmlh++;
-                        }
+                    // dump($pesanan);
+                    // Iterate through the collection of orders
+            foreach ($pesanan as $pesan) {
+                // Increment $jmlh if the order is associated with the current account or PKL
+                if ($pesan->idAccount == session('account')['id'] || ($pkl && $pkl->id == $pesan->idPKL)) {
+                    $jmlh++;
+                }
+
+                // Increment counters based on order status and account association
+                if ($pesan->idAccount == session('account')['id']) {
+                    if ($pesan->status == 'Pesanan Baru') {
+                        $jmlh_pb++;
+                    } elseif ($pesan->status == 'Pesanan Diproses') {
+                        $jmlh_pd++;
+                    } elseif ($pesan->status == 'Pesanan Selesai') {
+                        $jmlh_ps++;
+                    } elseif ($pesan->status == 'Pesanan Ditolak' || $pesan->status == 'Pesanan Dibatalkan') {
+                        $jmlh_ptolak++;
                     }
-                    foreach ($pesanan as $pesan) {
-                        if ($pesan->status == 'Pesanan Baru' && $pesan->idAccount == session('account')['id']) {
-                            $jmlh_pb++;
-                        }
+                } elseif ($pkl && $pkl->id == $pesan->idPKL) {
+                    if ($pesan->status == 'Pesanan Baru') {
+                        $jmlh_pb++;
+                    } elseif ($pesan->status == 'Pesanan Diproses') {
+                        $jmlh_pd++;
+                    } elseif ($pesan->status == 'Pesanan Selesai') {
+                        $jmlh_ps++;
+                    } elseif ($pesan->status == 'Pesanan Ditolak' || $pesan->status == 'Pesanan Dibatalkan') {
+                        $jmlh_ptolak++;
                     }
-                    foreach ($pesanan as $pesan) {
-                        if ($pesan->status == 'Pesanan Diproses' && $pesan->idAccount == session('account')['id']) {
-                            $jmlh_pd++;
-                        }
-                    }
-                    foreach ($pesanan as $pesan) {
-                        if ($pesan->status == 'Pesanan Selesai' && $pesan->idAccount == session('account')['id']) {
-                            $jmlh_ps++;
-                        }
-                    }
-                    foreach ($pesanan as $pesan) {
-                        if ($pesan->status == 'Pesanan Ditolak' && $pesan->idAccount == session('account')['id']) {
-                            $jmlh_ptolak++;
-                        }
-                    }
-                    $pkl = \App\Models\PKL::where('idAccount', session('account')['id'])->first();
+                }
+            }
+                    // foreach ($pesanan as $pesan) {
+
+                    // }
+
+                    //
                     ?>
                     <button type="" id="butAllPes" onclick="changePesanan('AllPesanan')">Semua Pesanan
                         ({{ $jmlh }})</button>
@@ -115,6 +141,9 @@
                                 @foreach ($pesanan as $pesan)
                                     @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
                                         @if ($pesan->status == 'Pesanan Baru')
+                                        @php
+                                            $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
+                                        @endphp
                                             <div class="deTable">
                                                 <div class="isiDeTable">
                                                     <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
@@ -144,6 +173,9 @@
                                 @foreach ($pesanan as $pesan)
                                     @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
                                         @if ($pesan->status == 'Pesanan Diproses')
+                                        @php
+                                            $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
+                                        @endphp
                                             <div class="deTable">
                                                 <div class="isiDeTable">
                                                     <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
@@ -172,6 +204,9 @@
                                 @foreach ($pesanan as $pesan)
                                     @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
                                         @if ($pesan->status == 'Pesanan Selesai')
+                                        @php
+                                            $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
+                                        @endphp
                                             <div class="deTable">
                                                 <div class="isiDeTable">
                                                     <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
@@ -200,6 +235,9 @@
                                 @foreach ($pesanan as $pesan)
                                     @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
                                         @if ($pesan->status == 'Pesanan Ditolak' || $pesan->status == 'Pesanan Dibatalkan')
+                                        @php
+                                            $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
+                                        @endphp
                                             <div class="deTable">
                                                 <div class="isiDeTable">
                                                     <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
@@ -234,7 +272,7 @@
         <p id="namaPKL"></p><br>
         <img src="https://i.pinimg.com/736x/da/5e/ba/da5eba94367e1a2aaa683f1acc105f97.jpg" alt="PKL Photo Goes Here">
 
-        <div id="tsur" style="">
+        <div id="tsur">
             <button id="butUlasan" onclick="changeContent('Ulasan')" type="button" class="btn btn-success"
                 style="opacity:100%">Ulasan</button>
             <button id="butMenu"onclick="changeContent('Menu')" type="button" class="btn btn-success">Menu</button>
@@ -294,6 +332,77 @@
 
     <script src="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.js"></script>
     <script>
+        
+        function cari5(){
+            let pin = document.querySelectorAll(`.leaflet-marker-icon`);
+            pin.forEach(o=>{
+                o.style.display='none';
+            })
+            // console.log(pin.length);
+            let hasil = [];
+            fetch(`/getData`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(e=>{
+                        // console.log(e);
+                        let inp = document.getElementById('inpSearch');
+                        let ary = [];
+                        ary.push(e.nama)
+                        ary.push(e.menu)
+
+                        ary.forEach(i=>{
+                            // console.log(i+"tipe : "+typeof(i)+" lower : "+i.toLowerCase());
+                            if(i.toLowerCase().includes(inp.value.toLowerCase())){
+                                // console.log(hasil.includes(e.id))
+                                if(hasil.includes(e.id)==false){
+                                    hasil.push(e.id);
+                                }
+                                console.log('hasil dalam : '+hasil);
+                            }
+                        })
+                        
+                    })
+                    console.log('hasil luar : '+hasil);
+                    hasil.forEach(c=>{
+                        // console.log(('marker'+c));
+                        let depin = document.getElementById(('marker'+c));
+                        depin.style.display='';
+                    })
+                })
+            .catch(error => {
+                console.error('Error fetching coordinates:', error);
+            });
+            
+        }
+        
+        function search1(){
+            let but = document.querySelectorAll(`#content1>button`)
+            but.forEach(function(a){
+            let isi = document.getElementById('cari1');
+                a.style.display = 'none';
+                if(a.textContent.toLowerCase().includes(isi.value.toLowerCase())){
+                    a.style.display = "";
+                }
+                // console.log(a.textContent);
+            })
+        }
+        function hide($apa){
+            let cari = document.getElementById('tosearch1')
+            let inp = document.getElementById('forsearch1')
+            console.log('work')
+            if($apa=='input'){
+                cari.style.display="none"
+                inp.style.display="flex";
+
+            }
+            else{
+                
+                
+                inp.style.display="none";
+                cari.style.display="flex";
+
+            }
+        }
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(function() {
                 var alert = document.querySelector('.alert');
@@ -340,7 +449,7 @@
                 data.forEach(coordinates => {
                     // Create a marker for each coordinate on the map
                     const marker = L.marker([coordinates.latitude, coordinates.longitude]).addTo(map);
-
+                    marker._icon.id = `marker${coordinates.id}`;
                     // Pass the id to the displayAccountDetails function when marker is clicked
                     marker.on('click', function() {
                         displayAccountDetails(coordinates.id, coordinates.namaPKL);
@@ -598,4 +707,124 @@
             contentPesanDiv.appendChild(button);
         }
     </script>
+    <style>
+        .toSearch{
+            position: absolute;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            width: 100px;
+            height: 50px;
+            /* border: 1px black solid; */
+            /* background-color: ; */
+            z-index: 100;
+            top: 2%;
+            right: 2%;
+            /* left: 50%; */
+            /* transform: translateX(-50%); */
+            margin: 0 0;
+            padding: 0;
+            /* border: 1px solid #ccc; */
+            background-color: rgb(0 0 0 0);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .toSearch>button>svg{
+            padding: 2px 2px;
+            color: white;
+        }
+        .toSearch>button{
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 20px;
+            background-color:#9c242c;
+            box-shadow: 1px 1px #471e21;
+            border: none;
+        }
+        .forsearch{
+            position: absolute;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            width: 400px;
+            height: 50px;
+            border: 1px black solid;
+            /* background-color: ; */
+            z-index: 100;
+            top: 2%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 0 0;
+            padding: 0;
+            border: 1px solid #ccc;
+            background-color: #9c242c;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .forsearch>*{
+            /* border: blue 1px solid !important; */
+        }
+        .forsearch>button{
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 20px;
+            background-color: rgb(255,255,255,0.2);
+            border: none;
+        }
+        .forsearch>button:hover{
+            background-color: #471e21;
+            color: white;
+        }
+        .forsearch>div{
+            width: 80%;
+            height: 80%;
+            background-color: white;
+            display: flex;
+            flex-direction: row;
+            gap: 4px;
+            border-radius: 10px;
+            padding: 2px;
+            padding-left: 10px;
+            padding-right: 10px;
+            /* padding-right: 0; */
+            align-items: center;
+            justify-content: center;
+            border: white 1px solid !important;
+
+            /* padding-left: /; */
+            
+        }
+        .forsearch>div>svg{
+            width: 10%;
+            height: 70%;
+            /* padding-right: 10px; */
+        }
+        .forsearch>div>input{
+            width: 65%;
+            padding: 2px;
+            outline: none;
+            border: none;
+            background-color:none;
+            color: white;
+            font-size: 15px;
+            color: black;
+
+        }
+        .forsearch>div>button{
+            width: 25%;
+            border: none;
+            outline: none;
+            background-color: rgb(0 0 0 0.4) !important;
+            text-decoration: none;
+            border-radius: 10px;
+
+        }
+        .forsearch>div>button:hover{
+            background-color: #ccc;
+        }
+    </style>
 @endsection

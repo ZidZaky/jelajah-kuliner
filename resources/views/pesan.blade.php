@@ -1,7 +1,7 @@
 @extends('layouts.layout2')
 
 @section('title')
-    Feel Free to "JELAJAH" Kuliner di Sekitarmu!
+    PESAN KULINERMU!
 @endsection
 
 @section('css')
@@ -10,22 +10,20 @@
 
 @section('main')
     <div class="all">
-        <div class="up border border-bottom">
-            <div class="upside">
-                <p class="namaakun">Hi, {{ session('account')['nama'] }} 👋</p>
-            </div>
-            <form action="/pesanan" method="POST">
-            <a><button type="submit" class="btn btn-success"><span>Ajukan Pesanan!
-                        &#9998;</span></button></a>
+        <div class="up border border-bottom d-flex justify-content-between align-items-center">
+            <a href="/dashboard"><button class="btn btn-danger">Batalkan Pesanan</button></a>
+            <p class="namaakun m-0">Mau jajan apa, {{ session('account')['nama'] }}? 🤔</p>
+            <form action="/pesanan" method="POST" class="m-0">
+                <button type="submit" class="btn btn-success">Ajukan Pesanan!&#9998;</button>
         </div>
         <div class="nmpkl">
-            <p class="namap">{{ $pkl->namaPKL }}</p>
-            <p class="deskri">{{ $pkl->desc }}</p>
+
         </div>
 
         <div class="showmenu" style="padding-top: 5px; padding-bottom: 5px">
             <div class="kiri border border-right" style="width: 100%;">
-                <p>Pesanan Anda</p>
+                <h3 class="namap" style="border-bottom: 1px solid #ccc;"><strong>{{ $pkl->namaPKL }}</strong></h3>
+                <p class="deskri">{{ $pkl->desc }}</p>
 
                     @csrf
                     <input type="text" name="idAccount" id="idAccount" value="{{ session('account')['id'] }}" hidden>
@@ -33,7 +31,7 @@
 
                     @if ($produk->count() > 0)
                         @foreach ($produk as $p)
-                            <div class="card">
+                            <div class="card" style="margin-top: 10px">
                                 <div class="inCard" id="theImage">
                                     <img src="https://i.pinimg.com/564x/34/e1/30/34e13046e8f9fd9f3360568abd453685.jpg" alt="">
 
@@ -66,7 +64,7 @@
 
             <div class="kanan border border-right d-flex flex-column justify-content-between"
                 style="height: 100%; width: 50%; margin-left: 5px;">
-                <p style="margin-top: 1vh; margin-bottom: 1vh;">Hari dan Tanggal: {{ now()->format('l, d F Y') }}</p>
+                <p style="margin-top: 1vh; margin-bottom: 1vh; text-align: center;"><strong>(👉ﾟヮﾟ)👉  {{ now()->format('l, d F Y') }}  👈(ﾟヮﾟ👈)</strong></p>
                 <table id="tabelStruk" class="table" style="position: absolute; width: 33%; margin-top: 5vh">
                     <thead>
                         <tr>
@@ -89,13 +87,13 @@
                         </tr>
                     </tfoot>
                 </table>
-                <div>
-                    <label for="keterangan">Keterangan Tambahan (Opsional)</label><br>
-                    <input type="text" name="keterangan" id="keterangan" value="-">
+                <div style="height: 100%; margin-top: 50vh;">
+                    <label for="keterangan">Keterangan Tambahan (Opsional):</label>
+                    <br>
+                    <input type="text" name="keterangan" id="keterangan" value="-" placeholder="Contoh: Tidak pedas ya mas!" style="width: 80%; height: 5vh;">
                 </div>
                 </form>
-                <a class="align-self-center mb-2" href="/dashboard"><button class="btn btn-danger">Batalkan
-                        Pesanan</button></a>
+
             </div>
         </div>
     </div>
@@ -146,7 +144,7 @@
                                 <td>${productName}</td>
                                 <td>${quantity}</td>
                                 <td>Rp. ${totalHarga.toLocaleString('id-ID', {minimumFractionDigits: 2})}</td>
-                              </tr>`;
+                                </tr>`;
                     tabelStruk.innerHTML += row;
                 }
             });
