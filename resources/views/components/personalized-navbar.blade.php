@@ -30,8 +30,9 @@
         <a class="btn btn-warning" href="/logout" role="button">Logout</a>
         <!-- iki lapo kok warning -->
         @if (session('account')['nama'] == 'Admin')
-            <a class="btn btn-primary" href="/account" role="button">List Account</a>
+            <a class="btn btn-primary" href="{{ route('accounts.index') }}" role="button">List Account</a>
         @endif
+
     </nav>
     <div class="menu">
         <p>=</p>

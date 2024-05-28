@@ -69,3 +69,5 @@ Route::get('/getUlasan/{id}', [UlasanController::class, 'getUlasan']);
 Route::get('/getProduk/{id}', [ProdukController::class, 'getProduk']);
 
 Route::get('/ulasan/create/{id}', [UlasanController::class, 'createWithId']);
+
+Route::get('/account', [AccountController::class, 'index'])->name('accounts.index');

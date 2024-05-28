@@ -13,7 +13,7 @@ class AccountController extends Controller
     //
     public static function index()
     {
-        return view('account-list', [
+        return view('listAccount', [
             'account' => Account::all()
         ]);
     }
