@@ -27,12 +27,16 @@ class AccountController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        // dd($credentials);
         if (Auth::attempt($credentials)) {
+
             // Authentication was successful
             $account = Auth::user();
-            session(['account' => $account]);
-            return redirect('/dashboard');
+            if ($account->status != 'Banned') {
+                session(['account' => $account]);
+                return redirect('/dashboard');
+            }
+            return redirect('/login');
+
             // Redirect to the intended URL after successful login
         }
 
@@ -95,7 +99,7 @@ class AccountController extends Controller
 
             return redirect('/login');
         } else {
-            return redirect('/account/create')->with('error','Password berbeda');
+            return redirect('/account/create')->with('error', 'Password berbeda');
         }
     }
 
@@ -103,7 +107,7 @@ class AccountController extends Controller
     public function editProfile($id)
     {
         $account = Account::find($id)->first();
-        return view('edit',['account'=>$account]);
+        return view('edit', ['account' => $account]);
     }
 
     //update
@@ -125,6 +129,4 @@ class AccountController extends Controller
         Account::destroy($account->id);
         return redirect('account-list');
     }
-
-
 }

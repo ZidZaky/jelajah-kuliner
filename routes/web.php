@@ -94,3 +94,5 @@ Route::get('/getUlasan/{id}', [UlasanController::class, 'getUlasan']);
 Route::get('/getProduk/{id}', [ProdukController::class, 'getProduk']);
 
 Route::get('/ulasan/create/{id}', [UlasanController::class, 'createWithId']);
+
+Route::post('/update-location', [PKLController::class,'updateLocation']);
