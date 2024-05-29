@@ -23,32 +23,32 @@
                     <div>
                         <div>
                             <p class="subjudul">Omset Hari Ini</p>
-                            <p class="subisi">{{$omset->semua}}</p>
+                            <p class="subisi">{{$data->omzetKeseluruhan}}</p>
                             <p class="subsatuan">Rupiah</p>
                         </div>
                         <div>
                             <p class="subjudul">Total Keseluruhan</p>
-                            <p class="subisi">{{$stok->semua}}</p>
+                            <p class="subisi">{{$data->TerjualKeseluruhan}}</p>
                             <p class="subsatuan">Pcs</p>
                         </div>
                         <div>
                             <p class="subjudul">Pendapatan Online</p>
-                            <p class="subisi">{{$omset->online}}</p>
+                            <p class="subisi">{{$data->omzetOnline}}</p>
                             <p class="subsatuan">Rupiah</p>
                         </div>
                         <div>
                             <p class="subjudul">Pendapatan Offline</p>
-                            <p class="subisi">{{$omset->offline}}</p>
+                            <p class="subisi">{{$data->omzetOffline}}</p>
                             <p class="subsatuan">Rupiah</p>
                         </div>
                         <div>
                             <p class="subjudul">Terjual Online</p>
-                            <p class="subisi">{{$stok->online}}</p>
+                            <p class="subisi">{{$data->terjualOnline}}</p>
                             <p class="subsatuan">Pcs</p>
                         </div>
                         <div>
                             <p class="subjudul">Terjual Offline</p>
-                            <p class="subisi">{{$stok->offline}}</p>
+                            <p class="subisi">{{$data->terjualOffline}}</p>
                             <p class="subsatuan">Pcs</p>
                         </div>
                     </div>
@@ -95,16 +95,14 @@
                 'Pentol Rebus',
                 'Kentang Bakar Enak',
                 'Yellow',
-                'tes'
             ],
             datasets: [{
                 label: 'My First Dataset',
-                data: [300, 50, 100,20],
+                data: [300, 50, 100],
                 backgroundColor: [
                     '#FFFFDD',
                     '#995556',
                     '#220000',
-                    'white'
                 ],
                 hoverOffset: 4
             }]
@@ -328,11 +326,11 @@
             font-size: 15px;
         }
         .subisi{
-            font-size: xx-large;
+            font-size: 25px;
         }
-        .subisi:hover{
-            font-size: 40px;
-        }
+        /* .subisi:hover{
+            font-size: 25px;
+        } */
         .product{
             width: 38%;
             /* height: ; */

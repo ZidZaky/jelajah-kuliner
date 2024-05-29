@@ -100,9 +100,23 @@ class PKLController extends Controller
     }
     public static function showDetail($idAccount)
     {
+        // dd($idAccount);
         $pklData = PKL::where('idAccount', $idAccount)->first();
         // dd($pklData);
-        $produk = Produk::where('idPKL', $pklData->id)->get();
+        // $produk = Produk::where('idPKL', $pklData->id)->get();
+        $produk = DB::table('produks as p')
+        ->join('history_stoks as h', 'p.stokAktif', '=', 'h.id')
+        ->where('p.idPKL', $pklData->id)
+        ->select([
+            'p.id as id',
+            'p.desc as deskripsi',
+            'p.namaProduk as nama',
+            'p.harga as harga',
+            'p.idPKL as idPKL',
+            DB::raw('CASE WHEN h.statusIsi = 0 THEN h.stokAwal - h.TerjualOnline WHEN h.statusIsi = 1 THEN h.stokAkhir END as sisaStok')
+        ])
+        ->get();
+        // dd($produk);
         $ulasan = Ulasan::where('idPKL', $pklData->id)->get();;
         session(['pkl' => $pklData]);
 
@@ -122,15 +136,42 @@ class PKLController extends Controller
         return response()->json($coordinates);
     }
 
-    public function getDataPKL(){
+    public function getDataPKL()
+    {
 
         $results = DB::table('p_k_l_s as p')
-        ->select('p.id as id', 'p.namaPKL as nama', DB::raw("GROUP_CONCAT(b.namaProduk SEPARATOR ',') as menu"))
-        ->join('produks as b', 'p.id', '=', 'b.idPKL')
-        ->groupBy('p.id', 'p.namaPKL')
-        ->get();
+            ->select('p.id as id', 'p.namaPKL as nama', DB::raw("GROUP_CONCAT(b.namaProduk SEPARATOR ',') as menu"))
+            ->join('produks as b', 'p.id', '=', 'b.idPKL')
+            ->groupBy('p.id', 'p.namaPKL')
+            ->get();
 
         return $results;
     }
 
+    public function updateLocation(Request $request)
+    {
+        // Validate the request data
+        $valdata = $request->validate([
+            'idAccount' => 'required|integer',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+        ]);
+
+        // Debugging line to ensure validation passed and data is correct
+        // dd($valdata);
+
+        // Update the location in the database
+        $updated = DB::table('p_k_l_s')
+            ->where('idAccount', $valdata['idAccount'])
+            ->update([
+                'latitude' => $valdata['latitude'],
+                'longitude' => $valdata['longitude'],
+            ]);
+
+        if ($updated) {
+            return redirect('dashboard')->with('success', 'Update Lokasi Berhasil');
+        } else {
+            return redirect('dashboard')->with('error', 'Update Lokasi Gagal');
+        }
+    }
 }

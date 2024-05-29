@@ -6,6 +6,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\halamanController;
 use App\Models\Pesanan;
 use Illuminate\Support\Facades\Route;
 use App\Models\Ulasan;
@@ -54,8 +55,9 @@ Route::post('/buatHistory', [ProdukController::class, 'buatHistory']);
 Route::post('/updateHistory', [ProdukController::class, 'updateHistory']);
 Route::get('/hst',function(){
     return view('riwayatProduk'); });
-Route::get('/Dashboard-Penjualan',function(){
-    return view('dp'); });
+Route::get('/Dashboard-Penjualan/{id}',[halamanController::class,'DashboardPenjualan']);
+Route::post('/MakeStokAwal',[halamanController::class,'UpdateStatusStok'])->name('MakeStokAwal');
+Route::post('/updateStokAkhir',[halamanController::class,'UpdateStokAkhir'])->name('updateStokAkhir');
 
 
 
@@ -76,7 +78,9 @@ Route::resource('/produk', ProdukController::class);
 Route::resource('/ulasan', UlasanController::class);
 Route::resource('/pesanan', PesananController::class);
 Route::resource('/report', ReportController::class);
-
+Route::get('/gk',function(){
+    return view('dp');
+});
 Route::get('/pesanan/create/{id}', [PesananController::class, 'createWithId'])->name('pesanan.createWithId');
 
 Route::get('banUser/{id}', [ReportController::class, 'banUser']);
@@ -90,3 +94,5 @@ Route::get('/getUlasan/{id}', [UlasanController::class, 'getUlasan']);
 Route::get('/getProduk/{id}', [ProdukController::class, 'getProduk']);
 
 Route::get('/ulasan/create/{id}', [UlasanController::class, 'createWithId']);
+
+Route::post('/update-location', [PKLController::class,'updateLocation']);

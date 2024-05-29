@@ -131,6 +131,7 @@ img{
     border: black; */
     /* border-style: double; */
 
+
 }
 .batas{
     margin-left: 4%;
@@ -164,7 +165,6 @@ img{
     justify-content: center;
     align-items: center;
 }
-
 .card>#mid>*{
     /* border: black;
     border-style: double; */
@@ -446,63 +446,3 @@ img{
     scrollbar-width: none;
 }
 
-.x {
-    padding-top: 10px;
-    width: 100px;
-    height: 155px;
-}
-
-.x .xImg {
-    margin-left: -20px;
-    margin-top: -5px;
-    border-radius: 10vh;
-    border: 1px solid black;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
-    transition: 0.5s ease-in-out;
-}
-
-.x:hover .xImg {
-    margin-left: -120px;
-    transition: 0.2s ease-in-out;
-}
-
-.x .xDesc {
-    width: 350px;
-    height: 130px;
-    border: blue 1px solid;
-    margin-top: -130px;
-    margin-left: -50px;
-    display: contents;
-    transition: 0.3s ease-in-out;
-    border-radius: 12px;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
-    background-color: white;
-}
-
-.x .xDesc p {
-    display: none;
-}
-
-.x:hover p {
-    display: block;
-}
-.x:hover .xDesc {
-    transition: 0.3s ease-in-out;
-    display: block;
-}
-
-.x .xButt {
-    height: 130px;
-    width: 195px;
-    margin-left: -237px;
-    margin-top: -130px;
-    border-radius: 12px;
-    border: blue 1px solid;
-    background-color: white;
-    display: none;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.x:hover .xButt {
-    display: block;
-}

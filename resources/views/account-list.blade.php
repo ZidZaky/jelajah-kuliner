@@ -37,7 +37,6 @@
                                     <p class="np">{{ $a->nama }}</p>
                                     <p class="Des">{{ $a->email }}</p>
                                     <p class="hrg">{{ $a->status }}</p>
-                                    asdadss
                                 </div>
                             </div>
                         @endforeach

@@ -7,7 +7,7 @@ use App\Models\Pesanan;
 use App\Models\Produk;
 use App\Models\PKL;
 use Illuminate\Support\Facades\DB;
-
+use App\Http\Controllers\HistoryStokController;
 class PesananController extends Controller
 {
     //
@@ -285,9 +285,14 @@ class PesananController extends Controller
         //  dd($produk);
         foreach ($produk as $p) {
             $barang = Produk::find($p->idProduk);
-            $barang->stok = $barang->stok - $p->JumlahProduk;
-            $barang->save();
+            // dd($barang);
+            $stok = new HistoryStokController();
+            // dd($p->JumlahProduk);
+            if($stok->UpdatestokOnline($p->JumlahProduk,$barang->stokAktif)){
+                // dd('true');
+            }
         };
+
 
         // Check if Pesanan is found
         if ($pesan) {
