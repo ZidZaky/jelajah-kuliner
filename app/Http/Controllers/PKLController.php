@@ -100,9 +100,23 @@ class PKLController extends Controller
     }
     public static function showDetail($idAccount)
     {
+        // dd($idAccount);
         $pklData = PKL::where('idAccount', $idAccount)->first();
         // dd($pklData);
-        $produk = Produk::where('idPKL', $pklData->id)->get();
+        // $produk = Produk::where('idPKL', $pklData->id)->get();
+        $produk = DB::table('produks as p')
+        ->join('history_stoks as h', 'p.stokAktif', '=', 'h.id')
+        ->where('p.idPKL', $pklData->id)
+        ->select([
+            'p.id as id',
+            'p.desc as deskripsi',
+            'p.namaProduk as nama',
+            'p.harga as harga',
+            'p.idPKL as idPKL',
+            DB::raw('CASE WHEN h.statusIsi = 0 THEN h.stokAwal - h.TerjualOnline WHEN h.statusIsi = 1 THEN h.stokAkhir END as sisaStok')
+        ])
+        ->get();
+        // dd($produk);
         $ulasan = Ulasan::where('idPKL', $pklData->id)->get();;
         session(['pkl' => $pklData]);
 

@@ -65,9 +65,9 @@
                         <input class="form-control" name="fotoProduk" type="file" id="foto">
                     </div>
                     <br>
-                    <input class="form-control" name="stokSaatIni" type="text" id="stokSaatIni" value="0" hidden>
 
                     <input type="text" name="idPKL" id="idPKL" value="{{ session('pkl')['id'] }}" readonly hidden>
+                    <input type="text" name="idAccount" id="idAccount" value="{{ session('pkl')['id'] }}" readonly hidden>
 
                     <button type="submit" class="btn btn-success d-grid gap-2 col-6 mx-auto">Tambahkan Produk!</button>
                 </form>
