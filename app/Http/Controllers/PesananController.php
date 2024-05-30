@@ -160,7 +160,18 @@ class PesananController extends Controller
         // Check if Pesanan data exists
         if ($PKL) {
             // Retrieve associated products
-            $Produks = Produk::where('idPKL', $PKL->id)->get();
+            $Produks = DB::table('produks as p')
+            ->join('history_stoks as h', 'p.stokAktif', '=', 'h.id')
+            ->where('p.idPKL', $id)
+            ->select([
+                'p.id as id',
+                'p.desc as deskripsi',
+                'p.namaProduk as nama',
+                'p.harga as harga',
+                'p.idPKL as idPKL',
+                DB::raw('CASE WHEN h.statusIsi = 0 THEN h.stokAwal - h.TerjualOnline WHEN h.statusIsi = 1 THEN h.stokAkhir END as sisaStok')
+            ])
+            ->get();
 
             return view('pesan', [
                 'pkl' => $PKL,

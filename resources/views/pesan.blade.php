@@ -37,16 +37,20 @@
 
                                 </div>
                                 <div class="inCard" id="mid">
-                                    <p class="np">{{ $p->namaProduk }}</p>
-                                    <p class="Des">{{ $p->desc }}</p>
+                                    <p class="np">{{ $p->nama }}</p>
+                                    <p class="Des">{{ $p->deskripsi }}</p>
                                     <p class="hrg">Rp. {{ number_format($p->harga, 2, ',', '.') }}</p>
                                 </div>
                                 <div class="inCard" id="leftt">
-                                    <button type="button" class="btn btn-primary decrementButton"> - </button>
-                                    <span class="quantity mx-2" id="quantity_{{ $p->id }}"> 0 </span>
-                                    <button type="button" class="btn btn-primary incrementButton"> + </button>
-                                    <input type="hidden" id="myInput_{{ $p->id }}"
-                                        name="produk_{{ $p->id }}" value="0">
+                                    @if($p->sisaStok==0)
+                                        <p>stok habis</p>
+                                    @else
+                                        <button type="button" class="btn btn-primary decrementButton"> - </button>
+                                        <span class="quantity mx-2" id="quantity_{{ $p->id }}"> 0 </span>
+                                        <button type="button" class="btn btn-primary incrementButton"> + </button>
+                                        <input type="hidden" id="myInput_{{ $p->id }}"
+                                            name="produk_{{ $p->id }}" value="0">
+                                    @endif
                                 </div>
                             </div>
                         @endforeach

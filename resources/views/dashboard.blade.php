@@ -643,7 +643,7 @@
                         menuContainer.appendChild(emptyDataMessage);
                     } else {
                         data.forEach(product => {
-                            console.log(product)
+                            // console.log(product)
                             const cardMenuDiv = document.createElement('div');
                             cardMenuDiv.classList.add('cardMenu');
 
@@ -682,12 +682,23 @@
 
                             const stockP = document.createElement('p');
                             stockP.id = 'stock';
-                            stockP.innerText = 'Stok :';
+                            stockP.innerText = 'Stok : ';
+                            
                             forStokDiv.appendChild(stockP);
 
                             const numStokP = document.createElement('p');
                             numStokP.id = 'numstok';
-                            numStokP.innerText = product.sisaStok;
+                            if(product.sisaStok<1){
+                                numStokP.innerText = " Habis";
+                            }
+                            else{
+                                numStokP.innerText = product.sisaStok;
+                            }
+                            // console.log(typeof product.sisaStok);
+                            // console.log(product.sisaStok<1);
+                            // if(product.sisaStok<1){
+                            //     cardMenuDiv.style.display = "none";
+                            // }
                             forStokDiv.appendChild(numStokP);
 
                             rightDiv.appendChild(forStokDiv);
