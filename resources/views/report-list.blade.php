@@ -10,21 +10,46 @@
 
 @section('main')
     <div class="content">
-        <div class="up">
-            <div class="upside">
-                <p class="namaakun">Hi, {{ session('account')['nama'] }} 👋</p>
+        <div class="up" style="border: green 1px solid; display: flex; justify-content: space-between;">
+            <div class="back" style="text-align: center; margin-left: 10px; margin-top: -3px;">
+                <button class="btn btn-danger" style="margin: 0 auto;">Back</button>
             </div>
+            <div class="nmpkl" style="margin-top: 4px;">
+                <p style="text-align: center;"><strong>❌ ACCOUNT REPORTS! ❌</strong></p>
+            </div>
+            <div class="upside" style="margin-right: 10px; margin-top: -4px">
+                <p class="namaakun" style="text-align: right;">Hi, {{ session('account')['nama'] }} 👋</p>
+            </div>
+
+        </div>
         </div>
         <hr id="hratas">
-        <div class="outer">
-            <div class="demain">
-                <div class="nmpkl">
-                    <p>Account Reports!</p>
-                </div>
-                <hr>
-
+        <div class="outer" style="border: red 1px solid; margin-top: 15px">
                 <div class="batas">
-                    @if ($reports->count() > 0)
+                    <div class="x">
+                        <div>
+                            <img src="https://i.pinimg.com/236x/0d/c1/ba/0dc1babea2221d912247ca059e1231dd.jpg"
+                            alt="this should be the User's Profile Picture tho" class="xImg">
+                        </div>
+                        <div class="xDesc">
+                            <p class="np" style="text-align: center; margin-top: 5px"><strong>contoh nama A</strong></p>
+                            <p class="deskhusus" style="text-align: center; margin-top: -10px;">Kode Pesanan: Kode A</p>
+                            <p class="deskhusus" style="text-align: center; margin-top: 0px;">Pelapor: Pelapor A</p>
+                            <p class="hrg" style="text-align: center; margin-top: 15px">alasan</p>
+                        </div>
+                        <div class="xButt">
+                            <button class="btn btn-danger" style="width: auto; margin-top: 5px; margin-left: 5px">Ban</button><br>
+                            <button class="btn btn-success" style="width: auto; margin-top: 3px; margin-left: 5px">unBan</button><br>
+                            <form method="POST" style="width: 100%;">
+                                @csrf
+                                @method('DELETE')
+                            <button class="btn btn-warning" style="width: auto; margin-top: 3px; margin-left: 5px" onclick="return confirm('Apakah kamu yakin untuk Melakukan Hapus Report ini?')">Clear Report</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    {{-- below is original --}}
+                    {{-- @if ($reports->count() > 0)
                         @foreach ($reports as $rep)
                             @php
                                 $account = \App\Models\Account::where('id', $rep->idPengguna)->first();
@@ -66,11 +91,8 @@
                         @endforeach
                     @else
                         <p class="namap" style="text-align: center;">Semua Baik2 Saja!</p>
-                    @endif
+                    @endif --}}
                 </div>
-
-
-            </div>
         </div>
     </div>
     <script>
