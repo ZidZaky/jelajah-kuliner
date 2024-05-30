@@ -643,6 +643,7 @@
                         menuContainer.appendChild(emptyDataMessage);
                     } else {
                         data.forEach(product => {
+                            console.log(product)
                             const cardMenuDiv = document.createElement('div');
                             cardMenuDiv.classList.add('cardMenu');
 
@@ -651,7 +652,7 @@
 
                             const img = document.createElement('img');
                             img.src = "https://i.pinimg.com/564x/b8/cf/ab/b8cfabff7a8e6a304d82a0a33c2c5e8e.jpg";
-                            img.alt = product.namaProduk;
+                            img.alt = product.nama;
                             leftDiv.appendChild(img);
 
                             const hargaP = document.createElement('p');
@@ -665,12 +666,12 @@
 
                             const namaProdukP = document.createElement('p');
                             namaProdukP.id = 'nmProduct';
-                            namaProdukP.innerText = product.namaProduk;
+                            namaProdukP.innerText = product.nama;
                             rightDiv.appendChild(namaProdukP);
 
                             const deskripP = document.createElement('p');
                             deskripP.id = 'deskrip';
-                            deskripP.innerText = product.desc;
+                            deskripP.innerText = product.deskripsi;
                             rightDiv.appendChild(deskripP);
 
                             const hr = document.createElement('hr');
@@ -686,7 +687,7 @@
 
                             const numStokP = document.createElement('p');
                             numStokP.id = 'numstok';
-                            numStokP.innerText = product.stok;
+                            numStokP.innerText = product.sisaStok;
                             forStokDiv.appendChild(numStokP);
 
                             rightDiv.appendChild(forStokDiv);

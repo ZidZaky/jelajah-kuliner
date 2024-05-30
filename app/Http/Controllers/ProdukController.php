@@ -118,8 +118,19 @@ class ProdukController extends Controller
     public function getProduk($id)
     {
         // Fetch ulasan data for the specific PKL ID
-        $produk = Produk::where('idPKL', $id)->get();
-
+        $produk = DB::table('produks as p')
+        ->join('history_stoks as h', 'p.stokAktif', '=', 'h.id')
+        ->where('p.idPKL', $id)
+        ->select([
+            'p.id as id',
+            'p.desc as deskripsi',
+            'p.namaProduk as nama',
+            'p.harga as harga',
+            'p.idPKL as idPKL',
+            DB::raw('CASE WHEN h.statusIsi = 0 THEN h.stokAwal - h.TerjualOnline WHEN h.statusIsi = 1 THEN h.stokAkhir END as sisaStok')
+        ])
+        ->get();
+            // dd($produk);
         // Return ulasan data as JSON
         return response()->json($produk);
     }
