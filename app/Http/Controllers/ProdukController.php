@@ -6,6 +6,7 @@ use App\Models\Produk;
 use App\Models\PKL;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HistoryStokController;
 
 class ProdukController extends Controller
 {
@@ -27,18 +28,17 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
 
-
         $valdata = $request->validate([
-            'namaProduk' => 'required',
-            'desc' => 'required',
-            'harga' => 'required',
-            'stok' => 'required',
-            'stokSaatIni' => 'required',
-            'jenisProduk' => 'required',
-            'fotoProduk' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // This ensures 'foto' can be null
-            'idPKL' => 'required'
+            'namaProduk'=>'required',
+            'jenisProduk'=>'required',
+            'desc'=>'required',
+            'harga'=>'required',
+            'stok'=>'required',
+            'idPKL'=>'required'
         ]);
-        $valdata['stokSaatIni'] =  $valdata['stok'];
+        
+
+        
         // dd($valdata);
 
         if ($request->hasFile('fotoProduk')) {
@@ -51,29 +51,25 @@ class ProdukController extends Controller
             $valdata['foto'] = $isnull;
         }
 
-        try {
-            $berhasil = DB::insert('INSERT INTO `produks` (`id`, `namaProduk`, `desc`, `harga`, `stok`, `stokSaatIni`, `jenisProduk`, `foto`, `idPKL`) VALUES (NULL, ?, ?,?,?,?,?,?,?);', [
-                $valdata['namaProduk'],
-                $valdata['desc'],
-                $valdata['harga'],
-                $valdata['stok'],
-                $valdata['stokSaatIni'],
-                $valdata['jenisProduk'],
-                $valdata['fotoProduk'],
-                $valdata['idPKL']
-            ]);
+        $produk = new Produk();
+        $produk->namaProduk = $valdata['namaProduk'];
+        $produk->desc = $valdata['desc'];
+        $produk->harga = $valdata['harga'];
+        $produk->jenisProduk = $valdata['jenisProduk'];
+        $produk->foto = $valdata['foto'];
+        $produk->idPKL = $valdata['idPKL'];
+        $produk->save();
+        $id= $produk->id;
 
-            // dd($berhasil);
-
-            if ($berhasil) {
-                return redirect('/dataPKL/'.session('account')['id']);
-            } else {
-                return redirect('/produk/create')->with('error', 'Password berbeda');
-            }
-        } catch (\Exception $e) {
-            // Handle the exception
-            return redirect('/produk/create')->with('error', $e->getMessage());
+        $stok = new HistoryStokController();
+        $idStok = $stok->store($id,$valdata['stok'],$valdata['idPKL']);
+        $cek = $this->updateStokAktif($id,$idStok);
+        if($cek){
+            $pkl = PKL::findOrFail($valdata['idPKL']);
+            return redirect('/dataPKL/'.$pkl->idAccount);
+            // return redirect('/dataPKL/'+);
         }
+        
     }
 
 
@@ -83,6 +79,18 @@ class ProdukController extends Controller
         return view('editProduk', ['Produk' => $produk]);
     }
 
+    public function updateStokAktif($idProduk,$idStok){
+        $find = Produk::findOrFail($idProduk);
+        // dd($find);
+        $find->stokAktif = $idStok;
+        $cek = $find->save();
+        // dd($cek);
+        return ($cek);
+    }
+    public function findStok($idProduk){
+        $find = Produk::findOrFail($idProduk);
+        return $find->stokAktif;
+    }
     //update
     public function update(Request $request, Produk $produk)
     {
@@ -144,7 +152,7 @@ class ProdukController extends Controller
     }
 
     public function buatHistory(Request $request)
-{
+    {
     $valdata = $request->validate([
         'idPKL' => 'required',
         'idProduk' => 'required',
@@ -171,10 +179,10 @@ class ProdukController extends Controller
     } else {
         return back()->with('error', 'Failed to save the history.');
     }
-}
+    }
 
 public function updateHistory(Request $request)
-{
+    {
     $valdata = $request->validate([
         'idPKL' => 'required',
         'idProduk' => 'required',
@@ -199,7 +207,9 @@ public function updateHistory(Request $request)
     } else {
         return back()->with('error', 'Failed to update the history.');
     }
-}
+    }
+
+    
 
 
 }

@@ -23,13 +23,15 @@ class HistoryStokController extends Controller
        $stok = historyStok::findOrFail($idStok);
        $tes = $stok->TerjualOnline + $jumlah;
        $stok->TerjualOnline = $tes;
-       $stok->save();
+       
+       return $stok->save();
     }
 
     public function UpdatestokAkhir($jumlah,$idStok){
         $stok = historyStok::findOrFail($idStok);
         $stok->stokAkhir = $jumlah;
-        $stok->save();
+        $stok->statusIsi = 1;
+        return ($stok->save());
      }
     public function go(){
         $this->UpdatestokOnline(5,1);
