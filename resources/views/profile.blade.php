@@ -18,7 +18,7 @@
 
 @section('main')
     <div id="penghalang" style="display: none;">
-        
+
     </div>
     <div class="modal" style="display: none;" id="edite">
         <div class="modal-dialog" style="color: white">
@@ -97,13 +97,13 @@
         function show(apa){
             let blok = document.getElementById('penghalang');
             let edit = document.getElementById('edite');
-            
+
                 edit.style.display="none";
                 blok.style.display="none";
             if(apa=='edit'){
                 edit.style.display="flex";
                 blok.style.display="flex";
-                
+
             }
         }
     </script>
