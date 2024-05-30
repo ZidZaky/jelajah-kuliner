@@ -470,7 +470,7 @@ img{
 .x .xDesc {
     width: 350px;
     height: 130px;
-    border: blue 1px solid;
+    border: black 1px solid;
     margin-top: -130px;
     margin-left: -50px;
     display: contents;
@@ -498,7 +498,7 @@ img{
     margin-left: -237px;
     margin-top: -130px;
     border-radius: 12px;
-    border: blue 1px solid;
+    border: black 1px solid;
     background-color: white;
     display: none;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
