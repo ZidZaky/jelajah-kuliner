@@ -31,13 +31,12 @@
                             <div class="card">
                                 <div class="inCard" id="theImage">
                                     <img src="https://i.pinimg.com/236x/0d/c1/ba/0dc1babea2221d912247ca059e1231dd.jpg"
-                                        alt="">
+                                        alt="pernahkah kau merasa">
                                 </div>
                                 <div class="inCard" id="mid">
                                     <p class="np">{{ $a->nama }}</p>
                                     <p class="Des">{{ $a->email }}</p>
                                     <p class="hrg">{{ $a->status }}</p>
-                                    asdadss
                                 </div>
                             </div>
                         @endforeach
