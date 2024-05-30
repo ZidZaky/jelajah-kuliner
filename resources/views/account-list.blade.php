@@ -25,9 +25,9 @@ List Account
         @if ($account->count() > 0)
             @foreach ($account as $a)
 
-                <div class="card border-danger text-bg-light mb-3" style="max-width: 450px; ">
+                <div class="card border-danger text-bg-light mb-3" style="max-width: 500px; ">
                     <div class="row g-0">
-                        <div class="col-md-4">
+                        <div class="col-md-4 mt-3">
                             <img src="https://i.pinimg.com/236x/0d/c1/ba/0dc1babea2221d912247ca059e1231dd.jpg"
                                 class="img-fluid rounded-start" alt="pernahkah kau merasa">
                         </div>
