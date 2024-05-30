@@ -11,6 +11,7 @@ use App\Models\Pesanan;
 use Illuminate\Support\Facades\Route;
 use App\Models\Ulasan;
 use App\Models\Produk;
+use Illuminate\Support\Facades\DB;
 use app\Models\PKL;
 /*
 |--------------------------------------------------------------------------
@@ -29,11 +30,11 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     $pkl = new PKLController();
     $ulasan = Ulasan::all(); // Fetch $ulasan from the database
-    $produk = Produk::all(); // Fetch $ulasan from the database
+    
     $pesanan = Pesanan::all();
     // $data = $pkl->getDataPKL();
     // dd($data);
-    return view('dashboard', ['ulasan' => $ulasan,'produk' => $produk, 'pesanan' => $pesanan]);
+    return view('dashboard', ['ulasan' => $ulasan, 'pesanan' => $pesanan]);
 });
 Route::get('/getData', [PKLController::class, 'getDataPKL']);
 
