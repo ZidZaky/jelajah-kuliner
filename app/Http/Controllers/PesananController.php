@@ -64,7 +64,7 @@ class PesananController extends Controller
         $pesanan = new Pesanan();
         $pesanan->idAccount = $request->input('idAccount');
         $pesanan->idPKL = $request->input('idPKL');
-        $pesanan->Keterangan = $request->input('keterangan');
+        $pesanan->Keterangan = $request->input('keterangan') ?? '';
         $pesanan->TotalBayar = $request->input('totalHarga');
         $pesanan->status = $request->input('status');
 

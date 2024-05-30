@@ -10,11 +10,7 @@
 
 @section('main')
     <div class="content">
-<<<<<<< HEAD
-        <div class="up" style="display: flex; justify-content: space-between;">
-=======
         <div class="up" style=" display: flex; justify-content: space-between;">
->>>>>>> 85d9c9e781726a6356df365dcc4638705404cb00
             <div class="back" style="text-align: center; margin-left: 10px; margin-top: -3px;">
                 <button class="btn btn-danger" style="margin: 0 auto;" onclick="window.location.href='/dashboard'; return false;">Back</button>
             </div>
@@ -27,11 +23,6 @@
         </div>
 
         </div>
-<<<<<<< HEAD
-        <hr id="hratas">
-        <div class="outer" style="margin-top: 15px">
-                <div class="batas">
-=======
     </div>
     <hr id="hratas">
     <div class="outer" style=" margin-top: 15px">
@@ -42,7 +33,6 @@
                         $account = \App\Models\Account::where('id', $rep->idPengguna)->first();
                         // echo var_dump($account)
                     @endphp
->>>>>>> 85d9c9e781726a6356df365dcc4638705404cb00
                     <div class="x">
                         <div>
                             <img src="https://i.pinimg.com/236x/0d/c1/ba/0dc1babea2221d912247ca059e1231dd.jpg"

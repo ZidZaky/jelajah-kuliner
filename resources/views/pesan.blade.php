@@ -33,7 +33,7 @@
                         @foreach ($produk as $p)
                             <div class="card" style="margin-top: 10px">
                                 <div class="inCard" id="theImage">
-                                    <img src="https://i.pinimg.com/564x/34/e1/30/34e13046e8f9fd9f3360568abd453685.jpg" alt="">
+                                    <img src="https://i.pinimg.com/564x/34/e1/30/34e13046e8f9fd9f3360568abd453685.jpg" alt="" style="border: black 1px solid; border-radius: 40px">
 
                                 </div>
                                 <div class="inCard" id="mid">
@@ -55,7 +55,7 @@
                                             <input type="hidden" id="myInput_{{ $p->id }}" style="display:none;"
                                                 name="produk_{{ $p->id }}" value="0">
                                         @else
-                                            <p id="sisaStok{{$p->id}}">{{$p->sisaStok}}</p>
+                                            <p id="sisaStok{{$p->id}}" style="display: none">{{$p->sisaStok}}</p>
                                             <button type="button" class="btn btn-primary decrementButton"> - </button>
                                             <span class="quantity mx-2" id="quantity_{{ $p->id }}"> 0 </span>
                                             <button type="button" id="incrementBut{{$p->id}}" onclick="incrementBut('{{$p->id}}')" class="btn btn-primary incrementButton"> + </button>
@@ -64,7 +64,7 @@
                                         @endif
                                     </div>
                                     <div class="forStok">
-                                        <p>Stok : {{$p->sisaStok}}</p>
+                                        <p>Stok Tersisa: {{$p->sisaStok}}</p>
                                     </div>
                                     
                                 </div>
@@ -110,7 +110,7 @@
                 <div style="height: 100%; margin-top: 50vh;">
                     <label for="keterangan">Keterangan Tambahan (Opsional):</label>
                     <br>
-                    <input type="text" name="keterangan" id="keterangan" value="-" placeholder="Contoh: Tidak pedas ya mas!" style="width: 80%; height: 5vh;">
+                    <input type="text" name="keterangan" id="keterangan" value=" " placeholder="Contoh: Tidak pedas ya mas!" style="width: 80%; height: 5vh;">
                 </div>
                 </form>
 

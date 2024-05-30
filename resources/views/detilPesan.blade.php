@@ -37,7 +37,7 @@
                             <div class="card">
                                 <div class="inCard" id="theImage">
                                     <img src="https://i.pinimg.com/564x/34/e1/30/34e13046e8f9fd9f3360568abd453685.jpg"
-                                        alt="">
+                                        alt="" style="border: black 1px solid; border-radius: 40px">
 
                                     {{-- <img src="{{ $p->image_url }}" alt="" width="100px"> --}}
                                 </div>
@@ -181,8 +181,19 @@
                                                 id="" hidden>
                                             <input type="number" name="idPelapor" value="{{ $pkl->id }}"
                                                 id="" hidden>
-                                            <label for="alasan">Berikan Alasanmu!</label>
-                                            <input type="text" name="alasan" id="alasan">
+
+                                            {{-- dropdown alasan pelaporan --}}
+                                            {{-- <label for="alasan">Mengapa?</label><br>
+                                            <select name="alasan" id="alasan" style="height: 4vh">
+                                                <option value="1">== Pilih Alasan Pelaporan ==</option>
+                                                <option value="2">Penipuan</option>
+                                                <option value="3">Penggunaan Bahasa Kasar</option>
+                                                <option value="4">Pesanan Aneh</option>
+                                                <option value="5">Permintaan Pelanggan</option>
+                                            </select><br><br> --}}
+
+                                            <label for="alasan">Berikan Alasanmu! (optional)</label><br>
+                                            <input type="text" name="alasan" id="alasan" style="height: 4vh">
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
