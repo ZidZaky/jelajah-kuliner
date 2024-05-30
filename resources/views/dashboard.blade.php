@@ -25,6 +25,8 @@
 
         </button>
     </div>
+    @if (session('account')['status'] == 'PKL' || session('account')['status'] == 'Pelanggan')
+
     <div>
         <form id="myForm" method="POST" action="/update-location" enctype="multipart/form-data">
             @csrf
@@ -37,11 +39,12 @@
                     <button type="button" onclick="getCurrentLocation()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                             <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
-                          </svg>
+                        </svg>
                     </button>
                 </div>
-        </form>
-    </div>
+            </form>
+        </div>
+        @endif
 
     <div class="forsearch" id="forsearch1">
         <div>
@@ -683,7 +686,7 @@
                             const stockP = document.createElement('p');
                             stockP.id = 'stock';
                             stockP.innerText = 'Stok : ';
-                            
+
                             forStokDiv.appendChild(stockP);
 
                             const numStokP = document.createElement('p');
