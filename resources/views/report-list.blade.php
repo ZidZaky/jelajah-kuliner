@@ -10,7 +10,7 @@
 
 @section('main')
     <div class="content">
-        <div class="up" style="border: green 1px solid; display: flex; justify-content: space-between;">
+        <div class="up" style="display: flex; justify-content: space-between;">
             <div class="back" style="text-align: center; margin-left: 10px; margin-top: -3px;">
                 <button class="btn btn-danger" style="margin: 0 auto;">Back</button>
             </div>
@@ -20,11 +20,11 @@
             <div class="upside" style="margin-right: 10px; margin-top: -4px">
                 <p class="namaakun" style="text-align: right;">Hi, {{ session('account')['nama'] }} 👋</p>
             </div>
+        </div>
 
         </div>
-        </div>
         <hr id="hratas">
-        <div class="outer" style="border: red 1px solid; margin-top: 15px">
+        <div class="outer" style="margin-top: 15px">
                 <div class="batas">
                     <div class="x">
                         <div>

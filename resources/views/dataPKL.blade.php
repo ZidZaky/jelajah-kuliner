@@ -1,7 +1,7 @@
 @extends('layouts.layout2')
 
 @section('title')
-    Feel Free to "JELAJAH" Kuliner di Sekitarmu!
+    DATA PKL
 @endsection
 
 @section('css')
@@ -11,26 +11,32 @@
 @section('main')
     
     <div class="content">
-        <div class="up">
-            <div class="upside">
-                <p class="namaakun">Hi, {{ session('account')['nama'] }} 👋</p>
+        <div class="up" style="display: flex; justify-content: space-between;">
+            <div class="back" style="text-align: center; margin-left: 10px; margin-top: -3px;">
+                <button class="btn btn-danger" style="margin: 0 auto;">Back</button>
+            </div>
+            <div class="nmpkl" style="margin-top: 4px;">
+                <p style="text-align: center;"><strong>📝 DATA PKL! 📝</strong></p>
+            </div>
+            <div class="upside" style="margin-right: 10px; margin-top: -4px">
+                <p class="namaakun" style="text-align: right;">Hi, {{ session('account')['nama'] }} 👋</p>
             </div>
         </div>
+
         <hr id="hratas">
         <div class="outer">
             <div class="demain">
-                
-                <div class="nmpkl">
+                <div class="nmpkl" style="text-align: center; margin-bottom: -25px">
                     <p class="namap">{{ $pkl->namaPKL }}</p>
                     <p class="deskri">{{ $pkl->desc }}</p>
-                    <p>Produk Anda</p>
+                    <p><strong>Produk Anda</strong></p>
                 </div>
                 <hr>
 
                         <div class="batas" >
-                            <div class="butButtonFront" style="" >
+                            <div class="butButtonFront" style="text-align: center;">
                                 
-                                <a href="/produk/create" style="width:40%;">
+                                <a href="/produk/create" style="width:35%; margin: 0 auto; margin-top: -5px">
                                     <button type="" class="btn btn-success" id="butEdit">
                                         <span>Tambah Produk &#9998</span>
                                     </button>
@@ -41,7 +47,7 @@
                             <div class="card">
                                 <div class="inCard" id="theImage">
                                     <img src="https://i.pinimg.com/564x/34/e1/30/34e13046e8f9fd9f3360568abd453685.jpg"
-                                        alt="">
+                                        alt="" style="border: black 1px solid; border-radius: 40px">
                                 </div>
                                 <div class="inCard" id="mid">
                                     <p class="np">{{$p->nama}}</p>

@@ -36,6 +36,6 @@
         @endif
     </nav>
     <div class="menu">
-        <p>=</p>
+        <p>≡</p>
     </div>
 </div>
