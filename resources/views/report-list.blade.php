@@ -1,7 +1,7 @@
 @extends('layouts.layout2')
 
 @section('title')
-    List Account
+    Report Account
 @endsection
 
 @section('css')
@@ -36,10 +36,10 @@
                 
             <div class="card" style="width: 500px">
                 <img src="https://i.pinimg.com/236x/0d/c1/ba/0dc1babea2221d912247ca059e1231dd.jpg"
-                alt="this should be the User's Profile Picture tho" class="reportImg">
+                alt="this should be the User's Profile Picture tho" class="profilePict">
 
-                <div class="reportDesc" style="display: flex; flex-direction: column;">
-                    <div class="reportInfo">
+                <div class="desc" style="display: flex; flex-direction: column;">
+                    <div class="info">
                         <h5 class="np" style="text-align: center; margin-top: 5px"><strong>{{ $account->nama }}</strong></h5>
                         <p class="deskhusus" style="text-align: center; margin-top: -10px;">Kode Pesanan: {{ $rep->idPesanan }} || Jumlah Pelapor: {{ $rep->idPelapor }}</p>
                         <p class="hrg" style="text-align: center; margin-top: 15px">" {{ $rep->alasan }} "</p>
