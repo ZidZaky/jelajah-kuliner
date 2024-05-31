@@ -5,7 +5,8 @@
     </head>
     <body>
         <div class="back">
-            <p>Selamat Pagi, {{session('account')['name']}}</p>
+            <button class="btn btn-danger" style="margin: 0 auto;" onclick="window.location.href='/dashboard'; return false;">Back</button>
+            <p>Selamat Pagi, {{ session('account')['nama'] }}</p>
             <p id="ket">Dashboard ini di siapkan agar kamu lebih mudah melihat rangkuman penjualanmu</p>
         </div>
         <div class="content">

@@ -25,9 +25,47 @@
         </div>
     </div>
     <hr id="hratas">
-    <div class="outer" style=" margin-top: 15px">
+    <div class="outer" style=" margin-top: 15px;">
         <div class="batas">
             @if ($reports->count() > 0)
+            @foreach ($reports as $rep)
+            @php
+                $account = \App\Models\Account::where('id', $rep->idPengguna)->first();
+                // echo var_dump($account)
+            @endphp
+                
+            <div class="card" style="width: 500px">
+                <img src="https://i.pinimg.com/236x/0d/c1/ba/0dc1babea2221d912247ca059e1231dd.jpg"
+                alt="this should be the User's Profile Picture tho" class="reportImg">
+
+                <div class="reportDesc" style="display: flex; flex-direction: column;">
+                    <div class="reportInfo">
+                        <h5 class="np" style="text-align: center; margin-top: 5px"><strong>{{ $account->nama }}</strong></h5>
+                        <p class="deskhusus" style="text-align: center; margin-top: -10px;">Kode Pesanan: {{ $rep->idPesanan }} || Jumlah Pelapor: {{ $rep->idPelapor }}</p>
+                        <p class="hrg" style="text-align: center; margin-top: 15px">" {{ $rep->alasan }} "</p>
+                    </div>
+                    <div class="reportButton">
+                        @if ($account->status != "Banned")
+                            <button class="btn btn-danger" style="width: auto;" onclick="confirmBan('{{ $rep->id }}')">Ban</button><br>
+                        
+                        @else
+                            <button class="btn btn-success" style="width: auto;" onclick="confirmUnBan('{{ $rep->id }}')">unBan</button><br>
+                        @endif
+
+                        <form action="{{ route('report.destroy', $rep->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-warning" style="width: auto;" onclick="deletereport('{{ $rep->id }}')">Clear Report</button>
+                    </form>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+            @else
+                <p class="namap" style="text-align: center;">Semua Baik2 Saja!</p>
+            @endif
+            {{-- this is the 2nd update for the card, you mothersucker! --}}
+            {{-- @if ($reports->count() > 0)
                 @foreach ($reports as $rep)
                     @php
                         $account = \App\Models\Account::where('id', $rep->idPengguna)->first();
@@ -65,7 +103,7 @@
                     @endforeach
                     @else
                         <p class="namap" style="text-align: center;">Semua Baik2 Saja!</p>
-                    @endif
+                    @endif --}}
 
                     {{-- below is original --}}
                     {{-- @if ($reports->count() > 0)
@@ -113,7 +151,7 @@
                     @endif --}}
         </div>
     </div>
-    </div>
+</div>
     <script>
         function confirmBan(id) {
             if (confirm("Apakah kamu yakin untuk Melakukan Ban Kepada Pengguna ini?")) {

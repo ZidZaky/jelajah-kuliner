@@ -13,7 +13,7 @@
     <div class="content">
         <div class="up" style="display: flex; justify-content: space-between;">
             <div class="back" style="text-align: center; margin-left: 10px; margin-top: -3px;">
-                <button class="btn btn-danger" style="margin: 0 auto;">Back</button>
+                <button class="btn btn-danger" style="margin: 0 auto;" onclick="window.location.href='/dashboard'; return false;">Back</button>
             </div>
             <div class="nmpkl" style="margin-top: 4px;">
                 <p style="text-align: center;"><strong>📝 DATA PKL! 📝</strong></p>
