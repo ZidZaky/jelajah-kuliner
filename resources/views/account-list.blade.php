@@ -25,7 +25,7 @@ List Account
         @if ($account->count() > 0)
             @foreach ($account as $a)
 
-                <div class="card border-danger text-bg-light mb-3" style="max-width: 500px; ">
+                <div class="card border-danger text-bg-light mb-4" style="max-width: 500px;">
                     <div class="row g-0">
                         <div class="col-md-4 mt-3">
                             <img src="https://i.pinimg.com/236x/0d/c1/ba/0dc1babea2221d912247ca059e1231dd.jpg"
@@ -36,6 +36,7 @@ List Account
                                 <h5 class="card-title">{{ $a->nama }}</h5>
                                 <p class="card-text">{{ $a->email }}</p>
                                 <p class="card-text">{{ $a->status }}</p>
+                                <p class="card-text">{{ $a->nohp }}</p>
                             </div>
                         </div>
                     </div>
