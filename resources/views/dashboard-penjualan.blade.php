@@ -5,7 +5,8 @@
     </head>
     <body>
         <div class="back">
-            <p>Selamat Pagi, Dika</p>
+            <button class="btn btn-danger" style="margin: 0 auto;" onclick="window.location.href='/dashboard'; return false;">Back</button>
+            <p>Selamat Pagi, {{ session('account')['nama'] }}</p>
             <p id="ket">Dashboard ini di siapkan agar kamu lebih mudah melihat rangkuman penjualanmu</p>
         </div>
         <div class="content">
@@ -52,9 +53,9 @@
                             <p class="subsatuan">Pcs</p>
                         </div>
                     </div>
-                    
-                    
-                    
+
+
+
                 </div>
                 <hr>
                 <div class="product">
@@ -65,7 +66,7 @@
                         </div>
                         <div class="legend-container" id="legend"></div>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -252,7 +253,7 @@
         .Overview{
             width: 60%;
             display: flex;
-            flex-direction: column; 
+            flex-direction: column;
         }
         .Overview>*{
             /* border: #D9D9D9 1px solid; */
@@ -335,7 +336,7 @@
             width: 38%;
             /* height: ; */
             display: flex;
-            flex-direction: column; 
+            flex-direction: column;
         }
         .product>*{
             /* border: #D9D9D9 1px solid; */

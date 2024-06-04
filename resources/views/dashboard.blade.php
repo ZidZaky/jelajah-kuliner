@@ -25,6 +25,8 @@
 
         </button>
     </div>
+    @if (session('account')['status'] == 'PKL' || session('account')['status'] == 'Pelanggan')
+
     <div>
         <form id="myForm" method="POST" action="/update-location" enctype="multipart/form-data">
             @csrf
@@ -37,11 +39,12 @@
                     <button type="button" onclick="getCurrentLocation()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                             <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
-                          </svg>
+                        </svg>
                     </button>
                 </div>
-        </form>
-    </div>
+            </form>
+        </div>
+        @endif
 
     <div class="forsearch" id="forsearch1">
         <div>
@@ -643,7 +646,7 @@
                         menuContainer.appendChild(emptyDataMessage);
                     } else {
                         data.forEach(product => {
-                            console.log(product)
+                            // console.log(product)
                             const cardMenuDiv = document.createElement('div');
                             cardMenuDiv.classList.add('cardMenu');
 
@@ -682,12 +685,23 @@
 
                             const stockP = document.createElement('p');
                             stockP.id = 'stock';
-                            stockP.innerText = 'Stok :';
+                            stockP.innerText = 'Stok : ';
+
                             forStokDiv.appendChild(stockP);
 
                             const numStokP = document.createElement('p');
                             numStokP.id = 'numstok';
-                            numStokP.innerText = product.sisaStok;
+                            if(product.sisaStok<1){
+                                numStokP.innerText = " Habis";
+                            }
+                            else{
+                                numStokP.innerText = product.sisaStok;
+                            }
+                            // console.log(typeof product.sisaStok);
+                            // console.log(product.sisaStok<1);
+                            // if(product.sisaStok<1){
+                            //     cardMenuDiv.style.display = "none";
+                            // }
                             forStokDiv.appendChild(numStokP);
 
                             rightDiv.appendChild(forStokDiv);
