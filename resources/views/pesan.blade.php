@@ -33,20 +33,40 @@
                         @foreach ($produk as $p)
                             <div class="card" style="margin-top: 10px">
                                 <div class="inCard" id="theImage">
-                                    <img src="https://i.pinimg.com/564x/34/e1/30/34e13046e8f9fd9f3360568abd453685.jpg" alt="">
+                                    <img src="https://i.pinimg.com/564x/34/e1/30/34e13046e8f9fd9f3360568abd453685.jpg" alt="" style="border: black 1px solid; border-radius: 40px">
 
                                 </div>
                                 <div class="inCard" id="mid">
-                                    <p class="np">{{ $p->namaProduk }}</p>
-                                    <p class="Des">{{ $p->desc }}</p>
+                                    <p class="np">{{ $p->nama }}</p>
+                                    <p class="Des">{{ $p->deskripsi }}</p>
                                     <p class="hrg">Rp. {{ number_format($p->harga, 2, ',', '.') }}</p>
                                 </div>
                                 <div class="inCard" id="leftt">
-                                    <button type="button" class="btn btn-primary decrementButton"> - </button>
-                                    <span class="quantity mx-2" id="quantity_{{ $p->id }}"> 0 </span>
-                                    <button type="button" class="btn btn-primary incrementButton"> + </button>
-                                    <input type="hidden" id="myInput_{{ $p->id }}"
-                                        name="produk_{{ $p->id }}" value="0">
+                                    <div class="warn" >
+                                        <p id="warning{{$p->id}}" style="display:none;">melebihi stok</p>
+                                    </div>
+                                    <div class="stokAr">
+                                        @if($p->sisaStok==0)
+                                            <p>stok habis</p>
+                                            <p id="sisaStok{{$p->id}}" style="display:none;">{{$p->sisaStok}}</p>
+                                            <button type="button" class="btn btn-primary decrementButton" style="display:none;"> - </button>
+                                            <span class="quantity mx-2" id="quantity_{{ $p->id }}" style="display:none;"> 0 </span>
+                                            <button type="button" id="incrementBut{{$p->id}}" style="display:none;" onclick="incrementBut('{{$p->id}}')" class="btn btn-primary incrementButton"> + </button>
+                                            <input type="hidden" id="myInput_{{ $p->id }}" style="display:none;"
+                                                name="produk_{{ $p->id }}" value="0">
+                                        @else
+                                            <p id="sisaStok{{$p->id}}" style="display: none">{{$p->sisaStok}}</p>
+                                            <button type="button" class="btn btn-primary decrementButton"> - </button>
+                                            <span class="quantity mx-2" id="quantity_{{ $p->id }}"> 0 </span>
+                                            <button type="button" id="incrementBut{{$p->id}}" onclick="incrementBut('{{$p->id}}')" class="btn btn-primary incrementButton"> + </button>
+                                            <input type="hidden" id="myInput_{{ $p->id }}"
+                                                name="produk_{{ $p->id }}" value="0">
+                                        @endif
+                                    </div>
+                                    <div class="forStok">
+                                        <p>Stok Tersisa: {{$p->sisaStok}}</p>
+                                    </div>
+                                    
                                 </div>
                             </div>
                         @endforeach
@@ -90,7 +110,7 @@
                 <div style="height: 100%; margin-top: 50vh;">
                     <label for="keterangan">Keterangan Tambahan (Opsional):</label>
                     <br>
-                    <input type="text" name="keterangan" id="keterangan" value="-" placeholder="Contoh: Tidak pedas ya mas!" style="width: 80%; height: 5vh;">
+                    <input type="text" name="keterangan" id="keterangan" value=" " placeholder="Contoh: Tidak pedas ya mas!" style="width: 80%; height: 5vh;">
                 </div>
                 </form>
 
@@ -101,11 +121,11 @@
     <script>
         document.querySelectorAll('.incrementButton').forEach(button => {
             button.addEventListener('click', function() {
-                let quantityElement = this.closest('.inCard').querySelector('.quantity');
-                let quantity = parseInt(quantityElement.textContent);
-                quantity++;
-                quantityElement.textContent = quantity;
-                this.nextElementSibling.value = quantity; // Update hidden input value
+                // let quantityElement = this.closest('.inCard').querySelector('.quantity');
+                // let quantity = parseInt(quantityElement.textContent);
+                // quantity++;
+                // quantityElement.textContent = quantity;
+                // this.nextElementSibling.value = quantity; // Update hidden input value
                 updateTotalPriceAndTable();
             });
         });
@@ -154,5 +174,72 @@
                 `Rp. ${totalPrice.toLocaleString('id-ID', {minimumFractionDigits: 2})}`;
             document.getElementById('totalQuantity').textContent = totalQuantity;
         }
+
+        function incrementBut(id){
+            // console.log('tes');
+            let warn = document.getElementById('warning'+id)
+            let inpProd = document.getElementById('myInput_'+id);
+            let inpstok = document.getElementById('sisaStok'+id);
+            let teks2 = document.getElementById('quantity_'+id);
+            let rilStok = parseInt(inpstok.textContent);
+            let numb = parseInt(teks2.textContent,10)
+            console.log(numb)
+
+            if(numb!=rilStok){
+                numb=numb+1;
+                inpProd.value = numb;
+                teks2.textContent=numb;
+                warn.style.display = "none";
+            }
+            else{
+                warn.style.display = "flex";
+                warn.style.color = "red";
+
+                setTimeout(function(){
+                    warn.style.display = "none";
+                },1000);
+            }
+            // console.log('teks2 : '+);
+
+            // console.log()
+        }
     </script>
+    <style>
+        #leftt{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #leftt>div{
+            /* border: black 1px solid; */
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        .warn{
+            padding-top: 10px;
+            height: 20%;
+            justify-content: center;
+
+            /* display: none; */
+        }
+        .warn>p{
+            padding: 0 0;
+            margin: 0 0;
+        }
+        .stokAr{
+            height: 60%;
+            /* padding-bottom: 20%; */
+        }
+        .forStok{
+            display: flex;
+            height: 20%;
+        }
+        .forStok>p{
+            padding: 0 0;
+            margin: 0 0;
+            padding-bottom: 10px;
+        }
+    </style>
 @endsection

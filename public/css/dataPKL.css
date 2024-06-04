@@ -1,3 +1,4 @@
+
 html{
     scrollbar-width: none;
 }
@@ -131,7 +132,6 @@ img{
     border: black; */
     /* border-style: double; */
 
-
 }
 .batas{
     margin-left: 4%;
@@ -165,6 +165,7 @@ img{
     justify-content: center;
     align-items: center;
 }
+
 .card>#mid>*{
     /* border: black;
     border-style: double; */
@@ -437,5 +438,45 @@ img{
 .butStok>a>.StokAkhir{
     background-color: rgb(103, 36, 36);
 }
+.deskhusus{
+    /* margin-top: -2px; */
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    margin-bottom: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
 
+.card .profilePict {
+    border: black 1px solid;
+    width: 120px;
+    margin: auto;
+    margin-left: 15px;
+    border-radius: 70px;
+    box-shadow: 0px 0px 20px rgb(255, 0, 0);
+}
 
+.card .profilePict2 {
+    border: black 1px solid;
+    width: 120px;
+    margin: auto;
+    margin-left: 15px;
+    border-radius: 70px;
+    box-shadow: 0px 0px 20px rgb(0, 255, 0);
+}
+
+.card .desc .info {
+    width: 350px;
+    height: 150px;
+    border-radius: 10px;
+}
+
+.card .desc .reportButton {
+    width: 350px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 5px;
+}

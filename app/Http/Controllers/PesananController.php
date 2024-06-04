@@ -7,7 +7,7 @@ use App\Models\Pesanan;
 use App\Models\Produk;
 use App\Models\PKL;
 use Illuminate\Support\Facades\DB;
-
+use App\Http\Controllers\HistoryStokController;
 class PesananController extends Controller
 {
     //
@@ -60,10 +60,11 @@ class PesananController extends Controller
     public function store(Request $request)
     {
         // Create a new Pesanan instance
+        // dd($request);
         $pesanan = new Pesanan();
         $pesanan->idAccount = $request->input('idAccount');
         $pesanan->idPKL = $request->input('idPKL');
-        $pesanan->Keterangan = $request->input('keterangan');
+        $pesanan->Keterangan = $request->input('keterangan') ?? '';
         $pesanan->TotalBayar = $request->input('totalHarga');
         $pesanan->status = $request->input('status');
 
@@ -75,6 +76,7 @@ class PesananController extends Controller
             // Iterate through each product in the request
             foreach ($request->except(['_token', 'idAccount', 'idPKL', 'totalHarga', 'keterangan', 'status']) as $key => $value) {
                 // Extract the product ID from the input name
+                // dd($key);
                 $idProduk = explode('_', $key)[1];
 
                 // Check if a record with the same idPesanan and idProduk already exists
@@ -160,7 +162,18 @@ class PesananController extends Controller
         // Check if Pesanan data exists
         if ($PKL) {
             // Retrieve associated products
-            $Produks = Produk::where('idPKL', $PKL->id)->get();
+            $Produks = DB::table('produks as p')
+            ->join('history_stoks as h', 'p.stokAktif', '=', 'h.id')
+            ->where('p.idPKL', $id)
+            ->select([
+                'p.id as id',
+                'p.desc as deskripsi',
+                'p.namaProduk as nama',
+                'p.harga as harga',
+                'p.idPKL as idPKL',
+                DB::raw('CASE WHEN h.statusIsi = 0 THEN h.stokAwal - h.TerjualOnline WHEN h.statusIsi = 1 THEN h.stokAkhir END as sisaStok')
+            ])
+            ->get();
 
             return view('pesan', [
                 'pkl' => $PKL,
@@ -285,9 +298,14 @@ class PesananController extends Controller
         //  dd($produk);
         foreach ($produk as $p) {
             $barang = Produk::find($p->idProduk);
-            $barang->stok = $barang->stok - $p->JumlahProduk;
-            $barang->save();
+            // dd($barang);
+            $stok = new HistoryStokController();
+            // dd($p->JumlahProduk);
+            if($stok->UpdatestokOnline($p->JumlahProduk,$barang->stokAktif)){
+                // dd('true');
+            }
         };
+
 
         // Check if Pesanan is found
         if ($pesan) {

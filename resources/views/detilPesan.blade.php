@@ -37,7 +37,7 @@
                             <div class="card">
                                 <div class="inCard" id="theImage">
                                     <img src="https://i.pinimg.com/564x/34/e1/30/34e13046e8f9fd9f3360568abd453685.jpg"
-                                        alt="">
+                                        alt="" style="border: black 1px solid; border-radius: 40px">
 
                                     {{-- <img src="{{ $p->image_url }}" alt="" width="100px"> --}}
                                 </div>
@@ -70,7 +70,7 @@
                 @if ($pesan->status == 'Pesanan Baru' && $pesan->idAccount == session('account')['id'])
                     <br>
                 @endif
-                
+
             </div>
 
             <div class="kanan border border-right d-flex flex-column justify-content-between"
@@ -122,7 +122,7 @@
                 <div style="margin-bottom: 20vh">
                     <label for="keterangan">Keterangan Tambahan (Opsional):</label><br>
                     <input type="text" name="keterangan" id="keterangan" placeholder="Contoh: Tidak pedas ya mas!"
-                        value="-" style="width: 80%; height: 5vh;">
+                        value="{{ $pesan->Keterangan }}" style="width: 80%; height: 5vh;">
                 </div>
                 @php
                     $pkl = \App\Models\PKL::where('idAccount', session('account')['id'])->first();
@@ -131,32 +131,93 @@
                     @if ($pesan->status == 'Pesanan Diproses' && @$pesan->idPKL == $pkl->id)
                         <br>
                         <div id="butstatus">
-                            <button class="btn"  onclick="selesaiPesanan('{{ @$pesan->id }}')">
+                            <button class="btn" onclick="selesaiPesanan('{{ @$pesan->id }}')">
                                 Pesanan Selesai
                             </button>
                         </div>
-                        
+
                         <br>
                     @endif
                 @endif
-                @if ($pesan->status == 'Pesanan Baru')
-                    <div style="display: flex; justify-content: center; gap: 10px;">
+
+                <div style="display: flex; justify-content: center; gap: 10px;">
+                    @if ($pesan->status == 'Pesanan Baru')
                         <button class="btn btn-danger" style="width: 40%;"
                             onclick="confirmBatalPesanan('{{ $pesan->id }}')">Batalkan Pesanan!</button>
-                        <button class="btn btn-warning" style="width: 40%;">Laporkan Pelanggan!</button>
-                    </div>
-                @endif
+                    @endif
+                    @php
+                        $report = \App\Models\Report::where('idPesanan', $pesan->id)->first();
+                    @endphp
+                    @if (session('account')['status'] == 'PKL' && $pesan->status != 'Pesanan Selesai' && !$report)
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop" style="width: 40%">
+                            Laporkan Pelanggan!
+                        </button>
+                        @php
+                            // echo $pesan->idAccount;
+                            $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
+                            // echo var_dump($account)
+                        @endphp
+                        <!-- Modal -->
+                        <div class="modal
+                                fade" id="staticBackdrop"
+                            data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Laporkan Pembeli :
+                                            {{ $account->nama }}</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form action="/report" method="POST">
+                                        <div class="modal-body">
+                                            @csrf
+                                            <input type="number" name="idPengguna" value="{{ $pesan->idAccount }}"
+                                                id="" hidden>
+                                            <input type="number" name="idPesanan" value="{{ $pesan->id }}"
+                                                id="" hidden>
+                                            <input type="number" name="idPelapor" value="{{ $pkl->id }}"
+                                                id="" hidden>
+
+                                            {{-- dropdown alasan pelaporan --}}
+                                            {{-- <label for="alasan">Mengapa?</label><br>
+                                            <select name="alasan" id="alasan" style="height: 4vh">
+                                                <option value="1">== Pilih Alasan Pelaporan ==</option>
+                                                <option value="2">Penipuan</option>
+                                                <option value="3">Penggunaan Bahasa Kasar</option>
+                                                <option value="4">Pesanan Aneh</option>
+                                                <option value="5">Permintaan Pelanggan</option>
+                                            </select><br><br> --}}
+
+                                            <label for="alasan">Berikan Alasanmu! (optional)</label><br>
+                                            <input type="text" name="alasan" id="alasan" style="height: 4vh">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-danger">Laporkan!</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
     <style>
-        #butstatus{
+        #butstatus {
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        #butstatus>button{
+
+        #butstatus>button {
             background-color: green;
             width: fit-content;
             border-radius: 10px;

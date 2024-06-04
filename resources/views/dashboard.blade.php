@@ -25,12 +25,33 @@
 
         </button>
     </div>
+    @if (session('account')['status'] == 'PKL' || session('account')['status'] == 'Pelanggan')
+
+    <div>
+        <form id="myForm" method="POST" action="/update-location" enctype="multipart/form-data">
+            @csrf
+            <input type="text" name="latitude" id="latitude" placeholder="Latitude" hidden>
+            <input type="text" name="longitude" id="longitude" placeholder="Longitude" hidden>
+
+            <input type="text" class="form-control" id="idAccount" name="idAccount" placeholder="ID Akun"
+                value="{{ session('account')['id'] }}" readonly hidden>
+                <div class="updateLocation" id="updateLocation" style="display:;" >
+                    <button type="button" onclick="getCurrentLocation()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+        @endif
+
     <div class="forsearch" id="forsearch1">
         <div>
             <svg alt="Search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="transform: scale(1);"><path fill="#9c242c" d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"></path></svg>
             <input type="text" id="inpSearch" oninput="cari5()" placeholder="Search">
             <button >Cari</button>
-        </div> 
+        </div>
         <button onclick="hide('cari')">X</button>
     </div>
     <div class="listPesanan" style="display:none;">
@@ -332,7 +353,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.js"></script>
     <script>
-        
+
         function cari5(){
             let pin = document.querySelectorAll(`.leaflet-marker-icon`);
             pin.forEach(o=>{
@@ -360,7 +381,7 @@
                                 console.log('hasil dalam : '+hasil);
                             }
                         })
-                        
+
                     })
                     console.log('hasil luar : '+hasil);
                     hasil.forEach(c=>{
@@ -372,9 +393,9 @@
             .catch(error => {
                 console.error('Error fetching coordinates:', error);
             });
-            
+
         }
-        
+
         function search1(){
             let but = document.querySelectorAll(`#content1>button`)
             but.forEach(function(a){
@@ -396,8 +417,8 @@
 
             }
             else{
-                
-                
+
+
                 inp.style.display="none";
                 cari.style.display="flex";
 
@@ -625,6 +646,7 @@
                         menuContainer.appendChild(emptyDataMessage);
                     } else {
                         data.forEach(product => {
+                            // console.log(product)
                             const cardMenuDiv = document.createElement('div');
                             cardMenuDiv.classList.add('cardMenu');
 
@@ -633,7 +655,7 @@
 
                             const img = document.createElement('img');
                             img.src = "https://i.pinimg.com/564x/b8/cf/ab/b8cfabff7a8e6a304d82a0a33c2c5e8e.jpg";
-                            img.alt = product.namaProduk;
+                            img.alt = product.nama;
                             leftDiv.appendChild(img);
 
                             const hargaP = document.createElement('p');
@@ -647,12 +669,12 @@
 
                             const namaProdukP = document.createElement('p');
                             namaProdukP.id = 'nmProduct';
-                            namaProdukP.innerText = product.namaProduk;
+                            namaProdukP.innerText = product.nama;
                             rightDiv.appendChild(namaProdukP);
 
                             const deskripP = document.createElement('p');
                             deskripP.id = 'deskrip';
-                            deskripP.innerText = product.desc;
+                            deskripP.innerText = product.deskripsi;
                             rightDiv.appendChild(deskripP);
 
                             const hr = document.createElement('hr');
@@ -663,12 +685,23 @@
 
                             const stockP = document.createElement('p');
                             stockP.id = 'stock';
-                            stockP.innerText = 'Stok :';
+                            stockP.innerText = 'Stok : ';
+
                             forStokDiv.appendChild(stockP);
 
                             const numStokP = document.createElement('p');
                             numStokP.id = 'numstok';
-                            numStokP.innerText = product.stok;
+                            if(product.sisaStok<1){
+                                numStokP.innerText = " Habis";
+                            }
+                            else{
+                                numStokP.innerText = product.sisaStok;
+                            }
+                            // console.log(typeof product.sisaStok);
+                            // console.log(product.sisaStok<1);
+                            // if(product.sisaStok<1){
+                            //     cardMenuDiv.style.display = "none";
+                            // }
                             forStokDiv.appendChild(numStokP);
 
                             rightDiv.appendChild(forStokDiv);
@@ -706,8 +739,50 @@
             // Append the button to the contentPesan div
             contentPesanDiv.appendChild(button);
         }
+
+        // Function to capture current location
+        function getCurrentLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function showPosition(position) {
+        document.getElementById("latitude").value = position.coords.latitude;
+        document.getElementById("longitude").value = position.coords.longitude;
+
+        // Submit the form
+        document.getElementById("myForm").submit();
+    }
+
+
     </script>
     <style>
+        .updateLocation{
+            position: absolute;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            width: 100px;
+            height: 50px;
+            /* border: 1px black solid; */
+            /* background-color: ; */
+            z-index: 100;
+            bottom: 2%;
+            right: 2%;
+            /* left: 50%; */
+            /* transform: translateX(-50%); */
+            margin: 0 0;
+            padding: 0;
+            /* border: 1px solid #ccc; */
+            background-color: rgb(0 0 0 0);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         .toSearch{
             position: absolute;
             display: flex;
@@ -796,7 +871,7 @@
             border: white 1px solid !important;
 
             /* padding-left: /; */
-            
+
         }
         .forsearch>div>svg{
             width: 10%;
