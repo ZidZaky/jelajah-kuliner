@@ -6,79 +6,87 @@
 
     </head>
     <body>
-        <div class="back">
-            <p>Selamat Pagi, Dika</p>
-            <p id="ket">Dashboard ini di siapkan agar kamu lebih mudah melihat rangkuman penjualanmu</p>
+        <div class="backTo">
+            <a href="/dashboard">
+                <button>Back To Landing Page</button>
+            </a>
         </div>
-        <div class="content">
-            <div class="filter">
-                <button onclick="filter('Today')">Today</button>
-                <p>|</p>
-                <button onclick="filter('Bulan Ini')">Bulan Ini</button>
-                <p>|</p>
-                <button onclick="filter('Tahun Ini')">Tahun Ini</button>
+        <div class="dkonten">
+            <div class="back">
+                <p>Selamat Pagi, Dika</p>
+                <p id="ket">Dashboard ini di siapkan agar kamu lebih mudah melihat rangkuman penjualanmu</p>
             </div>
-            <hr>
-            <div class="isi">
-                <div class="Overview">
-                    <p>Analytics Overview</p>
-                    <div>
-                        <div>
-                            <p class="subjudul">Omset Hari Ini</p>
-                            <p class="subisi" id="omsetAll"></p>
-                            <p class="subsatuan">Rupiah</p>
-                        </div>
-                        <div>
-                            <p class="subjudul">Total Keseluruhan</p>
-                            <p class="subisi" id="sellAll"></p>
-                            <p class="subsatuan">Pcs</p>
-                        </div>
-                        <div>
-                            <p class="subjudul">Pendapatan Online</p>
-                            <p class="subisi" id="omsetOn"></p>
-                            <p class="subsatuan">Rupiah</p>
-                        </div>
-                        <div>
-                            <p class="subjudul">Pendapatan Offline</p>
-                            <p class="subisi" id="omsetOff"></p>
-                            <p class="subsatuan">Rupiah</p>
-                        </div>
-                        <div>
-                            <p class="subjudul">Terjual Online</p>
-                            <p class="subisi" id="sellOn"></p>
-                            <p class="subsatuan">Pcs</p>
-                        </div>
-                        <div>
-                            <p class="subjudul">Terjual Offline</p>
-                            <p class="subisi" id="sellOff"></p>
-                            <p class="subsatuan">Pcs</p>
-                        </div>
-                    </div>
-                    
-                    
-                    
+            <div class="content">
+                <div class="filter">
+                    <button onclick="filter('Today')">Today</button>
+                    <p>|</p>
+                    <button onclick="filter('Bulan Ini')">Bulan Ini</button>
+                    <p>|</p>
+                    <button onclick="filter('Tahun Ini')">Tahun Ini</button>
                 </div>
                 <hr>
-                <div class="product">
-                    <p>Analytics Overall Product</p>
-                    @if(count($produs)>1)
+                <div class="isi">
+                    <div class="Overview">
+                        <p>Analytics Overview</p>
                         <div>
-                            <div class="Bagan">
-                                <canvas id="myChart" width="400" height="400" ></canvas>
-                                <!-- <canvas id="myChart2" width="400" height="400" ></canvas> -->
+                            <div>
+                                <p class="subjudul">Omset Hari Ini</p>
+                                <p class="subisi" id="omsetAll"></p>
+                                <p class="subsatuan">Rupiah</p>
                             </div>
-                            <div class="legend-container" id="legend"></div>
-                            <!-- <div class="legend-container" id="legend2"></div> -->
+                            <div>
+                                <p class="subjudul">Total Keseluruhan</p>
+                                <p class="subisi" id="sellAll"></p>
+                                <p class="subsatuan">Pcs</p>
+                            </div>
+                            <div>
+                                <p class="subjudul">Pendapatan Online</p>
+                                <p class="subisi" id="omsetOn"></p>
+                                <p class="subsatuan">Rupiah</p>
+                            </div>
+                            <div>
+                                <p class="subjudul">Pendapatan Offline</p>
+                                <p class="subisi" id="omsetOff"></p>
+                                <p class="subsatuan">Rupiah</p>
+                            </div>
+                            <div>
+                                <p class="subjudul">Terjual Online</p>
+                                <p class="subisi" id="sellOn"></p>
+                                <p class="subsatuan">Pcs</p>
+                            </div>
+                            <div>
+                                <p class="subjudul">Terjual Offline</p>
+                                <p class="subisi" id="sellOff"></p>
+                                <p class="subsatuan">Pcs</p>
+                            </div>
                         </div>
-                    @else
-                        <div class="Bagan" style="color:white;">
-                            Belum ada Produk yang terjual
-                        </div>
-                    @endif
+                        
+                        
+                        
+                    </div>
+                    <hr>
+                    <div class="product">
+                        <p>Analytics Overall Product Since {{$startdate->startdt}}</p>
+                        @if(count($produs)>1)
+                            <div>
+                                <div class="Bagan">
+                                    <canvas id="myChart" width="400" height="400" ></canvas>
+                                    <!-- <canvas id="myChart2" width="400" height="400" ></canvas> -->
+                                </div>
+                                <div class="legend-container" id="legend"></div>
+                                <!-- <div class="legend-container" id="legend2"></div> -->
+                            </div>
+                        @else
+                            <div class="Bagan" style="color:white;">
+                                Belum ada Produk yang terjual
+                            </div>
+                        @endif
+                    </div>
                 </div>
-            </div>
 
+            </div>
         </div>
+        
     </body>
 
     <script>
@@ -102,12 +110,12 @@
             let produs = [];
             let produk = [];
             if(apa=="Today"){
-                datas = 0;
-
-                if(datas.length>0){
-                    datas = @json($DataToday);
-
-                }
+                datas = @json($DataToday);
+                console.log(datas.TerjualKeseluruhan<1)
+                if(datas.TerjualKeseluruhan<1){
+                    datas = 0;
+                    // console.log('masukto')
+                }   
             }
             if(apa=="Bulan Ini"){
                 datas = @json($DataMonth);
@@ -130,7 +138,9 @@
                 subisi[3].textContent = "0"
                 subisi[4].textContent = "0"
                 subisi[5].textContent = "0"
-            if(datas.length>1){
+                console.log(datas.length);
+                if(datas.TerjualKeseluruhan>1){
+                console.log('masuk');
                 subisi[0].textContent = tR(datas.omzetKeseluruhan)
                 subisi[1].textContent = datas.TerjualKeseluruhan
                 subisi[2].textContent = tR(datas.omzetOnline)
@@ -251,6 +261,31 @@
         body>*{
             /* border:1px black solid; */
         }
+        .backTo{
+            position: fixed;
+            z-index: 950;
+            right: 20px;
+            /* background-color: #8F2F30;
+            color: white; */
+            /* border: 1px black solid; */
+            width: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .backTo button{
+            background-color: #8F2F30;
+            border: none;
+            padding: 10px;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+        }
+        .backTo>a{
+            height: fit-content;
+            width: fit-content;
+        }
         .back{
             display: flex;
             flex-direction: column;
@@ -264,6 +299,7 @@
         .back>p{
             padding: 0 0;
             margin: 0 0;
+
         }
         #ket{
             font-weight: 100;
