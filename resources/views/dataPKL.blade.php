@@ -234,7 +234,7 @@
                 while(Tableside.firstChild){
                     Tableside.removeChild(Tableside.firstChild);
                 }
-                
+
                 if(data.length>0){
                     for(let q=0;q<data.length;q++){
                         // console.log(data[q].);
@@ -353,8 +353,6 @@
             let form = document.getElementById('form'+id);
             form.submit();
         }
-
-        funtion 
     </script>
     <style>
 
@@ -461,19 +459,6 @@
             margin-bottom: 0;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         .deskri{
             width: 70%;
         }
@@ -494,6 +479,8 @@
 
         }
         .batas{
+            position: relative;
+            z-index: 1;
             margin-left: 4%;
             display: flex;
             flex-direction: column;
@@ -511,7 +498,7 @@
             margin-bottom: 10px;
             border-radius: 12px;
             box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
-            z-index: 2;
+            /* z-index: 2; */
             /* justify-content: space-between; */
         }
         @media screen and (max-width: 900px) {
@@ -594,7 +581,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 200;
+            z-index: 700 !important;
         }
         .PopArea>div{
             width: 250px;

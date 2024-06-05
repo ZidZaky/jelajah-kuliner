@@ -13,7 +13,7 @@
         </div>
         <div class="dkonten">
             <div class="back">
-                <p>Selamat Pagi, Dika</p>
+                <p>Selamat Pagi, @php echo ucfirst(session('account')['nama']); @endphp</p>
                 <p id="ket">Dashboard ini di siapkan agar kamu lebih mudah melihat rangkuman penjualanmu</p>
             </div>
             <div class="content">
@@ -65,22 +65,9 @@
                         
                     </div>
                     <hr>
-                    <div class="product">
-                        <p>Analytics Overall Product Since {{$startdate->startdt}}</p>
-                        @if(count($produs)>1)
-                            <div>
-                                <div class="Bagan">
-                                    <canvas id="myChart" width="400" height="400" ></canvas>
-                                    <!-- <canvas id="myChart2" width="400" height="400" ></canvas> -->
-                                </div>
-                                <div class="legend-container" id="legend"></div>
-                                <!-- <div class="legend-container" id="legend2"></div> -->
-                            </div>
-                        @else
-                            <div class="Bagan" style="color:white;">
-                                Belum ada Produk yang terjual
-                            </div>
-                        @endif
+                    <div class="product" id="chartLokasi">
+                        
+                        
                     </div>
                 </div>
 
@@ -110,44 +97,76 @@
             let produs = [];
             let produk = [];
             if(apa=="Today"){
+                clearChart()
+
                 datas = @json($DataToday);
                 console.log(datas.TerjualKeseluruhan<1)
-                if(datas.TerjualKeseluruhan<1){
+                if(datas.TerjualKeseluruhan=="0"){
                     datas = 0;
                     // console.log('masukto')
                 }   
             }
-            if(apa=="Bulan Ini"){
+            else if(apa=="Bulan Ini"){
+                clearChart()
+
+                console.log(datas.TerjualKeseluruhan<1)
+
                 datas = @json($DataMonth);
-                if(datas.length<1){
+                if(datas.TerjualKeseluruhan=="0"){
                     datas = 0;
                 }
                 // console.log(produs)
             }
-            if(apa=="Tahun Ini"){
+            else if(apa=="Tahun Ini"){
+                clearChart()
+
+                // console.log('tahun = '+(datas.TerjualKeseluruhan<1))
+                
                 datas = @json($DataYear);
-                if(datas.length<1){
+                if(datas.TerjualKeseluruhan=="0"){
                     datas = 0;
                 }
             }
-            console.log()
-            
-                subisi[0].textContent = "0"
-                subisi[1].textContent = "0"
-                subisi[2].textContent = "0"
-                subisi[3].textContent = "0"
-                subisi[4].textContent = "0"
-                subisi[5].textContent = "0"
+            // console.log()
                 console.log(datas.length);
-                if(datas.TerjualKeseluruhan>1){
-                console.log('masuk');
-                subisi[0].textContent = tR(datas.omzetKeseluruhan)
-                subisi[1].textContent = datas.TerjualKeseluruhan
-                subisi[2].textContent = tR(datas.omzetOnline)
-                subisi[3].textContent = tR(datas.omzetOffline)
-                subisi[4].textContent = datas.terjualOnline
-                subisi[5].textContent = datas.terjualOffline
+                if(datas.length==0){
+                    subisi[0].textContent = "0"
+                    subisi[1].textContent = "0"
+                    subisi[2].textContent = "0"
+                    subisi[3].textContent = "0"
+                    subisi[4].textContent = "0"
+                    subisi[5].textContent = "0"
+                }
                 
+                console.log(datas.TerjualKeseluruhan!="0");
+                console.log(datas);
+
+                if(datas.length!=0 && datas[0].TerjualKeseluruhan!="0"){
+                console.log('masuk');
+                subisi[0].textContent = tR(datas[0].omzetKeseluruhan)
+                subisi[1].textContent = tR(datas[0].TerjualKeseluruhan)
+                subisi[2].textContent = tR(datas[0].omzetOnline)
+                subisi[3].textContent = tR(datas[0].omzetOffline)
+                subisi[4].textContent = tR(datas[0].terjualOnline)
+                subisi[5].textContent = tR(datas[0].terjualOffline)
+                if(apa=="Today"){
+                datas = @json($DataToday);
+                console.log(datas.TerjualKeseluruhan<1)
+                if(apa=="Today"){
+                    
+                }   
+                }
+                else if(apa=="Bulan Ini"){
+                    loadChartMonth();
+                }
+                else if(apa=="Tahun Ini"){
+                    // console.log('tahun = '+(datas.TerjualKeseluruhan<1))
+                    
+                    datas = @json($DataYear);
+                    if(datas.TerjualKeseluruhan=="0"){
+                        datas = 0;
+                    }
+                }
             }
             
             
@@ -156,8 +175,8 @@
         function tR($int){
             return(parseInt($int).toLocaleString('id-ID'));
         }
-        loadChart();
-        function loadChart(){
+        loadChartToday();
+        function loadChartToday(){
 
             let colors = ['#3D332A','#5E6B3D','#D0AF68','#D08840','#B75C3F','#924034','929140','987140','3D632A','2D642A'];
 
@@ -245,6 +264,122 @@
             
         };
         }
+
+
+        function clearChart(){
+            let parent = document.getElementById('chartLokasi')
+            while(parent.firstChild){
+                parent.removeChild(parent.firstChild);
+            }
+            //bikin isinya
+            let p = document.createElement('p')
+            p.textContent="Analytics Overall Product Since {{$startdate->startdt}}"
+            parent.appendChild(p);
+            let div1 = document.createElement('div');
+            //bikin isi div1
+                let div1in1 = document.createElement('div');
+                    div1in1.className = "Bagan";
+                    let canvas = document.createElement('canvas');
+                        canvas.id="myChart"
+                        canvas.width = 400
+                        canvas.height = 400;
+                    div1in1.appendChild(canvas);
+                    let legenddiv = document.createElement('div')
+                        legenddiv.className="legend-container";
+                        legenddiv.id = "legend"
+                    div1in1.appendChild(legenddiv);
+                div1.appendChild(div1in1);
+            parent.appendChild(div1)
+
+        }
+        function loadChartMonth(){
+
+            let colors = ['#3D332A','#5E6B3D','#D0AF68','#D08840','#B75C3F','#924034','929140','987140','3D632A','2D642A'];
+
+            let produk = fetch('/chartTahun');
+            console.log('produk : '+produk)
+            let namPro = [];
+            let qtyPro = [];
+            let colr = [];
+            console.log(produk);
+            //  = produs
+
+            for(k=0;k<produk.length;k++)
+            {   
+                namPro.push(produk[k].produks);
+                qtyPro.push(produk[k].TerjualKeseluruhan);
+                colr.push(colors[k])
+            }
+            console.log(namPro)
+            console.log(qtyPro)
+            console.log(colr)
+            // console.log(data);
+            let data = {
+            labels: namPro,
+            datasets: [{
+                label: 'My First Dataset',
+                data: qtyPro,
+                backgroundColor: colr,
+                hoverOffset: 4
+            }]
+            };
+
+            let config = {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false // Menonaktifkan legend bawaan
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.raw !== null) {
+                                        label += context.raw;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            window.onload = function() {
+            let ctx = document.getElementById('myChart').getContext('2d');
+            let myChart = new Chart(ctx, config);
+
+            // Membuat legend custom
+            let legendContainer = document.getElementById('legend');
+            data.labels.forEach((label, index) => {
+                let legendItem = document.createElement('div');
+                legendItem.style.display = 'flex';
+                legendItem.style.alignItems = 'center';
+                legendItem.style.marginBottom = '10px';
+
+                let colorBox = document.createElement('span');
+                colorBox.style.backgroundColor = data.datasets[0].backgroundColor[index];
+                colorBox.style.width = '20px';
+                colorBox.style.height = '20px';
+                colorBox.style.display = 'inline-block';
+                colorBox.style.marginRight = '10px';
+
+                let labelText = document.createElement('span');
+                labelText.textContent = label;
+                labelText.style.color = 'white';
+
+                legendItem.appendChild(colorBox);
+                legendItem.appendChild(labelText);
+                legendContainer.appendChild(legendItem);
+            });
+
+
+            };
+            }
        
     </script>
     <style>

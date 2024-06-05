@@ -99,3 +99,4 @@ Route::get('/ulasan/create/{id}', [UlasanController::class, 'createWithId']);
 Route::post('/update-location', [PKLController::class,'updateLocation']);
 
 Route::get('/rwt/{idpklpidproduk}',[halamanController::class,'getrwtStok']);
+Route::get('/chartTahun',[halamanController::class,'ChartMonth']);
