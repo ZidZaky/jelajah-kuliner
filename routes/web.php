@@ -59,7 +59,7 @@ Route::get('/hst',function(){
 Route::get('/Dashboard-Penjualan/{id}',[halamanController::class,'DashboardPenjualan']);
 Route::post('/MakeStokAwal',[halamanController::class,'UpdateStatusStok'])->name('MakeStokAwal');
 Route::post('/updateStokAkhir',[halamanController::class,'UpdateStokAkhir'])->name('updateStokAkhir');
-
+Route::get('/rwt/{$idPklpidProduk}',[halamanController::class,'getrwtStok']);
 
 
 Route::get('/dataPKL/{idAccount}', [PKLController::class, 'showDetail']);
@@ -99,3 +99,6 @@ Route::get('/getPictureByID/{id}', [PKLController::class, 'getPictureByID']);
 Route::get('/ulasan/create/{id}', [UlasanController::class, 'createWithId']);
 
 Route::post('/update-location', [PKLController::class,'updateLocation']);
+
+Route::get('/rwt/{idpklpidproduk}',[halamanController::class,'getrwtStok']);
+Route::get('/chartTahun',[halamanController::class,'ChartMonth']);
