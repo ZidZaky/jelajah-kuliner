@@ -30,7 +30,7 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     $pkl = new PKLController();
     $ulasan = Ulasan::all(); // Fetch $ulasan from the database
-    
+
     $pesanan = Pesanan::all();
     // $data = $pkl->getDataPKL();
     // dd($data);
@@ -93,6 +93,8 @@ Route::get('/getCoordinates', [PKLController::class, 'getCoordinates']);
 // Route::get('/getUlasan', [UlasanController::class, 'getUlasan']);
 Route::get('/getUlasan/{id}', [UlasanController::class, 'getUlasan']);
 Route::get('/getProduk/{id}', [ProdukController::class, 'getProduk']);
+Route::get('/getPictureByID/{id}', [PKLController::class, 'getPictureByID']);
+
 
 Route::get('/ulasan/create/{id}', [UlasanController::class, 'createWithId']);
 

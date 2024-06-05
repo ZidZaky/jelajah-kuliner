@@ -36,9 +36,9 @@ class ProdukController extends Controller
             'stok'=>'required',
             'idPKL'=>'required'
         ]);
-        
 
-        
+
+
         // dd($valdata);
 
         if ($request->hasFile('fotoProduk')) {
@@ -69,7 +69,7 @@ class ProdukController extends Controller
             return redirect('/dataPKL/'.$pkl->idAccount);
             // return redirect('/dataPKL/'+);
         }
-        
+
     }
 
 
@@ -114,6 +114,7 @@ class ProdukController extends Controller
         Produk::destroy($produk->id);
         return redirect('/PKL');
     }
+
 
     public function getProduk($id)
     {
@@ -220,7 +221,7 @@ public function updateHistory(Request $request)
     }
     }
 
-    
+
 
 
 }

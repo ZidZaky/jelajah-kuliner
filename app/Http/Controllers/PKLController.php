@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 
 class PKLController extends Controller
 {
+
+
     //
     public static function index($id)
     {
@@ -51,12 +53,30 @@ class PKLController extends Controller
         $valdata = $request->validate([
             'namaPKL' => 'required',
             'desc' => 'required',
+            'picture' => 'nullable',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             'idAccount' => 'required'
         ]);
+
+        if ($request->hasFile('picture')) {
+            $file = $request->file('picture');
+            $filename = $valdata['namaPKL'] . "." . $file->getClientOriginalExtension();
+            $filePath = $file->storeAs('pkl', $filename, 'public');
+
+            $valdata['picture'] = $filePath;
+        } else {
+            $valdata['picture'] = null;
+        }
         // dd($valdata);
-        $berhasil = PKL::create($valdata);
+        $pkl = new PKL();
+        $pkl->namaPKL = $valdata['namaPKL'];
+        $pkl->desc = $valdata['desc'];
+        $pkl->picture = $valdata['picture'];
+        $pkl->latitude = $valdata['latitude'];
+        $pkl->longitude = $valdata['longitude'];
+        $pkl->idAccount = $valdata['idAccount'];
+        $berhasil = $pkl->save();
         if ($berhasil) {
             return redirect('/dashboard');
         } else {
@@ -105,17 +125,17 @@ class PKLController extends Controller
         // dd($pklData);
         // $produk = Produk::where('idPKL', $pklData->id)->get();
         $produk = DB::table('produks as p')
-        ->join('history_stoks as h', 'p.stokAktif', '=', 'h.id')
-        ->where('p.idPKL', $pklData->id)
-        ->select([
-            'p.id as id',
-            'p.desc as deskripsi',
-            'p.namaProduk as nama',
-            'p.harga as harga',
-            'p.idPKL as idPKL',
-            DB::raw('CASE WHEN h.statusIsi = 0 THEN h.stokAwal - h.TerjualOnline WHEN h.statusIsi = 1 THEN h.stokAkhir END as sisaStok')
-        ])
-        ->get();
+            ->join('history_stoks as h', 'p.stokAktif', '=', 'h.id')
+            ->where('p.idPKL', $pklData->id)
+            ->select([
+                'p.id as id',
+                'p.desc as deskripsi',
+                'p.namaProduk as nama',
+                'p.harga as harga',
+                'p.idPKL as idPKL',
+                DB::raw('CASE WHEN h.statusIsi = 0 THEN h.stokAwal - h.TerjualOnline WHEN h.statusIsi = 1 THEN h.stokAkhir END as sisaStok')
+            ])
+            ->get();
         // dd($produk);
         $ulasan = Ulasan::where('idPKL', $pklData->id)->get();;
         session(['pkl' => $pklData]);
@@ -127,13 +147,31 @@ class PKLController extends Controller
         ]);
     }
 
-    public function getCoordinates()
-    {
-        // Fetch latitude and longitude data from your database
-        $coordinates = PKL::select('id', 'desc', 'namaPKL', 'latitude', 'longitude')->get();
+    public function getCoordinates() {
+        $pkls = PKL::all();
 
-        // Return latitude and longitude data as JSON
+        $coordinates = $pkls->map(function ($pkl) {
+            return [
+                'id' => $pkl->id,
+                'namaPKL' => $pkl->namaPKL,
+                'latitude' => $pkl->latitude,
+                'longitude' => $pkl->longitude,
+                'picture' => $pkl->picture
+            ];
+        });
+
         return response()->json($coordinates);
+    }
+
+    public function getPictureByID($id)
+    {
+        $pkl = PKL::where('id', $id)->first();
+
+        if ($pkl) {
+            return response()->json(['picture' => $pkl->picture]);
+        } else {
+            return response()->json(['error' => 'PKL not found'], 404);
+        }
     }
 
     public function getDataPKL()
