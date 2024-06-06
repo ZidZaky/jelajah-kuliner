@@ -26,6 +26,11 @@
                         <textarea class="form-control" id="desc" name="desc" placeholder="Deskripsi PKL"></textarea>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="picture" class="form-label">Foto PKL</label>
+                        <input type="file" class="form-control" id="picture" name="picture" placeholder="Masukkan Foto PKL">
+                    </div>
+
                     <input type="text" name="latitude" id="latitude" placeholder="Latitude" hidden>
                     <input type="text" name="longitude" id="longitude" placeholder="Longitude" hidden>
 
