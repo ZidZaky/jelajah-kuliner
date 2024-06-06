@@ -38,20 +38,20 @@
                                             <p class="tproduk">5</p>
                                             <p class="tstok">3</p>
                                             <p class="ttotal">1</p>
-                                            <p class="tstatus">1</p>            
+                                            <p class="tstatus">1</p>
                                         </div>
                                     </div> -->
                                 <!-- @endfor      -->
                             </div>
-                            
+
 
                         </div>
                     </div>
                 </div>
-                
+
         </div>
     </div>
-    
+
     <div class="content">
         <div class="up" style="display: flex; justify-content: space-between;">
             <div class="back" style="text-align: center; margin-left: 10px; margin-top: -3px;">
@@ -77,7 +77,7 @@
 
                         <div class="batas" >
                             <div class="butButtonFront" style="text-align: center;">
-                                
+
                                 <a href="/produk/create" style="width:35%; margin: 0 auto; margin-top: -5px">
                                     <button type="" class="btn btn-success" id="butEdit">
                                         <span>Tambah Produk &#9998</span>
@@ -88,7 +88,7 @@
                             @foreach($produk as $p)
                             <div class="card">
                                 <div class="inCard" id="theImage">
-                                    <img src="https://i.pinimg.com/564x/34/e1/30/34e13046e8f9fd9f3360568abd453685.jpg"
+                                    <img src="/storage/{{$p->fotoProduk}}"
                                         alt="" style="border: black 1px solid; border-radius: 40px">
                                 </div>
                                 <div class="inCard" id="mid">
@@ -102,8 +102,8 @@
                                             <p id="desk{{$p->id}}">Masukkan Stok</p>
                                             <p>{{$p->nama}}</p>
                                         </div>
-                                        
-                                        <div class="inpArea" id="inform{{$p->id}}"> 
+
+                                        <div class="inpArea" id="inform{{$p->id}}">
                                             <form action="" method="post" id="form{{$p->id}}">
                                                 @csrf
                                                 <input type="number" name="stokAwal" id="stokAwal{{$p->id}}" placeholder="0" style="display:none;">
@@ -115,28 +115,28 @@
                                                 <button onclick="ClosePop(1,'{{$p->id}}')" class="cncl">Batal</button>
                                                 <button class="sv" id="butSave1{{$p->id}}" onclick="simpan(event, 1, '{{$p->id}}')">Save</button>
                                                 <button class="sv" id="butSave2{{$p->id}}" onclick="simpan(event, 2, '{{$p->id}}')">Save</button>
-                                            </div>     
+                                            </div>
                                         </div>
                                     </div>
-                                        
-                                    
-                                        
+
+
+
                                 </div>
                                 <div class="inCard" id="leftt">
-                                    <div class="stokArea">   
+                                    <div class="stokArea">
                                         <p class="stok">Stok</p>
                                         <div class="showStok">
                                             <p class="numberrs">@php if($p->sisaStok>0){echo $p->sisaStok;}else{echo '0';} @endphp</p>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="butStok">
                                             <a href="/produk/create" style="width:40%;">
                                                 <button class="StokAwal btn-success" onclick="showPop(event,1,'{{($p->id)}}')" id="butSetAwal{{$p->id}}">
                                                     <p>
                                                         Set Stok Awal
                                                     </p>
-                                                    
+
                                                 </button>
                                             </a>
                                             <a href="/produk/create" style="width:40%;">
@@ -153,7 +153,7 @@
                                                     </p>
                                                 </button>
                                             </a>
-                                            
+
                                     </div>
 
 
@@ -253,7 +253,7 @@
                             p4.className = ('ttotal')
                         var p5 = document.createElement('p')
                             p5.className = ('tstatus')
-                        
+
                         // // get only the date
                         let dt = data[q];
                         let tgl = getOnlyTheDate(data[q].created_at);
@@ -276,7 +276,7 @@
                         Tableside.appendChild(div);
                     }
                 }
-                
+
             }
 
         }
@@ -331,15 +331,15 @@
                     console.log('masuk')
                 }
                 inp1.style.display="flex"
-                
-                
+
+
                 des.textContent = 'Berapa Stok Awal Hari Ini'
                 save1.style.display="flex";
             }
             if(apa==2){
                 form.action = "/updateStokAkhir";
                 inp2.style.display=""
-                
+
                 des.textContent = 'Berapa Stok Akhir Hari Ini'
                 save2.style.display="flex";
             }
@@ -685,8 +685,8 @@
             height: 20%;
         }
 
-        
-        
+
+
         .butStok{
             display: flex;
             flex-direction: column;
@@ -1365,7 +1365,7 @@
             padding: 2px;
             height: 20px;
             margin-right: 5px;
-            
+
         }
         .navbut>button{
 

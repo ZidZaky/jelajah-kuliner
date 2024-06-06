@@ -44,11 +44,11 @@ class ProdukController extends Controller
         if ($request->hasFile('fotoProduk')) {
             $file = $request->file('fotoProduk');
             $filename = $request->namaProduk . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public/images', $filename);
-            $valdata['foto'] = $filename;
+            $filePath = $file->storeAs('product', $filename, 'public');
+            $valdata['fotoProduk'] = $filePath;
         } else {
             $isnull = 'null';
-            $valdata['foto'] = $isnull;
+            $valdata['fotoProduk'] = $isnull;
         }
 
         $produk = new Produk();
@@ -56,7 +56,7 @@ class ProdukController extends Controller
         $produk->desc = $valdata['desc'];
         $produk->harga = $valdata['harga'];
         $produk->jenisProduk = $valdata['jenisProduk'];
-        $produk->foto = $valdata['foto'];
+        $produk->fotoProduk = $valdata['fotoProduk'];
         $produk->idPKL = $valdata['idPKL'];
         $produk->save();
         $id= $produk->id;

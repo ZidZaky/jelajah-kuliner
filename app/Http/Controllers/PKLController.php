@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\PKL;
 use App\Models\Produk;
 use App\Models\Ulasan;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class PKLController extends Controller
 {
@@ -133,6 +135,7 @@ class PKLController extends Controller
                 'p.namaProduk as nama',
                 'p.harga as harga',
                 'p.idPKL as idPKL',
+                'p.fotoProduk as fotoProduk',
                 DB::raw('CASE WHEN h.statusIsi = 0 THEN h.stokAwal - h.TerjualOnline WHEN h.statusIsi = 1 THEN h.stokAkhir END as sisaStok')
             ])
             ->get();
@@ -147,7 +150,8 @@ class PKLController extends Controller
         ]);
     }
 
-    public function getCoordinates() {
+    public function getCoordinates()
+    {
         $pkls = PKL::all();
 
         $coordinates = $pkls->map(function ($pkl) {
@@ -194,22 +198,26 @@ class PKLController extends Controller
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
         ]);
-
-        // Debugging line to ensure validation passed and data is correct
         // dd($valdata);
 
-        // Update the location in the database
-        $updated = DB::table('p_k_l_s')
-            ->where('idAccount', $valdata['idAccount'])
-            ->update([
-                'latitude' => $valdata['latitude'],
-                'longitude' => $valdata['longitude'],
-            ]);
+        try {
+            // Update the location in the database
+            $updated = PKL::where('idAccount', $valdata['idAccount'])
+                ->update([
+                    'latitude' => $valdata['latitude'],
+                    'longitude' => $valdata['longitude'],
+                ]);
+            if ($updated) {
+                return redirect('dashboard')->with('success', 'Update Lokasi Berhasil');
+            } else {
+                return redirect('dashboard')->with('error', 'Update Lokasi Gagal');
+            }
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error updating location: ' . $e->getMessage());
 
-        if ($updated) {
-            return redirect('dashboard')->with('success', 'Update Lokasi Berhasil');
-        } else {
-            return redirect('dashboard')->with('error', 'Update Lokasi Gagal');
+            // Optionally, return the error details to the user
+            return redirect('dashboard')->with('error', 'Update Lokasi Gagal: ' . $e->getMessage());
         }
     }
 }

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('stok');
             $table->string('stokSaatIni');
             $table->string('jenisProduk');
-            $table->string('foto');
+            $table->string('fotoProduk');
             // $table->foreignId('idPKL')->constrained('PKLS'); // Correct the table name here
             $table->foreignId('idPKL')->constrained('p_k_l_s'); // Correct the table name here
             $table->timestamps();
