@@ -8,10 +8,21 @@
     <link rel="stylesheet" href="css/login.css">
 @endsection
 
+@section('isiAlert')
+    @if(isset($error))
+        
+            @php echo session('error'); @endphp
+    @endif
+@endsection
+
 @section('main')
+
 <div class="container d-flex justify-content-center align-items-center h-100">
     <div class="card">
         <h1 class="h3 mb-3 fw-normal" id="titleLogin">LOGIN</h1>
+        @if(session('banned')!=null)
+            <p style="width:100%; text-align:center; color:white; padding:0 0; margin:0 0;">{{(session('banned'))}}</p>
+        @endif
         <div class="line-divider"></div>
         <form class="form-signin" action="/loginAccount" method="POST">
             @csrf
@@ -42,6 +53,6 @@
         </div>
     </div>
 </div>
-
 <script src="/js/login.js"></script>
+
 @endsection

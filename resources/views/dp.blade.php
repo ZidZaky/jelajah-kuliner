@@ -66,8 +66,6 @@
                     </div>
                     <hr>
                     <div class="product" id="chartLokasi">
-                        
-                        
                     </div>
                 </div>
 
@@ -153,7 +151,7 @@
                 datas = @json($DataToday);
                 console.log(datas.TerjualKeseluruhan<1)
                 if(apa=="Today"){
-                    
+                    loadChartToday();
                 }   
                 }
                 else if(apa=="Bulan Ini"){
@@ -176,6 +174,7 @@
             return(parseInt($int).toLocaleString('id-ID'));
         }
         loadChartToday();
+        
         function loadChartToday(){
 
             let colors = ['#3D332A','#5E6B3D','#D0AF68','#D08840','#B75C3F','#924034','929140','987140','3D632A','2D642A'];
@@ -233,7 +232,7 @@
                     }
                 }
             };
-            window.onload = function() {
+            
             let ctx = document.getElementById('myChart').getContext('2d');
             let myChart = new Chart(ctx, config);
 
@@ -262,7 +261,7 @@
             });
 
             
-        };
+        
         }
 
 
@@ -287,8 +286,9 @@
                     let legenddiv = document.createElement('div')
                         legenddiv.className="legend-container";
                         legenddiv.id = "legend"
-                    div1in1.appendChild(legenddiv);
+                    // div1in1.appendChild(legenddiv);
                 div1.appendChild(div1in1);
+                div1.appendChild(legenddiv)
             parent.appendChild(div1)
 
         }
