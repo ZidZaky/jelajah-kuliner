@@ -28,6 +28,18 @@
 </head>
 
 <body>
+    <div class="AllertArea" id="AreaAllert" style="display:none;">
+        <div class="theAllert">
+            <p>Pemberitahuan</p>
+            <div>
+                <p>@yield('isiAlert')</p>
+            </div>
+            <div>
+                <button>Close</button>
+
+            </div>
+        </div>
+    </div>
     @include('components.navbar')
     <div class="main">
 
@@ -50,5 +62,50 @@
 
 
 </body>
+<style>
+    .AllertArea{
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(0,0,0,0.8);
+        z-index: 900;
+        display: flex;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    body{
+        position: relative;
+        z-index: 500;
+    }
+    .theAllert{
+        width: 500px;
+        height: fit-content;
+        background-color:#902c34;
+        border-radius: 8PX;
+        padding: 10PX;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .theAllert p{
+        color: rgb(255,255,255,0.8);
+        width: 100%;
+        margin: 0;
+        padding-bottom: 0;
+        border-bottom: 0.5px rgb(255,255,255,0.8) solid;
+        text-align: center;
+    }
+    .theAllert button{
+        background-color: green;
+        color: rgb(255,255,255,0.8);
+        border: none;
+        border-radius: 5px;
+        margin-top: 5px;
+        font-size: 12px;
+        padding: 2px 10px;
+    }
 
+</style>
 </html>
