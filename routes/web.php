@@ -56,7 +56,7 @@ Route::post('/buatHistory', [ProdukController::class, 'buatHistory']);
 Route::post('/updateHistory', [ProdukController::class, 'updateHistory']);
 Route::get('/hst',function(){
     return view('riwayatProduk'); });
-Route::get('/Dashboard-Penjualan/{id}',[halamanController::class,'DashboardPenjualan']);
+Route::get('/Dashboard-Penjualan/{idAccVApa}',[halamanController::class,'DashboardPenjualan']);
 Route::post('/MakeStokAwal',[halamanController::class,'UpdateStatusStok'])->name('MakeStokAwal');
 Route::post('/updateStokAkhir',[halamanController::class,'UpdateStokAkhir'])->name('updateStokAkhir');
 Route::get('/rwt/{$idPklpidProduk}',[halamanController::class,'getrwtStok']);
