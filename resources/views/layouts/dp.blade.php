@@ -144,10 +144,10 @@
                 subisi[5].textContent = 0
             // console.log("data : "+datas.length)
             if(datas.length!=0){
-                subisi[0].textContent = datas.omzetKeseluruhan
+                subisi[0].textContent = tR(datas.omzetKeseluruhan)
                 subisi[1].textContent = datas.TerjualKeseluruhan
-                subisi[2].textContent = datas.omzetOnline
-                subisi[3].textContent = datas.omzetOffline
+                subisi[2].textContent = tR(datas.omzetOnline)
+                subisi[3].textContent = tR(datas.omzetOffline)
                 subisi[4].textContent = datas.terjualOnline
                 subisi[5].textContent = datas.terjualOffline
             }
@@ -156,6 +156,10 @@
             
             
 
+        }
+
+        function tR($int){
+            return(parseInt($int).toLocaleString('id-ID'));
         }
         
         loadChart();

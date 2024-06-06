@@ -103,6 +103,7 @@ class halamanController extends Controller
                 $startdate = $startdate[0];
 
             }
+            // dd($Today);
             // dd($startdate);
             
             
@@ -200,7 +201,7 @@ class halamanController extends Controller
                     produks AS p
                 JOIN 
                     history_stoks AS h ON p.id=h.idProduk
-                where day(h.created_at)=".$tgl." and month(h.created_at)=".$bulan." and year(h.created_at)=".$taun."
+                where day(h.created_at)=".$tgl." and month(h.created_at)=".$bulan." and year(h.created_at)=".$taun." and p.idPKL = ".$idPKL."
                 GROUP by p.id,p.namaProduk,p.idPKL
                 order by p.namaProduk;");
                 $Produs = $produkToday;
@@ -303,6 +304,8 @@ class halamanController extends Controller
         }
         
     }
+
+    
 
     public function ChartMonth(){
         $data = DB::select("SELECT p.namaProduk,p.idPKL idPKL,sum(case when h.statusIsi=0 then h.stokAkhir+h.TerjualOnline when h.statusIsi=1 then (h.stokAwal-h.stokAkhir-h.TerjualOnline)+h.TerjualOnline end) semua
