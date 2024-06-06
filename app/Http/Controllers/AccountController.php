@@ -44,7 +44,7 @@ class AccountController extends Controller
         }
         
         // Authentication failed
-        return redirect('/login')->with('error', 'Login failed'); // Redirect back to the login page if authentication fails
+        return redirect('/login')->with('banned', 'email dan password salah!'); // Redirect back to the login page if authentication fails
     }
 
     public function loginAccount(Request $request)

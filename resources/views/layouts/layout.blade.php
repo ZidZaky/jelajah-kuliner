@@ -28,18 +28,20 @@
 </head>
 
 <body>
-    <div class="AllertArea" id="AreaAllert" style="display:none;">
+    @if(session('banned')!=null)
+    <div class="AllertArea" id="AreaAllert">
         <div class="theAllert">
             <p>Pemberitahuan</p>
-            <div>
-                <p>@yield('isiAlert')</p>
+            <div class="alrtkonten">
+                <p class="isi">@yield('isiAlert')</p>
             </div>
             <div>
-                <button>Close</button>
+                <button onclick="closeAlert()">Close</button>
 
             </div>
         </div>
     </div>
+    @endif
     @include('components.navbar')
     <div class="main">
         @yield('main')
@@ -59,7 +61,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-
+    <script>
+        function closeAlert(){
+            let alrt = document.getElementById('AreaAllert');
+            alrt.style.display="none";
+        }
+    </script>
 </body>
 <style>
     .AllertArea{
@@ -82,19 +89,23 @@
         height: fit-content;
         background-color:#902c34;
         border-radius: 8PX;
-        padding: 10PX;
+        padding: 10px 0;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
     }
     .theAllert p{
-        color: rgb(255,255,255,0.8);
         width: 100%;
         margin: 0;
         padding-bottom: 0;
-        border-bottom: 0.5px rgb(255,255,255,0.8) solid;
         text-align: center;
+    }
+    .theAllert>p{
+        color: rgb(255,255,255,0.8);
+
+        border-bottom: 0.5px rgb(255,255,255,0.8) solid;
+
     }
     .theAllert button{
         background-color: green;
@@ -104,6 +115,23 @@
         margin-top: 5px;
         font-size: 12px;
         padding: 2px 10px;
+    }
+    .theAllert>div{
+        width: 100%;
+        display: flex;
+        /* flex-direction: ; */
+        align-items: center;
+        justify-content: center;
+    }
+    .alrtkonten{
+        padding: 20px 0;
+        border-bottom: 0.5px rgb(255,255,255,0.8) solid;
+        background-color: rgb(255,255,255,0.5);
+        color: black;
+    }
+    .isi{
+        color: black;
+        /* padding: 20px 50px; */
     }
 
 </style>

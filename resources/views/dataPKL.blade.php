@@ -1384,5 +1384,19 @@
         }
     </style>
 @endsection
+@php 
+    function Bintang($rating){
+        $back='kosong';
+        for($k=1;$k<=$rating;$k++){
+            if($back==='kosong'){
+                $back ='⭐️';
+            }
+            else{
+                $back .= '⭐️';
+            }
+        }
+        return $back;
+    }
+@endphp
 
 

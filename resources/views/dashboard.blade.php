@@ -498,7 +498,7 @@
                     // Create a custom icon using DivIcon
                     const customIcon = L.divIcon({
                         className: 'custom-icon', // Custom class name for styling
-                        html: `<img src="/storage/${coordinates.picture}" alt="PKL Photo" />`,
+                        html: `<img src="/storage/${coordinates.picture}" alt="PKL Photo" class="pointImg" />`,
                         iconSize: [38, 38], // Set the size of the icon
                         iconAnchor: [19, 38], // Set the anchor point of the icon
                         popupAnchor: [0, -38] // Set the popup anchor point
@@ -812,6 +812,9 @@
         }
     </script>
     <style>
+        /* ----------- STYLE TITIK IMG ----------------- */
+        /* ----------- STYLE TITIK IMG ----------------- */
+
         .updateLocation {
             position: absolute;
             display: flex;

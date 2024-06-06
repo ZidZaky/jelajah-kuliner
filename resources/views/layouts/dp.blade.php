@@ -14,7 +14,7 @@
 
         <div class="dkonten">
             <div class="back">
-                <p>Selamat Pagi, Dika</p>
+                <p>Selamat Pagi, {{ ucwords(session('account')['nama']) }}</p>
                 <p id="ket">Dashboard ini di siapkan agar kamu lebih mudah melihat rangkuman penjualanmu</p>
             </div>
             <div class="content">
@@ -77,13 +77,18 @@
                     <hr>
                     <div class="product">
                         <p>Analytics Overall Product</p>
+                        
                         <div>
-                            <div class="Bagan">
-                                <canvas id="myChart" width="400" height="400" ></canvas>
-                                <!-- <canvas id="myChart2" width="400" height="400" ></canvas> -->
-                            </div>
-                            <div class="legend-container" id="legend"></div>
+                            @if($produs!=null)
+                                <div class="Bagan">
+                                    <canvas id="myChart" width="400" height="400" ></canvas>
+                                    <!-- <canvas id="myChart2" width="400" height="400" ></canvas> -->
+                                </div>
+                                <div class="legend-container" id="legend"></div>
                             <!-- <div class="legend-container" id="legend2"></div> -->
+                            @else
+                                <p class="noneProduk">Belum Ada Produk</p>
+                            @endif
                         </div>
                         
                     </div>
@@ -129,12 +134,24 @@
 
             }
             
-            subisi[0].textContent = datas.omzetKeseluruhan
-            subisi[1].textContent = datas.TerjualKeseluruhan
-            subisi[2].textContent = datas.omzetOnline
-            subisi[3].textContent = datas.omzetOffline
-            subisi[4].textContent = datas.terjualOnline
-            subisi[5].textContent = datas.terjualOffline
+
+
+                subisi[0].textContent = 0
+                subisi[1].textContent = 0
+                subisi[2].textContent = 0
+                subisi[3].textContent = 0
+                subisi[4].textContent = 0
+                subisi[5].textContent = 0
+            // console.log("data : "+datas.length)
+            if(datas.length!=0){
+                subisi[0].textContent = datas.omzetKeseluruhan
+                subisi[1].textContent = datas.TerjualKeseluruhan
+                subisi[2].textContent = datas.omzetOnline
+                subisi[3].textContent = datas.omzetOffline
+                subisi[4].textContent = datas.terjualOnline
+                subisi[5].textContent = datas.terjualOffline
+            }
+            
             
             
             
@@ -234,6 +251,10 @@
        
     </script>
     <style>
+        .noneProduk{
+            color: rgb(255,255,255,0.5);
+        }
+        /* ----------- */
         html::-webkit-scrollbar{
             width: 0;
         }

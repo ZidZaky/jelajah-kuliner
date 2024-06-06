@@ -99,7 +99,10 @@ class halamanController extends Controller
             $startdate = DB::select("select date(created_at) as startdt FROM pesanans
             WHERE idPKL=".$idPKL." and status = 'Pesanan Selesai'
             ORDER BY created_at asc limit 1");
-            $startdate = $startdate[0];
+            if($startdate!=null){
+                $startdate = $startdate[0];
+
+            }
             // dd($startdate);
             
             
@@ -248,7 +251,6 @@ class halamanController extends Controller
             // dd($produkMonth);
             
             // dd($produkYear);
-            
             // dd();
             // dd(date("Y"));
             // if()
@@ -265,7 +267,7 @@ class halamanController extends Controller
                     // dd($Today[0]);
                     // dd($this->hitung($Today)>0);
                         return view('dp',['DataToday'=>$Today[0],'DataMonth'=>$month[0],'DataYear'=>$year[0],'produs'=>$Produs,'startdate'=>$startdate,'apa'=>$apa]);
-                    
+
                 }
             }
             catch(Exception $e){
@@ -292,8 +294,12 @@ class halamanController extends Controller
         
                     }
                 }
-            }
 
+                
+            }
+        
+        $ary = [];
+        return view('dp',['DataToday'=>$ary,'DataMonth'=>$ary,'DataYear'=>$ary,'produs'=>$ary,'apa'=>$apa]);
         }
         
     }
