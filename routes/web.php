@@ -87,7 +87,6 @@ Route::get('/pesanan/create/{id}', [PesananController::class, 'createWithId'])->
 Route::get('banUser/{id}', [ReportController::class, 'banUser']);
 Route::get('unbanUser/{id}', [ReportController::class, 'unbanUser']);
 
-
 // Define a route to fetch coordinates from the database
 Route::get('/getCoordinates', [PKLController::class, 'getCoordinates']);
 // Route::get('/getUlasan', [UlasanController::class, 'getUlasan']);

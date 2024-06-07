@@ -70,7 +70,8 @@
             </div>
 
             <div id="contentPesan" style="display: none;">
-                Pesan Content Goes Here
+            <h4 style="text-align: center; padding-top: 10px; padding-left: 5px">Login Terlebih Dahulu!</h4>
+            <button href="/login" type="button" class="btn" style="border-radius: 10px; background-color: rgb(0, 200, 0); width: 200px; margin: 0 auto;">Login</button>
             </div>
         </div>
     </div>

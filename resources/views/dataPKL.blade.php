@@ -47,7 +47,7 @@
                             <div class="card">
                                 <div class="inCard" id="theImage">
                                     <img src="https://i.pinimg.com/564x/34/e1/30/34e13046e8f9fd9f3360568abd453685.jpg"
-                                        alt="" style="border: black 1px solid; border-radius: 40px">
+                                        alt="" style="border: black 1px solid; border-radius: 40px; max-width: 130px; max-height: 130px">
                                 </div>
                                 <div class="inCard" id="mid">
                                     <p class="np">{{$p->nama}}</p>
