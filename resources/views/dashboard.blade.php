@@ -8,6 +8,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Add this to your CSS file or within a <style> tag */
+        .leaflet-marker-icon img {
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Ensures the image covers the entire circle */
+        }
+    </style>
 @endsection
 
 @section('main')
@@ -18,39 +28,56 @@
         </div>
     @endif
 
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="z-index: 100">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <div id="map"></div>
-    <div class="toSearch" id="tosearch1" style="display:none;" >
+    <div class="toSearch" id="tosearch1" style="display:none;">
         <button onclick="hide('input')">
-            <svg alt="Search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="transform: scale(1);"><path fill="#FFFFFF" d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"></path></svg>
+            <svg alt="Search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                style="transform: scale(1);">
+                <path fill="#FFFFFF"
+                    d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z">
+                </path>
+            </svg>
 
         </button>
     </div>
     @if (session('account')['status'] == 'PKL' || session('account')['status'] == 'Pelanggan')
+        <div>
+            <form id="myForm" method="POST" action="/update-location" enctype="multipart/form-data">
+                @csrf
+                <input type="text" name="latitude" id="latitude" placeholder="Latitude" hidden>
+                <input type="text" name="longitude" id="longitude" placeholder="Longitude" hidden>
 
-    <div>
-        <form id="myForm" method="POST" action="/update-location" enctype="multipart/form-data">
-            @csrf
-            <input type="text" name="latitude" id="latitude" placeholder="Latitude" hidden>
-            <input type="text" name="longitude" id="longitude" placeholder="Longitude" hidden>
-
-            <input type="text" class="form-control" id="idAccount" name="idAccount" placeholder="ID Akun"
-                value="{{ session('account')['id'] }}" readonly hidden>
-                <div class="updateLocation" id="updateLocation" style="display:;" >
+                <input type="text" class="form-control" id="idAccount" name="idAccount" placeholder="ID Akun"
+                    value="{{ session('account')['id'] }}" readonly hidden>
+                <div class="updateLocation" id="updateLocation" style="display:;">
                     <button type="button" onclick="getCurrentLocation()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
                         </svg>
                     </button>
                 </div>
             </form>
         </div>
-        @endif
+    @endif
 
     <div class="forsearch" id="forsearch1">
         <div>
-            <svg alt="Search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="transform: scale(1);"><path fill="#9c242c" d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"></path></svg>
+            <svg alt="Search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                style="transform: scale(1);">
+                <path fill="#9c242c"
+                    d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z">
+                </path>
+            </svg>
             <input type="text" id="inpSearch" oninput="cari5()" placeholder="Search">
-            <button >Cari</button>
+            <button>Cari</button>
         </div>
         <button onclick="hide('cari')">X</button>
     </div>
@@ -72,35 +99,35 @@
                     $jmlh_ptolak = 0;
                     // dump($pesanan);
                     // Iterate through the collection of orders
-            foreach ($pesanan as $pesan) {
-                // Increment $jmlh if the order is associated with the current account or PKL
-                if ($pesan->idAccount == session('account')['id'] || ($pkl && $pkl->id == $pesan->idPKL)) {
-                    $jmlh++;
-                }
+                    foreach ($pesanan as $pesan) {
+                        // Increment $jmlh if the order is associated with the current account or PKL
+                        if ($pesan->idAccount == session('account')['id'] || ($pkl && $pkl->id == $pesan->idPKL)) {
+                            $jmlh++;
+                        }
 
-                // Increment counters based on order status and account association
-                if ($pesan->idAccount == session('account')['id']) {
-                    if ($pesan->status == 'Pesanan Baru') {
-                        $jmlh_pb++;
-                    } elseif ($pesan->status == 'Pesanan Diproses') {
-                        $jmlh_pd++;
-                    } elseif ($pesan->status == 'Pesanan Selesai') {
-                        $jmlh_ps++;
-                    } elseif ($pesan->status == 'Pesanan Ditolak' || $pesan->status == 'Pesanan Dibatalkan') {
-                        $jmlh_ptolak++;
+                        // Increment counters based on order status and account association
+                        if ($pesan->idAccount == session('account')['id']) {
+                            if ($pesan->status == 'Pesanan Baru') {
+                                $jmlh_pb++;
+                            } elseif ($pesan->status == 'Pesanan Diproses') {
+                                $jmlh_pd++;
+                            } elseif ($pesan->status == 'Pesanan Selesai') {
+                                $jmlh_ps++;
+                            } elseif ($pesan->status == 'Pesanan Ditolak' || $pesan->status == 'Pesanan Dibatalkan') {
+                                $jmlh_ptolak++;
+                            }
+                        } elseif ($pkl && $pkl->id == $pesan->idPKL) {
+                            if ($pesan->status == 'Pesanan Baru') {
+                                $jmlh_pb++;
+                            } elseif ($pesan->status == 'Pesanan Diproses') {
+                                $jmlh_pd++;
+                            } elseif ($pesan->status == 'Pesanan Selesai') {
+                                $jmlh_ps++;
+                            } elseif ($pesan->status == 'Pesanan Ditolak' || $pesan->status == 'Pesanan Dibatalkan') {
+                                $jmlh_ptolak++;
+                            }
+                        }
                     }
-                } elseif ($pkl && $pkl->id == $pesan->idPKL) {
-                    if ($pesan->status == 'Pesanan Baru') {
-                        $jmlh_pb++;
-                    } elseif ($pesan->status == 'Pesanan Diproses') {
-                        $jmlh_pd++;
-                    } elseif ($pesan->status == 'Pesanan Selesai') {
-                        $jmlh_ps++;
-                    } elseif ($pesan->status == 'Pesanan Ditolak' || $pesan->status == 'Pesanan Dibatalkan') {
-                        $jmlh_ptolak++;
-                    }
-                }
-            }
                     // foreach ($pesanan as $pesan) {
 
                     // }
@@ -162,9 +189,9 @@
                                 @foreach ($pesanan as $pesan)
                                     @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
                                         @if ($pesan->status == 'Pesanan Baru')
-                                        @php
-                                            $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
-                                        @endphp
+                                            @php
+                                                $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
+                                            @endphp
                                             <div class="deTable">
                                                 <div class="isiDeTable">
                                                     <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
@@ -194,9 +221,9 @@
                                 @foreach ($pesanan as $pesan)
                                     @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
                                         @if ($pesan->status == 'Pesanan Diproses')
-                                        @php
-                                            $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
-                                        @endphp
+                                            @php
+                                                $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
+                                            @endphp
                                             <div class="deTable">
                                                 <div class="isiDeTable">
                                                     <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
@@ -225,9 +252,9 @@
                                 @foreach ($pesanan as $pesan)
                                     @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
                                         @if ($pesan->status == 'Pesanan Selesai')
-                                        @php
-                                            $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
-                                        @endphp
+                                            @php
+                                                $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
+                                            @endphp
                                             <div class="deTable">
                                                 <div class="isiDeTable">
                                                     <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
@@ -256,9 +283,9 @@
                                 @foreach ($pesanan as $pesan)
                                     @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
                                         @if ($pesan->status == 'Pesanan Ditolak' || $pesan->status == 'Pesanan Dibatalkan')
-                                        @php
-                                            $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
-                                        @endphp
+                                            @php
+                                                $account = \App\Models\Account::where('id', $pesan->idAccount)->first();
+                                            @endphp
                                             <div class="deTable">
                                                 <div class="isiDeTable">
                                                     <p class="tpemesan">{{ $pesan->created_at->format('d-m-Y') }}</p>
@@ -292,6 +319,7 @@
         {{-- <button class="btn btn-danger">X</button> --}}
         <p id="namaPKL"></p><br>
         <img src="https://i.pinimg.com/736x/da/5e/ba/da5eba94367e1a2aaa683f1acc105f97.jpg" alt="PKL Photo Goes Here">
+
 
         <div id="tsur">
             <button id="butUlasan" onclick="changeContent('Ulasan')" type="button" class="btn btn-success"
@@ -353,74 +381,73 @@
 
     <script src="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.js"></script>
     <script>
-
-        function cari5(){
+        function cari5() {
             let pin = document.querySelectorAll(`.leaflet-marker-icon`);
-            pin.forEach(o=>{
-                o.style.display='none';
+            pin.forEach(o => {
+                o.style.display = 'none';
             })
             // console.log(pin.length);
             let hasil = [];
             fetch(`/getData`)
                 .then(response => response.json())
                 .then(data => {
-                    data.forEach(e=>{
+                    data.forEach(e => {
                         // console.log(e);
                         let inp = document.getElementById('inpSearch');
                         let ary = [];
                         ary.push(e.nama)
                         ary.push(e.menu)
 
-                        ary.forEach(i=>{
+                        ary.forEach(i => {
                             // console.log(i+"tipe : "+typeof(i)+" lower : "+i.toLowerCase());
-                            if(i.toLowerCase().includes(inp.value.toLowerCase())){
+                            if (i.toLowerCase().includes(inp.value.toLowerCase())) {
                                 // console.log(hasil.includes(e.id))
-                                if(hasil.includes(e.id)==false){
+                                if (hasil.includes(e.id) == false) {
                                     hasil.push(e.id);
                                 }
-                                console.log('hasil dalam : '+hasil);
+                                console.log('hasil dalam : ' + hasil);
                             }
                         })
 
                     })
-                    console.log('hasil luar : '+hasil);
-                    hasil.forEach(c=>{
+                    console.log('hasil luar : ' + hasil);
+                    hasil.forEach(c => {
                         // console.log(('marker'+c));
-                        let depin = document.getElementById(('marker'+c));
-                        depin.style.display='';
+                        let depin = document.getElementById(('marker' + c));
+                        depin.style.display = '';
                     })
                 })
-            .catch(error => {
-                console.error('Error fetching coordinates:', error);
-            });
+                .catch(error => {
+                    console.error('Error fetching coordinates:', error);
+                });
 
         }
 
-        function search1(){
+        function search1() {
             let but = document.querySelectorAll(`#content1>button`)
-            but.forEach(function(a){
-            let isi = document.getElementById('cari1');
+            but.forEach(function(a) {
+                let isi = document.getElementById('cari1');
                 a.style.display = 'none';
-                if(a.textContent.toLowerCase().includes(isi.value.toLowerCase())){
+                if (a.textContent.toLowerCase().includes(isi.value.toLowerCase())) {
                     a.style.display = "";
                 }
                 // console.log(a.textContent);
             })
         }
-        function hide($apa){
+
+        function hide($apa) {
             let cari = document.getElementById('tosearch1')
             let inp = document.getElementById('forsearch1')
             console.log('work')
-            if($apa=='input'){
-                cari.style.display="none"
-                inp.style.display="flex";
+            if ($apa == 'input') {
+                cari.style.display = "none"
+                inp.style.display = "flex";
 
-            }
-            else{
+            } else {
 
 
-                inp.style.display="none";
-                cari.style.display="flex";
+                inp.style.display = "none";
+                cari.style.display = "flex";
 
             }
         }
@@ -468,12 +495,25 @@
             .then(response => response.json())
             .then(data => {
                 data.forEach(coordinates => {
-                    // Create a marker for each coordinate on the map
-                    const marker = L.marker([coordinates.latitude, coordinates.longitude]).addTo(map);
+                    // Create a custom icon using DivIcon
+                    const customIcon = L.divIcon({
+                        className: 'custom-icon', // Custom class name for styling
+                        html: `<img src="/storage/${coordinates.picture}" alt="PKL Photo" class="pointImg" />`,
+                        iconSize: [38, 38], // Set the size of the icon
+                        iconAnchor: [19, 38], // Set the anchor point of the icon
+                        popupAnchor: [0, -38] // Set the popup anchor point
+                    });
+
+                    // Create a marker with the custom icon
+                    const marker = L.marker([coordinates.latitude, coordinates.longitude], {
+                        icon: customIcon
+                    }).addTo(map);
                     marker._icon.id = `marker${coordinates.id}`;
+
                     // Pass the id to the displayAccountDetails function when marker is clicked
                     marker.on('click', function() {
                         displayAccountDetails(coordinates.id, coordinates.namaPKL);
+                        fillFoto(coordinates.id);
                         fillContentUlasan(coordinates.id);
                         fillContentMenu(coordinates.id);
                         fillContentPesan(coordinates.id);
@@ -485,7 +525,6 @@
                         button.addEventListener('click', function() {
                             // Redirect to the specified URL when the button is clicked
                             window.location.href = `/ulasan/create/${coordinates.id}`;
-
                         });
                     });
                 });
@@ -547,6 +586,22 @@
             if (jenis == 'Pesan') {
                 pesan.style.opacity = "100%";
             }
+        }
+
+        function fillFoto(id) {
+            fetch(`/getPictureByID/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    const imgElement = document.querySelector('img[alt="PKL Photo Goes Here"]');
+                    if (imgElement && data.picture) {
+                        imgElement.src = "/storage/" + data.picture; // Correct concatenation
+                    } else {
+                        console.error('Image element not found or picture URL is missing');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching picture:', error);
+                });
         }
 
 
@@ -691,10 +746,9 @@
 
                             const numStokP = document.createElement('p');
                             numStokP.id = 'numstok';
-                            if(product.sisaStok<1){
+                            if (product.sisaStok < 1) {
                                 numStokP.innerText = " Habis";
-                            }
-                            else{
+                            } else {
                                 numStokP.innerText = product.sisaStok;
                             }
                             // console.log(typeof product.sisaStok);
@@ -742,25 +796,26 @@
 
         // Function to capture current location
         function getCurrentLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-        } else {
-            alert("Geolocation is not supported by this browser.");
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
         }
-    }
 
-    function showPosition(position) {
-        document.getElementById("latitude").value = position.coords.latitude;
-        document.getElementById("longitude").value = position.coords.longitude;
+        function showPosition(position) {
+            document.getElementById("latitude").value = position.coords.latitude;
+            document.getElementById("longitude").value = position.coords.longitude;
 
-        // Submit the form
-        document.getElementById("myForm").submit();
-    }
-
-
+            // Submit the form
+            document.getElementById("myForm").submit();
+        }
     </script>
     <style>
-        .updateLocation{
+        /* ----------- STYLE TITIK IMG ----------------- */
+        /* ----------- STYLE TITIK IMG ----------------- */
+
+        .updateLocation {
             position: absolute;
             display: flex;
             flex-direction: row;
@@ -783,7 +838,8 @@
             align-items: center;
             justify-content: center;
         }
-        .toSearch{
+
+        .toSearch {
             position: absolute;
             display: flex;
             flex-direction: row;
@@ -806,19 +862,22 @@
             align-items: center;
             justify-content: center;
         }
-        .toSearch>button>svg{
+
+        .toSearch>button>svg {
             padding: 2px 2px;
             color: white;
         }
-        .toSearch>button{
+
+        .toSearch>button {
             padding: 4px 10px;
             border-radius: 3px;
             font-size: 20px;
-            background-color:#9c242c;
+            background-color: #9c242c;
             box-shadow: 1px 1px #471e21;
             border: none;
         }
-        .forsearch{
+
+        .forsearch {
             position: absolute;
             display: flex;
             flex-direction: row;
@@ -840,21 +899,25 @@
             align-items: center;
             justify-content: center;
         }
-        .forsearch>*{
+
+        .forsearch>* {
             /* border: blue 1px solid !important; */
         }
-        .forsearch>button{
+
+        .forsearch>button {
             padding: 4px 10px;
             border-radius: 3px;
             font-size: 20px;
-            background-color: rgb(255,255,255,0.2);
+            background-color: rgb(255, 255, 255, 0.2);
             border: none;
         }
-        .forsearch>button:hover{
+
+        .forsearch>button:hover {
             background-color: #471e21;
             color: white;
         }
-        .forsearch>div{
+
+        .forsearch>div {
             width: 80%;
             height: 80%;
             background-color: white;
@@ -873,23 +936,26 @@
             /* padding-left: /; */
 
         }
-        .forsearch>div>svg{
+
+        .forsearch>div>svg {
             width: 10%;
             height: 70%;
             /* padding-right: 10px; */
         }
-        .forsearch>div>input{
+
+        .forsearch>div>input {
             width: 65%;
             padding: 2px;
             outline: none;
             border: none;
-            background-color:none;
+            background-color: none;
             color: white;
             font-size: 15px;
             color: black;
 
         }
-        .forsearch>div>button{
+
+        .forsearch>div>button {
             width: 25%;
             border: none;
             outline: none;
@@ -898,7 +964,8 @@
             border-radius: 10px;
 
         }
-        .forsearch>div>button:hover{
+
+        .forsearch>div>button:hover {
             background-color: #ccc;
         }
     </style>

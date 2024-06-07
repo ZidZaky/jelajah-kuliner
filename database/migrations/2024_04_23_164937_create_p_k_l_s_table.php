@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->string('namaPKL');
             $table->string('desc');
+            $table->string('picture')->nullable();
             $table->decimal('latitude', 10, 8); // Decimal for latitude with precision and scale
             $table->decimal('longitude', 11, 8);
             $table->foreignId('idAccount')->constrained('accounts'); // Correct the table name here

@@ -30,7 +30,7 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     $pkl = new PKLController();
     $ulasan = Ulasan::all(); // Fetch $ulasan from the database
-    
+
     $pesanan = Pesanan::all();
     // $data = $pkl->getDataPKL();
     // dd($data);
@@ -56,10 +56,10 @@ Route::post('/buatHistory', [ProdukController::class, 'buatHistory']);
 Route::post('/updateHistory', [ProdukController::class, 'updateHistory']);
 Route::get('/hst',function(){
     return view('riwayatProduk'); });
-Route::get('/Dashboard-Penjualan/{id}',[halamanController::class,'DashboardPenjualan']);
+Route::get('/Dashboard-Penjualan/{idAccVApa}',[halamanController::class,'DashboardPenjualan']);
 Route::post('/MakeStokAwal',[halamanController::class,'UpdateStatusStok'])->name('MakeStokAwal');
 Route::post('/updateStokAkhir',[halamanController::class,'UpdateStokAkhir'])->name('updateStokAkhir');
-
+Route::get('/rwt/{$idPklpidProduk}',[halamanController::class,'getrwtStok']);
 
 
 Route::get('/dataPKL/{idAccount}', [PKLController::class, 'showDetail']);
@@ -92,7 +92,12 @@ Route::get('/getCoordinates', [PKLController::class, 'getCoordinates']);
 // Route::get('/getUlasan', [UlasanController::class, 'getUlasan']);
 Route::get('/getUlasan/{id}', [UlasanController::class, 'getUlasan']);
 Route::get('/getProduk/{id}', [ProdukController::class, 'getProduk']);
+Route::get('/getPictureByID/{id}', [PKLController::class, 'getPictureByID']);
+
 
 Route::get('/ulasan/create/{id}', [UlasanController::class, 'createWithId']);
 
 Route::post('/update-location', [PKLController::class,'updateLocation']);
+
+Route::get('/rwt/{idpklpidproduk}',[halamanController::class,'getrwtStok']);
+Route::get('/chartTahun',[halamanController::class,'ChartMonth']);

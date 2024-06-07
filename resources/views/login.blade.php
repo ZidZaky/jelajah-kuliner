@@ -8,7 +8,15 @@
     <link rel="stylesheet" href="css/login.css">
 @endsection
 
+@section('isiAlert')
+    @if((session('banned'))!=null)
+        
+            @php echo session('banned'); @endphp
+    @endif
+@endsection
+
 @section('main')
+
 <div class="container d-flex justify-content-center align-items-center h-100">
     <div class="card">
         <h1 class="h3 mb-3 fw-normal" id="titleLogin">LOGIN</h1>
@@ -42,6 +50,6 @@
         </div>
     </div>
 </div>
-
 <script src="/js/login.js"></script>
+
 @endsection
