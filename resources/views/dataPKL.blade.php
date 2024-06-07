@@ -14,7 +14,7 @@
 
                 <div class="navrwt">
                     <div>
-                        <p>Riwayat Stok - Nama</p>
+                        <p id="NamaStokBarang">Riwayat Stok</p>
                     </div>
                     <div class="navbut">
                         <button onclick="closeRiwayat()">x</button>
@@ -147,7 +147,7 @@
                                                 </button>
                                             </a>
                                             <a href="" style="width:40%;">
-                                                <button onclick="showRiwayat(event,'{{$pkl->id}}p{{$p->id}}')" class="riwayat btn-success">
+                                                <button onclick="showRiwayat(event,'{{$pkl->id}}p{{$p->id}}','{{$p->nama}}')" class="riwayat btn-success">
                                                     <p>
                                                         Riwayat Stok
                                                     </p>
@@ -217,9 +217,11 @@
             let riwayat = document.getElementById("RiwayatArea");
             riwayat.style.display="none";
         }
-         async function showRiwayat(event, IDPKLpIDPRODUK){
+         async function showRiwayat(event, IDPKLpIDPRODUK,nama){
             event.preventDefault();
             let idmerge = IDPKLpIDPRODUK;
+            let namajudul = document.getElementById('NamaStokBarang');
+            namajudul.textContent="Riwayat Stok Produk "+nama;
             let respon = await fetch(('/rwt/'+idmerge));
             if(!respon.ok){
                 console.log('eror : '+ respon.statusText);

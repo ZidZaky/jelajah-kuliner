@@ -33,7 +33,7 @@
         <div class="theAllert">
             <p>Pemberitahuan</p>
             <div class="alrtkonten">
-                <p class="isi">@yield('isiAlert')</p>
+                <p class="Allrisiisi">@yield('isiAlert')</p>
             </div>
             <div>
                 <button onclick="closeAlert()">Close</button>
@@ -130,7 +130,7 @@
         background-color: rgb(255,255,255,0.5);
         color: black;
     }
-    .isi{
+    .Allrisi{
         color: black;
         /* padding: 20px 50px; */
     }

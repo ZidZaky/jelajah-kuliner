@@ -55,7 +55,7 @@
                 @else
                     <p class="namap" style="text-align: center">Produk Kosong</p>
                 @endif
-                @if ($pesan->status == 'Pesanan Baru' && @session('account')['status'] == 'PKL')
+                @if ($pesan->status == 'Pesanan Baru' && @session('account')['status'] == 'PKL'&& $pesan->idAccount!=session('account')['id'])
                     <br>
                     <div class="d-flex justify-content-between">
                         <button class="btn btn-danger me-2" onclick="confirmTolakPesanan('{{ $pesan->id }}')">
@@ -162,7 +162,7 @@
                     @php
                         $report = \App\Models\Report::where('idPesanan', $pesan->id)->first();
                     @endphp
-                    @if (session('account')['status'] == 'PKL' && $pesan->status != 'Pesanan Selesai' && !$report)
+                    @if (session('account')['status'] == 'PKL' && $pesan->status != 'Pesanan Selesai' && !$report && $pesan->idAccount!=session('account')['id'])
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                             data-bs-target="#staticBackdrop" style="width: 40%">

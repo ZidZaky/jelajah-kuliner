@@ -25,16 +25,21 @@ use app\Models\PKL;
 */
 
 Route::get('/', function () {
-    return view('map');
+    return redirect('/dashboard');
 });
 Route::get('/dashboard', function () {
-    $pkl = new PKLController();
-    $ulasan = Ulasan::all(); // Fetch $ulasan from the database
+    if(isset($_SESSION)){
+        $pkl = new PKLController();
+        $ulasan = Ulasan::all(); // Fetch $ulasan from the database
 
-    $pesanan = Pesanan::all();
-    // $data = $pkl->getDataPKL();
-    // dd($data);
-    return view('dashboard', ['ulasan' => $ulasan, 'pesanan' => $pesanan]);
+        $pesanan = Pesanan::all();
+        // $data = $pkl->getDataPKL();
+        // dd($data);
+        return view('dashboard', ['ulasan' => $ulasan, 'pesanan' => $pesanan]);
+    }
+    return view('dashboard', ['ulasan' => [], 'pesanan' => []]);
+
+    
 });
 Route::get('/getData', [PKLController::class, 'getDataPKL']);
 

@@ -8,6 +8,7 @@ use App\Models\Produk;
 use App\Models\PKL;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\HistoryStokController;
+use Illuminate\Support\Facades\Validator;
 class PesananController extends Controller
 {
     //
@@ -61,6 +62,13 @@ class PesananController extends Controller
     {
         // Create a new Pesanan instance
         // dd($request);
+        $validate = Validator::make($request->all(),[
+            'totalHarga'=>'required|not_in:0'
+        ],['totalHarga.not_in'=>'Belum ada barang yang dicheckout']);
+        if($validate->fails()){
+            // dd('masuk');
+            return redirect()->back()->with('banned','Belum ada barang yang dicheckout');
+        }
         $pesanan = new Pesanan();
         $pesanan->idAccount = $request->input('idAccount');
         $pesanan->idPKL = $request->input('idPKL');
@@ -190,6 +198,8 @@ class PesananController extends Controller
         $query = "select * from produk_dipesan where idPesanan = ?";
         // Execute the query
         $produk = DB::select($query, [$pesan->id]);
+        // dd($pesan,$produk);
+        
         // dd($produk);
         // $pesan = Pesanan::find($id);
         return view('detilPesan', [
