@@ -30,20 +30,20 @@ class AccountController extends Controller
 
             // Authentication was successful
             $account = Auth::user();
-            if ($account->status != 'Banned') {
+            if ($account->status != 'alert') {
                 session(['account' => $account]);
                 return redirect('/dashboard');
             }
             else{
                 // session(['account' => $account]);
-                return redirect('/login')->with('banned','Anda Di Ban');
+                return redirect('/login')->with('alert','Anda Di Ban');
             }
 
             // Redirect to the intended URL after successful login
         }
         
         // Authentication failed
-        return redirect('/login')->with('banned', 'email dan password salah!'); // Redirect back to the login page if authentication fails
+        return redirect('/login')->with('alert', 'email dan password salah!'); // Redirect back to the login page if authentication fails
     }
 
     public function loginAccount(Request $request)
@@ -101,7 +101,7 @@ class AccountController extends Controller
 
             return redirect('/login');
         } else {
-            return redirect('/account/create')->with('error', 'Password berbeda');
+            return redirect()->back()->with('alert', 'Password berbeda');
         }
     }
 

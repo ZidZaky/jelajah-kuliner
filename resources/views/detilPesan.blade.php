@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="/css/pesan.css">
 @endsection
 
+@section('isiAlert')
+    @if((session('alert'))!=null)
+        
+            @php echo session('alert'); @endphp
+    @endif
+@endsection
+
 @section('main')
     <div class="all">
         <div class="up border border-bottom d-flex justify-content-between align-items-center">

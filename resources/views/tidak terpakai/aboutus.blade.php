@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.layout2')
 
 @section('title')
     Feel Free to "JELAJAH" Kuliner dsekitarmu!
@@ -8,7 +8,15 @@
     <link rel="stylesheet" href="css/style.css">
 @endsection
 
+@section('isiAlert')
+    @if((session('alert'))!=null)
+        
+            @php echo session('alert'); @endphp
+    @endif
+@endsection
+
 @section('main')
+
     <h1>Welcome [User]! <span class="badge text-bg-secondary">NEW!</span></h1>
     <hr>
 

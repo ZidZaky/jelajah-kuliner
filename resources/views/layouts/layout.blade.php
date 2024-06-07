@@ -28,7 +28,7 @@
 </head>
 
 <body>
-    @if(session('banned')!=null)
+    @if(session('alert')!=null)
     <div class="AllertArea" id="AreaAllert">
         <div class="theAllert">
             <p>Pemberitahuan</p>

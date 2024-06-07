@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="css/register.css">
 @endsection
 
+@section('isiAlert')
+    @if((session('alert'))!=null)
+        
+            @php echo session('alert'); @endphp
+    @endif
+@endsection
+
 @section('main')
     <div class="container">
         <div class="card">

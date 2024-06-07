@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="css/dataPKL.css">
 @endsection
 
+@section('isiAlert')
+    @if((session('alert'))!=null)
+        
+            @php echo session('alert'); @endphp
+    @endif
+@endsection
+
 @section('main')
     <div class="content">
         <div class="up" style=" display: flex; justify-content: space-between;">

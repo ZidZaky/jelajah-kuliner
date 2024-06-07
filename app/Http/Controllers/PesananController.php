@@ -67,7 +67,7 @@ class PesananController extends Controller
         ],['totalHarga.not_in'=>'Belum ada barang yang dicheckout']);
         if($validate->fails()){
             // dd('masuk');
-            return redirect()->back()->with('banned','Belum ada barang yang dicheckout');
+            return redirect()->back()->with('alert','Belum ada barang yang dicheckout');
         }
         $pesanan = new Pesanan();
         $pesanan->idAccount = $request->input('idAccount');

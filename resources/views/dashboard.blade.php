@@ -20,6 +20,13 @@
     </style>
 @endsection
 
+@section('isiAlert')
+    @if((session('alert'))!=null)
+        
+            @php echo session('alert'); @endphp
+    @endif
+@endsection
+
 @section('main')
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert" style="z-index: 100">

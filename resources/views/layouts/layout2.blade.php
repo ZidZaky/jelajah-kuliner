@@ -31,7 +31,7 @@
 </head>
 
 <body>
-    @if(session('banned')!=null)
+    @if(session('alert')!=null)
         <div class="AllertArea" id="AreaAllert">
             <div class="theAllert">
                 <p>Pemberitahuan</p>
@@ -46,9 +46,9 @@
         </div>
     @endif
     @if(session('account')!=null)
-        @include('components.personalized-navbar');
+        @include('components.personalized-navbar')
     @else
-        @include('components.navbar');
+        @include('components.navbar')
 
     @endif
     <div class="main">

@@ -12,6 +12,14 @@
         }
     </style>
 @endsection
+
+@section('isiAlert')
+    @if((session('alert'))!=null)
+        
+            @php echo session('alert'); @endphp
+    @endif
+@endsection
+
 @php
     $account = App\Models\Account::find(session('account')['id']);
 @endphp

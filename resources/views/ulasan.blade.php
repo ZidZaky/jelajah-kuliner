@@ -8,6 +8,14 @@
     <link rel="stylesheet" href="/css/ulasan.css">
 @endsection
 
+
+@section('isiAlert')
+    @if((session('alert'))!=null)
+        
+            @php echo session('alert'); @endphp
+    @endif
+@endsection
+
 @section('main')
     <div class="kotak">
 
