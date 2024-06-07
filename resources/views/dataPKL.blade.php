@@ -9,7 +9,49 @@
 @endsection
 
 @section('main')
-    
+    <div class="riwayatstok" id="RiwayatArea" style="display:none;">
+        <div class="batasrwt">
+
+                <div class="navrwt">
+                    <div>
+                        <p>Riwayat Stok - Nama</p>
+                    </div>
+                    <div class="navbut">
+                        <button onclick="closeRiwayat()">x</button>
+                    </div>
+                </div>
+                <div class="contentrwt">
+                    <div class="table" id="tuebel">
+                        <div class="allPesanan">
+                            <div class="subTable">
+                                <p class="tpemesan">TANGGAL</p>
+                                <p class="tproduk">Stok Awal</p>
+                                <p class="tstok">Terjual Online</p>
+                                <p class="ttotal">Terjual Offline</p>
+                                <p class="tstatus">Sisa</p>
+                            </div>
+                            <div class="TableSide" id="SemuaPesanan" >
+                                <!-- @for($i=0;$i<3;$i++) -->
+                                    <!-- <div class="deTable">
+                                        <div class="isiDeTable">
+                                            <p class="tpemesan">12 Mei 2024</p>
+                                            <p class="tproduk">5</p>
+                                            <p class="tstok">3</p>
+                                            <p class="ttotal">1</p>
+                                            <p class="tstatus">1</p>
+                                        </div>
+                                    </div> -->
+                                <!-- @endfor      -->
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+
     <div class="content">
         <div class="up" style="display: flex; justify-content: space-between;">
             <div class="back" style="text-align: center; margin-left: 10px; margin-top: -3px;">
@@ -35,7 +77,7 @@
 
                         <div class="batas" >
                             <div class="butButtonFront" style="text-align: center;">
-                                
+
                                 <a href="/produk/create" style="width:35%; margin: 0 auto; margin-top: -5px">
                                     <button type="" class="btn btn-success" id="butEdit">
                                         <span>Tambah Produk &#9998</span>
@@ -46,7 +88,7 @@
                             @foreach($produk as $p)
                             <div class="card">
                                 <div class="inCard" id="theImage">
-                                    <img src="https://i.pinimg.com/564x/34/e1/30/34e13046e8f9fd9f3360568abd453685.jpg"
+                                    <img src="/storage/{{$p->fotoProduk}}"
                                         alt="" style="border: black 1px solid; border-radius: 40px">
                                 </div>
                                 <div class="inCard" id="mid">
@@ -60,8 +102,8 @@
                                             <p id="desk{{$p->id}}">Masukkan Stok</p>
                                             <p>{{$p->nama}}</p>
                                         </div>
-                                        
-                                        <div class="inpArea" id="inform{{$p->id}}"> 
+
+                                        <div class="inpArea" id="inform{{$p->id}}">
                                             <form action="" method="post" id="form{{$p->id}}">
                                                 @csrf
                                                 <input type="number" name="stokAwal" id="stokAwal{{$p->id}}" placeholder="0" style="display:none;">
@@ -73,28 +115,28 @@
                                                 <button onclick="ClosePop(1,'{{$p->id}}')" class="cncl">Batal</button>
                                                 <button class="sv" id="butSave1{{$p->id}}" onclick="simpan(event, 1, '{{$p->id}}')">Save</button>
                                                 <button class="sv" id="butSave2{{$p->id}}" onclick="simpan(event, 2, '{{$p->id}}')">Save</button>
-                                            </div>     
+                                            </div>
                                         </div>
                                     </div>
-                                        
-                                    
-                                        
+
+
+
                                 </div>
                                 <div class="inCard" id="leftt">
-                                    <div class="stokArea">   
+                                    <div class="stokArea">
                                         <p class="stok">Stok</p>
                                         <div class="showStok">
                                             <p class="numberrs">@php if($p->sisaStok>0){echo $p->sisaStok;}else{echo '0';} @endphp</p>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="butStok">
                                             <a href="/produk/create" style="width:40%;">
                                                 <button class="StokAwal btn-success" onclick="showPop(event,1,'{{($p->id)}}')" id="butSetAwal{{$p->id}}">
                                                     <p>
                                                         Set Stok Awal
                                                     </p>
-                                                    
+
                                                 </button>
                                             </a>
                                             <a href="/produk/create" style="width:40%;">
@@ -104,14 +146,14 @@
                                                     </p>
                                                 </button>
                                             </a>
-                                            <a href="/produk/create" style="width:40%;">
-                                                <button class="riwayat btn-success">
+                                            <a href="" style="width:40%;">
+                                                <button onclick="showRiwayat(event,'{{$pkl->id}}p{{$p->id}}')" class="riwayat btn-success">
                                                     <p>
                                                         Riwayat Stok
                                                     </p>
                                                 </button>
                                             </a>
-                                            
+
                                     </div>
 
 
@@ -171,9 +213,104 @@
         </div>
     </div>
     <script>
+        function closeRiwayat(){
+            let riwayat = document.getElementById("RiwayatArea");
+            riwayat.style.display="none";
+        }
+         async function showRiwayat(event, IDPKLpIDPRODUK){
+            event.preventDefault();
+            let idmerge = IDPKLpIDPRODUK;
+            let respon = await fetch(('/rwt/'+idmerge));
+            if(!respon.ok){
+                console.log('eror : '+ respon.statusText);
+            }
+            else{
+                let data = await respon.json();
+                // console.log(data);
+                let riwayat = document.getElementById("RiwayatArea");
+                riwayat.style.display="flex";
+                let Tableside = document.getElementById("SemuaPesanan");
+                // kosongi isi class Tableside apabila ada
+                while(Tableside.firstChild){
+                    Tableside.removeChild(Tableside.firstChild);
+                }
+
+                if(data.length>0){
+                    for(let q=0;q<data.length;q++){
+                        // console.log(data[q].);
+                        var div = document.createElement('div');
+                            div.className="deTable";
+                        var div2 = document.createElement('div')
+                            div2.className="isiDeTable"
+                        console.log(data[q])
+                        var p1 = document.createElement('p')
+                            p1.className = 'tpemesan'
+                        var p2 = document.createElement('p')
+                            p2.className= 'tproduk'
+                        var p3 = document.createElement('p')
+                            p3.className = ('tstok')
+                        var p4 = document.createElement('p')
+                            p4.className = ('ttotal')
+                        var p5 = document.createElement('p')
+                            p5.className = ('tstatus')
+
+                        // // get only the date
+                        let dt = data[q];
+                        let tgl = getOnlyTheDate(data[q].created_at);
+                        p1.textContent=tgl;
+                            div2.appendChild(p1);
+                        p2.textContent=dt.stokAwal;
+                            div2.appendChild(p2);
+                        p3.textContent=dt.TerjualOnline;
+                            div2.appendChild(p3)
+                        let offl = getTerjualOffline(dt);
+                        console.log(offl)
+                        p4.textContent=offl;
+                            div2.appendChild(p4)
+                        let sisa = getSisa(offl,data);
+                        console.log(sisa);
+                        p5.textContent=getSisa(offl,dt);
+                            div2.appendChild(p5)
+
+                        div.appendChild(div2);
+                        Tableside.appendChild(div);
+                    }
+                }
+
+            }
+
+        }
+        function getSisa(offline,data){
+            let back = 0;
+            // console.log('status '+data.statusIsi)
+            if(data.statusIsi==0){
+                back = data.stokAwal - data.TerjualOnline
+                // console.log('if : '+back)
+            }
+            else{
+                back = data.stokAwal - data.TerjualOnline - offline
+                // console.log('else : '+back)
+            }
+            return back
+        }
+        function getTerjualOffline(data){
+            let back
+            if(data.statusIsi==0){
+                back = 0
+            }
+            else{
+                back = data.stokAwal - data.stokAkhir - data.TerjualOnline
+            }
+            return back;
+        }
+        function getOnlyTheDate(dateString){
+            let date = dateString
+            let back = date.split(' ')[0];
+            return back;
+        }
         function showPop(event,apa,id){
             event.preventDefault();
-            console.log('PoPUp'+id);
+            // console.log('PoPUp'+id);
 
             document.getElementById(('PoPUp'+id)).style.display="flex";
             let form = document.querySelector(('#inform'+id+'>form'));
@@ -194,15 +331,15 @@
                     console.log('masuk')
                 }
                 inp1.style.display="flex"
-                
-                
+
+
                 des.textContent = 'Berapa Stok Awal Hari Ini'
                 save1.style.display="flex";
             }
             if(apa==2){
                 form.action = "/updateStokAkhir";
                 inp2.style.display=""
-                
+
                 des.textContent = 'Berapa Stok Akhir Hari Ini'
                 save2.style.display="flex";
             }
@@ -216,8 +353,6 @@
             let form = document.getElementById('form'+id);
             form.submit();
         }
-
-        funtion 
     </script>
     <style>
 
@@ -324,19 +459,6 @@
             margin-bottom: 0;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         .deskri{
             width: 70%;
         }
@@ -357,6 +479,8 @@
 
         }
         .batas{
+            position: relative;
+            z-index: 1;
             margin-left: 4%;
             display: flex;
             flex-direction: column;
@@ -374,6 +498,7 @@
             margin-bottom: 10px;
             border-radius: 12px;
             box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
+            /* z-index: 2; */
             /* justify-content: space-between; */
         }
         @media screen and (max-width: 900px) {
@@ -456,7 +581,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 200;
+            z-index: 700 !important;
         }
         .PopArea>div{
             width: 250px;
@@ -560,8 +685,8 @@
             height: 20%;
         }
 
-        
-        
+
+
         .butStok{
             display: flex;
             flex-direction: column;
@@ -871,8 +996,407 @@
             scrollbar-width: none;
         }
 
+        /* ---------- riwayat stok -------------- */
 
+        .riwayatstok{
+            position: fixed;
+            background-color: rgb(0,0,0,0.5);
+            min-width: 100%;
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 900;
+        }
+        .riwayatstok p{
+            padding: 0 0;
+            margin: 0 0;
+        }
+        .batasrwt{
+            width: 700px;
+            height: 500px;
+            background-color: white;
+            border-radius: 5px;
+            /* padding: 10px; */
+        }
+        @media(max-width:900px){
+            .batasrwt{
+                width: 500px;
+                /* heigh; */
+            }
+            .subTable>p{
+                font-size: 10px;
+            }
+        }
+        @media(min-width:901px){
+            .subTable>p{
+                font-size: 12px;
+            }
+        }
+        .batasrwt *{
+            /* border: 1px solid black; */
+        }
+        .navrwt{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            background-color: #9c242c;
+            color: white;
+            padding: 2px;
+            padding-left: 20px;
+            align-items: center;
+            border-radius: 5px 5px 0 0;
+            /* justify-content: center; */
+        }
+        .navrwt>div>p{
+            font-size: 13px;
+        }
+        .contentrwt{
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            height: auto;
+        }
+        .contentrwt>table{
+            width: 100%;
+        }
+        /* ------------------------ */
+        tbody{
+            /* align-items: center;
+            justify-content: center; */
+            border: 1px solid black;
+            /* height: 800px; */
+            height: 300px;
+            overflow-y: auto;
+        }
+
+        /* -------------Table--------------- */
+        /* .table{
+            border: 1px solid #000;
+            height: 300px;
+            overflow-y: auto;
+        } */
+        .listPesanan{
+            position: absolute;
+            z-index: 100;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            width: 100vh;
+            height: 70vh;
+            padding: 10px;
+            border: 1px solid #ccc;
+            /* display: none; */
+            background-color: #9c242c;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+        @media screen and (max-width: 900px) {
+            .listPesanan{
+                width: 78vh;
+            }
+        }
+        .NavbarAtasPesanan{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding:0 0;
+            /* border-style: double; */
+        }
+
+        .miniNavbar{
+            /* border-style: double; */
+            height: 4vh;
+            /* padding-left: 3px; */
+            width: 100%;
+            /* border-style: double; */
+        }
+        .miniNavbar>button{
+            width: auto;
+            /* border-style: double; */
+            font-size: 12px;
+            color: white;
+            background-color: rgba(25, 24, 24, 0.703);
+
+            padding: 2px 5px;
+            /* border: 1px solid rgba(25, 24, 24, 0.703); */
+            /* transform:skew(20deg); */
+            /* border-radius: 5px 5px 0 0; */
+            outline: none;
+            border: none;
+            cursor: pointer;
+            opacity: 40%;
+        }
+
+
+
+        .NavbarAtasPesanan>p{
+            color: white;
+            padding: 0 0;
+            margin: 0 0;
+        }
+        .ContentPesanan{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+        }
+                .tablePesanan{
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .table{
+            background-color: white;
+            width: 100%;
+            height: 450px;
+            margin-top: 2px;
+            padding: 0 0;
+            margin: 0 3px;
+            border-radius: 0 0 10px 10px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            /* border: 1px black solid; */
+            /* display: flex; */
+            /* flex-direction: row; */
+        }
+        .table>div{
+            height: 100%;
+            padding: 0 0;
+            margin: 0 0;
+            border-radius: 0 10px 0 0;
+
+        }
+        .subTable{
+            display: flex;
+            flex-direction: row;
+            padding: 0 0;
+            margin: 0 0;
+            height: 20%;
+            /* border-radius: 0 10px 0 0; */
+        }
+
+        .TableSide{
+            width: 100%;
+            height: 90%;
+            /* border: black;
+            border-style: double; */
+            padding: 0 0;
+            margin: 0 0;
+            padding: 0 5px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            /* scrollbar-width: 1px; */
+
+        }
+        .TableSide::-webkit-scrollbar{
+            width: 10px;
+            /* height: 100%; */
+
+        }
+        .TableSide::-webkit-scrollbar-thumb{
+            background-color: #9c242c;
+            border-radius: 10px;
+            border: white solid;
+        }
+        .deTable{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            padding: 0 4px 0 4px !important;
+            /* padding-top: 0; */
+        }
+        .isiDeTable>p,.isiDeTable>div{
+            /* margin: 5px 0; */
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .isiDeTable>p{
+            /* font-size: 10px !important; */
+        }
+        .deTable>div{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+        }
+        /* .allPesanan{
+            height: 70%;
+        } */
+        .allPesanan>div{
+            width: 100%;
+        }
+        .subTable{
+            /* background-color: #9a464b; */
+            display: flex;
+            flex-direction: row;
+            /* justify-content: space-between; */
+            height: 8%;
+            align-items: center;
+            padding: 8px;
+            padding-bottom: 0 !important;
+            border-radius: 4pxs;
+        }
+        .subTable>p{
+            /* padding: 0 0; */
+            width: 100%;
+            margin: 0 0;
+            background-color: #a7a7a7;
+            padding: 0 4px;
+            color: black;
+            text-align: center;
+            /* font-size: 12px; */
+            /* border-radius: 0 10px 0 0; */
+        }
+        .subTable>.tpemesan{
+            border-radius: 4px 0 0 0;
+        }
+        .subTable>.tstatus{
+            border-radius: 0 4px 0 0;
+        }
+        .isiDeTable{
+            /* width: 70%; */
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            border-bottom: 1px solid #858585;
+            /* border: 1px solid black; */
+        }
+        .isiDeTable>p{
+            /* border-style: double; */
+            padding: 0 0;
+            margin: 0 0;
+            font-size: 12px;
+        }
+        .tstatus>button{
+            padding: 3px 0;
+            margin: 0 0;
+            border-radius: 12px;
+            font-size: 10px;
+            height: 70%;
+            width: 70%;
+            background-color: rgba(0, 0, 255, 0.568);
+            color: white;
+            border: none;
+        }
+        .isiDeTable>.tstatus{
+            display: flex;
+            align-items: center;
+            justify-self: center;
+            justify-content: center;
+        }
+        .subTable>p{
+            /* border-style: double; */
+        }
+        .isiDeTable>p{
+            /* border: 1px solid black; */
+        }
+
+        .subTable>.tpemesan,.isiDeTable>.tpemesan{
+            width: 15%;
+        }
+        .subTable>.tproduk,.isiDeTable>.tproduk{
+            width: 22%;
+        }
+        .subTable>.tstok,.isiDeTable>.tstok{
+            width: 18%;
+        }
+        .subTable>.ttotal,.isiDeTable>.ttotal{
+            width: 30%;
+        }
+        .subTable>.tstatus,.isiDeTable>.tstatus{
+            width: 15%;
+        }
+
+
+        /* ------------SILANG PESANAN---------- */
+        .NavbarAtasPesanan>button{
+            background-color: rgba(255, 255, 255, 0.747);
+            padding: 5px 5px;
+            margin: 0 0;
+            border-radius: 3px;
+            font-size: 10px;
+            height: 4vh;
+            width: 4vh;
+            /* background-color: blue; */
+            color: black;
+            border: none;
+            font-size: 15px;
+        }
+
+        /* ----------------- button pesan ----------- */
+        #contentPesan{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 0;
+            padding: 0 0 !important;
+        }
+        #contentPesan>*{
+            border: 1px solid white double;
+        }
+        #contentPesan>button{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            background-color: #ffffff;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+
+        #contentPesan>p{
+            font-size: 70%;
+            margin: 0 0;
+            padding: 0 0;
+            margin-left: 2%;
+        }
+        .navbut{
+            /* border: #0c2214 1px solid; */
+            width: 30px;
+            padding: 2px;
+            height: 20px;
+            margin-right: 5px;
+
+        }
+        .navbut>button{
+
+            background-color: grey;
+            padding: 3px;
+            border: none;
+            width: 100%;
+            height: 100%;
+            border-radius: 3px;
+            color: white;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
     </style>
 @endsection
+@php 
+    function Bintang($rating){
+        $back='kosong';
+        for($k=1;$k<=$rating;$k++){
+            if($back==='kosong'){
+                $back ='⭐️';
+            }
+            else{
+                $back .= '⭐️';
+            }
+        }
+        return $back;
+    }
+@endphp
 
 

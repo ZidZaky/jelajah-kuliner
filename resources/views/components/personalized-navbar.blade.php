@@ -19,7 +19,8 @@
 
             @if ($pklExists && session('account')['status'] == 'PKL')
                 <a class="btn btn-primary" href="/dataPKL/{{ session('account')['id'] }}" role="button">Dashboard PKL</a>
-                <a class="btn btn-primary" href="/Dashboard-Penjualan/{{ session('account')['id'] }}" role="button">Dashboard Penjualan</a>
+                
+                <a class="btn btn-primary" href="/Dashboard-Penjualan/{{((session('account')['id']).'VToday')}}" role="button">Dashboard Penjualan</a>
             @elseif (session('account')['status'] == 'PKL')
                 <a class="btn btn-primary" href="/PKL/create" role="button">Create Data PKL</a>
             @elseif (session('account')['status'] == 'Admin')

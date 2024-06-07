@@ -31,6 +31,7 @@
 </head>
 
 <body>
+    
     @include('components.personalized-navbar')
     <div class="main">
         @yield('main')

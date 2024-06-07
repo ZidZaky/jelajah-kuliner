@@ -37,7 +37,7 @@
                             <div class="card">
                                 <div class="inCard" id="theImage">
                                     <img src="https://i.pinimg.com/564x/34/e1/30/34e13046e8f9fd9f3360568abd453685.jpg"
-                                        alt="" style="border: black 1px solid; border-radius: 40px">
+                                        alt="" style=" border-radius: 40px">
 
                                     {{-- <img src="{{ $p->image_url }}" alt="" width="100px"> --}}
                                 </div>
@@ -115,15 +115,29 @@
                         </tr>
                     </tfoot>
                 </table>
-                <div style="margin-top: 30vh">
-                    <label for="keterangan">Status Pesanan</label><br>
-                    <input type="text" name="keterangan" id="keterangan" value="{{ $pesan->status }}" readonly>
-                </div>
-                <div style="margin-bottom: 20vh">
-                    <label for="keterangan">Keterangan Tambahan (Opsional):</label><br>
-                    <input type="text" name="keterangan" id="keterangan" placeholder="Contoh: Tidak pedas ya mas!"
-                        value="{{ $pesan->Keterangan }}" style="width: 80%; height: 5vh;">
-                </div>
+                    <div style="margin-top: 30vh; padding-left:10px; font-weight:600;">
+                        <label for="keterangan">Status Pesanan</label><br>
+                        <input type="text" style=" width:250px;" name="keterangan" id="keterangan" value="@php 
+                        if(@session('account')['status'] == 'PKL'){
+                            echo $pesan->status;
+                        }
+                        else{
+                            if($pesan->status=='Pesanan Baru'){
+                                echo 'Menunggu Pesanan Diterima';
+                            }
+                            else{
+                                echo $pesan->status;
+                            }
+                        }
+                        
+                        
+                        @endphp" readonly>
+                    </div>
+                    <div style="margin-bottom: 20vh; padding-left:10px;">
+                        <label for="keterangan">Keterangan Tambahan (Opsional):</label><br>
+                        <input type="text" name="keterangan" id="keterangan" placeholder="Contoh: Tidak pedas ya mas!"
+                            value="{{ $pesan->Keterangan }}" style="width: 80%; height: 5vh;">
+                    </div>
                 @php
                     $pkl = \App\Models\PKL::where('idAccount', session('account')['id'])->first();
                 @endphp
@@ -140,7 +154,7 @@
                     @endif
                 @endif
 
-                <div style="display: flex; justify-content: center; gap: 10px;">
+                <div style="display: flex; justify-content: center; gap: 10px; padding-bottom:20px;">
                     @if ($pesan->status == 'Pesanan Baru')
                         <button class="btn btn-danger" style="width: 40%;"
                             onclick="confirmBatalPesanan('{{ $pesan->id }}')">Batalkan Pesanan!</button>
@@ -223,6 +237,16 @@
             border-radius: 10px;
             padding: 5px 10px;
             color: white;
+        }
+        #keterangan{
+            background-color: rgb(0,0,0,0);
+            border: none;
+            outline: none;
+            margin-left: 10px;
+        }
+        #keterangan:active{
+            border: none;
+            outline: none;
         }
     </style>
     <script>
