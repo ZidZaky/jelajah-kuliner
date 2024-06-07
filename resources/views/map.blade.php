@@ -8,35 +8,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
-    <style>
-        /* Add this to your CSS file or within a <style> tag */
-        .leaflet-marker-icon img {
-            border-radius: 50%;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            /* Ensures the image covers the entire circle */
-        }
-    </style>
 @endsection
 
 @section('main')
-
-
     <div id="map"></div>
-
     <div id="accountDetails">
-        <button onclick="closeAccountDetails()" class="btn btn-danger">X</button>
+        <button onclick="closeAccountDetails()"  class="btn btn-danger">X</button>
         {{-- <button class="btn btn-danger">X</button> --}}
         <p id="namaPKL"></p><br>
         <img src="https://i.pinimg.com/736x/da/5e/ba/da5eba94367e1a2aaa683f1acc105f97.jpg" alt="PKL Photo Goes Here">
 
-
-        <div id="tsur">
-            <button id="butUlasan" onclick="changeContent('Ulasan')" type="button" class="btn btn-success"
-                style="opacity:100%">Ulasan</button>
-            <button id="butMenu"onclick="changeContent('Menu')" type="button" class="btn btn-success">Menu</button>
-            <button id="butPesan"onclick="changeContent('Pesan')" type="button" class="btn btn-success">Pesan</button>
+        <div id="tsur" style="">
+            <button onclick="changeContent('Ulasan')" type="button" class="btn btn-success">Ulasan</button>
+            <button onclick="changeContent('Menu')" type="button" class="btn btn-success">Menu</button>
+            <button onclick="changeContent('Pesan')" type="button" class="btn btn-success">Pesan</button>
         </div>
 
         <div id="createUlasan" style="margin: 0">
@@ -49,7 +34,18 @@
 
 
 
-
+                <div class="cardUlasan">
+                    <div>
+                        <img src="https://i.pinimg.com/564x/02/b8/50/02b850fcc321beaa87d8459daa6509de.jpg" alt="">
+                        <div>
+                            <p id="nmAkun"></p>
+                            <p> - </p>
+                        </div>
+                        <p id="rating"></p>
+                    </div>
+                    <hr>
+                    <p id="ulasan"></p>
+                </div>
 
             </div>
 
@@ -76,112 +72,26 @@
             <div id="contentPesan" style="display: none;">
             <h4 style="text-align: center; padding-top: 10px; padding-left: 5px">Login Terlebih Dahulu!</h4>
             <button href="/login" type="button" class="btn" style="border-radius: 10px; background-color: rgb(0, 200, 0); width: 200px; margin: 0 auto;">Login</button>
-                <p>Login Untuk Melakukan Pesan</p>
             </div>
         </div>
     </div>
-    <!-- <script>
-        src = "js/pesanan.js"
-    </script> -->
-    <script src="/js/pesanan.js"></script>
-
 
     <script src="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.js"></script>
     <script>
-        function cari5() {
-            let pin = document.querySelectorAll(`.leaflet-marker-icon`);
-            pin.forEach(o => {
-                o.style.display = 'none';
-            })
-            // console.log(pin.length);
-            let hasil = [];
-            fetch(`/getData`)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(e => {
-                        // console.log(e);
-                        let inp = document.getElementById('inpSearch');
-                        let ary = [];
-                        ary.push(e.nama)
-                        ary.push(e.menu)
 
-                        ary.forEach(i => {
-                            // console.log(i+"tipe : "+typeof(i)+" lower : "+i.toLowerCase());
-                            if (i.toLowerCase().includes(inp.value.toLowerCase())) {
-                                // console.log(hasil.includes(e.id))
-                                if (hasil.includes(e.id) == false) {
-                                    hasil.push(e.id);
-                                }
-                                console.log('hasil dalam : ' + hasil);
-                            }
-                        })
-
-                    })
-                    console.log('hasil luar : ' + hasil);
-                    hasil.forEach(c => {
-                        // console.log(('marker'+c));
-                        let depin = document.getElementById(('marker' + c));
-                        depin.style.display = '';
-                    })
-                })
-                .catch(error => {
-                    console.error('Error fetching coordinates:', error);
-                });
-
-        }
-
-        function search1() {
-            let but = document.querySelectorAll(`#content1>button`)
-            but.forEach(function(a) {
-                let isi = document.getElementById('cari1');
-                a.style.display = 'none';
-                if (a.textContent.toLowerCase().includes(isi.value.toLowerCase())) {
-                    a.style.display = "";
-                }
-                // console.log(a.textContent);
-            })
-        }
-
-        function hide($apa) {
-            let cari = document.getElementById('tosearch1')
-            let inp = document.getElementById('forsearch1')
-            console.log('work')
-            if ($apa == 'input') {
-                cari.style.display = "none"
-                inp.style.display = "flex";
-
+    function deBintang(rtg) {
+        let back = "kosong";
+        for (let i = 1; i <= rtg; i++) {
+            if (back === 'kosong') {
+                back = '⭐️';
             } else {
-
-
-                inp.style.display = "none";
-                cari.style.display = "flex";
-
+                let temp = '⭐️' + back;
+                back = temp;
             }
         }
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                var alert = document.querySelector('.alert');
-                if (alert) {
-                    var bsAlert = new bootstrap.Alert(alert);
-                    bsAlert.close();
-                }
-            }, 5000); // 5 seconds
-        });
-        // opacityList('Ulasan');
-        function deBintang(rtg) {
-            let back = "kosong";
-            for (let i = 1; i <= rtg; i++) {
-                if (back === 'kosong') {
-                    back = '⭐️';
-                } else {
-                    let temp = '⭐️' + back;
-                    back = temp;
-                }
-            }
-            // console.log(back);
-            return back;
-        }
-
+        // console.log(back);
+        return back;
+    }
         // document.getElementById('accountDetails').style.display = 'block';
         let ulas = document.getElementById('contentUlasan');
         let menu = document.getElementById('contentMenu');
@@ -202,28 +112,14 @@
             .then(response => response.json())
             .then(data => {
                 data.forEach(coordinates => {
-                    // Create a custom icon using DivIcon
-                    const customIcon = L.divIcon({
-                        className: 'custom-icon', // Custom class name for styling
-                        html: `<img src="/storage/${coordinates.picture}" alt="PKL Photo" />`,
-                        iconSize: [38, 38], // Set the size of the icon
-                        iconAnchor: [19, 38], // Set the anchor point of the icon
-                        popupAnchor: [0, -38] // Set the popup anchor point
-                    });
-
-                    // Create a marker with the custom icon
-                    const marker = L.marker([coordinates.latitude, coordinates.longitude], {
-                        icon: customIcon
-                    }).addTo(map);
-                    marker._icon.id = `marker${coordinates.id}`;
+                    // Create a marker for each coordinate on the map
+                    const marker = L.marker([coordinates.latitude, coordinates.longitude]).addTo(map);
 
                     // Pass the id to the displayAccountDetails function when marker is clicked
                     marker.on('click', function() {
                         displayAccountDetails(coordinates.id, coordinates.namaPKL);
-                        fillFoto(coordinates.id);
                         fillContentUlasan(coordinates.id);
                         fillContentMenu(coordinates.id);
-                        fillContentPesan(coordinates.id);
 
                         // Get the button element
                         const button = document.getElementById('reviewButton');
@@ -232,6 +128,7 @@
                         button.addEventListener('click', function() {
                             // Redirect to the specified URL when the button is clicked
                             window.location.href = `/ulasan/create/${coordinates.id}`;
+
                         });
                     });
                 });
@@ -262,57 +159,15 @@
         // Function to change content based on button click
         function changeContent(buttonName) {
             // Hide all content divs
-
             document.getElementById('contentUlasan').style.display = 'none';
             document.getElementById('contentMenu').style.display = 'none';
             document.getElementById('contentPesan').style.display = 'none';
-            // document.getElementById('reviewButton').style.display = 'none';
 
-            // // Show the corresponding content div
-            // if (buttonName == 'Ulasan') {
-            //     document.getElementById('reviewButton').style.display = 'block';
-            // }
+
+            // Show the corresponding content div
             document.getElementById('content' + buttonName).style.display = 'block';
-            opacityList(buttonName);
+
         }
-        // opacityList('Ulasan');
-        // opacityList("Ulasan");
-        function opacityList(jenis) {
-            let menu = document.getElementById('butMenu');
-            let ulas = document.getElementById('butUlasan');
-            let pesan = document.getElementById('butPesan');
-            menu.style.opacity = "50%";
-            ulas.style.opacity = "50%";
-            pesan.style.opacity = "50%";
-            if (jenis == 'Ulasan') {
-                ulas.style.opacity = "100%";
-            }
-            if (jenis == 'Menu') {
-                menu.style.opacity = "100%"
-            }
-            if (jenis == 'Pesan') {
-                pesan.style.opacity = "100%";
-            }
-        }
-
-        function fillFoto(id) {
-            fetch(`/getPictureByID/${id}`)
-                .then(response => response.json())
-                .then(data => {
-                    const imgElement = document.querySelector('img[alt="PKL Photo Goes Here"]');
-                    if (imgElement && data.picture) {
-                        imgElement.src = "/storage/" + data.picture; // Correct concatenation
-                    } else {
-                        console.error('Image element not found or picture URL is missing');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching picture:', error);
-                });
-        }
-
-
-
 
         function fillContentUlasan(id) {
             // Fetch ulasan data for the specific PKL ID
@@ -321,15 +176,18 @@
                 .then(data => {
                     const ulasanContainer = document.getElementById('contentUlasan');
                     ulasanContainer.innerHTML = ''; // Clear previous ulasan
-                    // console.log(data.length);
+
                     if (data.length === 0) {
                         console.log('tes');
                         const emptyDataMessage = document.createElement('h1');
                         emptyDataMessage.innerText = 'Data Ulasan Kosong';
-                        console.log('apani :' + emptyDataMessage.innerText);
+                        console.log('apani :'+emptyDataMessage.innerText);
 
                         ulasanContainer.appendChild(emptyDataMessage);
-                    } else {
+                    }
+                    else{
+
+                    
                         data.forEach(ulasan => {
                             const ulasanDiv = document.createElement('div');
                             ulasanDiv.classList.add('cardUlasan');
@@ -344,9 +202,10 @@
 
                             const detailDiv = document.createElement('div');
                             detailDiv.classList.add('ulasan-details');
+                            console.log(ulasan);
+                            console.log("iniapa");
 
                             const namaAkun = document.createElement('p');
-                            console.log(ulasan);
                             namaAkun.innerText = ulasan.idAccount;
                             namaAkun.classList.add('nmAkun');
                             detailDiv.appendChild(namaAkun);
@@ -378,8 +237,6 @@
 
                             const rating = document.createElement('p');
                             rating.innerText = deBintang(ulasan.rating);
-                            // deBintang(5);
-                            // ulasan.rating +
                             rating.classList.add('rating');
                             divWrapper.appendChild(rating);
 
@@ -392,8 +249,6 @@
                 });
         }
 
-
-
         function fillContentMenu(id) {
             // Fetch product data for the specific PKL ID
             fetch(`/getProduk/${id}`)
@@ -401,14 +256,19 @@
                 .then(data => {
                     const menuContainer = document.getElementById('contentMenu');
                     menuContainer.innerHTML = ''; // Clear previous menu
-
                     if (data.length === 0) {
+                        // console.log(data);
                         const emptyDataMessage = document.createElement('h1');
                         emptyDataMessage.innerText = 'Data Menu Kosong';
                         menuContainer.appendChild(emptyDataMessage);
-                    } else {
+
+                        ulasanContainer.appendChild(emptyDataMessage);
+                    }
+                    else{
+
                         data.forEach(product => {
-                            // console.log(product)
+                            console.log(product)
+                            // console.log(data)
                             const cardMenuDiv = document.createElement('div');
                             cardMenuDiv.classList.add('cardMenu');
 
@@ -447,22 +307,12 @@
 
                             const stockP = document.createElement('p');
                             stockP.id = 'stock';
-                            stockP.innerText = 'Stok : ';
-
+                            stockP.innerText = 'Stok :';
                             forStokDiv.appendChild(stockP);
 
                             const numStokP = document.createElement('p');
                             numStokP.id = 'numstok';
-                            if (product.sisaStok < 1) {
-                                numStokP.innerText = " Habis";
-                            } else {
-                                numStokP.innerText = product.sisaStok;
-                            }
-                            // console.log(typeof product.sisaStok);
-                            // console.log(product.sisaStok<1);
-                            // if(product.sisaStok<1){
-                            //     cardMenuDiv.style.display = "none";
-                            // }
+                            numStokP.innerText = product.sisaStok;
                             forStokDiv.appendChild(numStokP);
 
                             rightDiv.appendChild(forStokDiv);
@@ -477,195 +327,5 @@
                     console.error('Error fetching product data:', error);
                 });
         }
-
-        function fillContentPesan(id) {
-            // Get the contentPesan div
-            var contentPesanDiv = document.getElementById("contentPesan");
-
-            // Clear any existing content in the contentPesan div
-            contentPesanDiv.innerHTML = '';
-
-            // Create a button element
-            var button = document.createElement("button");
-
-            // Set the button text
-            button.textContent = "Login Untuk Pesan";
-
-
-            // Append the button to the contentPesan div
-            contentPesanDiv.appendChild(button);
-        }
-
-        // Function to capture current location
-        function getCurrentLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-            } else {
-                alert("Geolocation is not supported by this browser.");
-            }
-        }
-
-        function showPosition(position) {
-            document.getElementById("latitude").value = position.coords.latitude;
-            document.getElementById("longitude").value = position.coords.longitude;
-
-            // Submit the form
-            document.getElementById("myForm").submit();
-        }
     </script>
-    <style>
-        .updateLocation {
-            position: absolute;
-            display: flex;
-            flex-direction: row;
-            gap: 10px;
-            width: 100px;
-            height: 50px;
-            /* border: 1px black solid; */
-            /* background-color: ; */
-            z-index: 100;
-            bottom: 2%;
-            right: 2%;
-            /* left: 50%; */
-            /* transform: translateX(-50%); */
-            margin: 0 0;
-            padding: 0;
-            /* border: 1px solid #ccc; */
-            background-color: rgb(0 0 0 0);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .toSearch {
-            position: absolute;
-            display: flex;
-            flex-direction: row;
-            gap: 10px;
-            width: 100px;
-            height: 50px;
-            /* border: 1px black solid; */
-            /* background-color: ; */
-            z-index: 100;
-            top: 2%;
-            right: 2%;
-            /* left: 50%; */
-            /* transform: translateX(-50%); */
-            margin: 0 0;
-            padding: 0;
-            /* border: 1px solid #ccc; */
-            background-color: rgb(0 0 0 0);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .toSearch>button>svg {
-            padding: 2px 2px;
-            color: white;
-        }
-
-        .toSearch>button {
-            padding: 4px 10px;
-            border-radius: 3px;
-            font-size: 20px;
-            background-color: #9c242c;
-            box-shadow: 1px 1px #471e21;
-            border: none;
-        }
-
-        .forsearch {
-            position: absolute;
-            display: flex;
-            flex-direction: row;
-            gap: 10px;
-            width: 400px;
-            height: 50px;
-            border: 1px black solid;
-            /* background-color: ; */
-            z-index: 100;
-            top: 2%;
-            left: 50%;
-            transform: translateX(-50%);
-            margin: 0 0;
-            padding: 0;
-            border: 1px solid #ccc;
-            background-color: #9c242c;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .forsearch>* {
-            /* border: blue 1px solid !important; */
-        }
-
-        .forsearch>button {
-            padding: 4px 10px;
-            border-radius: 3px;
-            font-size: 20px;
-            background-color: rgb(255, 255, 255, 0.2);
-            border: none;
-        }
-
-        .forsearch>button:hover {
-            background-color: #471e21;
-            color: white;
-        }
-
-        .forsearch>div {
-            width: 80%;
-            height: 80%;
-            background-color: white;
-            display: flex;
-            flex-direction: row;
-            gap: 4px;
-            border-radius: 10px;
-            padding: 2px;
-            padding-left: 10px;
-            padding-right: 10px;
-            /* padding-right: 0; */
-            align-items: center;
-            justify-content: center;
-            border: white 1px solid !important;
-
-            /* padding-left: /; */
-
-        }
-
-        .forsearch>div>svg {
-            width: 10%;
-            height: 70%;
-            /* padding-right: 10px; */
-        }
-
-        .forsearch>div>input {
-            width: 65%;
-            padding: 2px;
-            outline: none;
-            border: none;
-            background-color: none;
-            color: white;
-            font-size: 15px;
-            color: black;
-
-        }
-
-        .forsearch>div>button {
-            width: 25%;
-            border: none;
-            outline: none;
-            background-color: rgb(0 0 0 0.4) !important;
-            text-decoration: none;
-            border-radius: 10px;
-
-        }
-
-        .forsearch>div>button:hover {
-            background-color: #ccc;
-        }
-    </style>
 @endsection
