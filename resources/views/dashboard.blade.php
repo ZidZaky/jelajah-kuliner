@@ -28,6 +28,7 @@
 @endsection
 
 @section('main')
+
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert" style="z-index: 100">
             {{ session('success') }}
@@ -381,7 +382,7 @@
             </div>
             
             <div id="contentPesan" style="display: none;">
-
+                
             </div>
         </div>
     </div>
@@ -811,11 +812,31 @@
                     // Append the button to the contentPesan div
                     contentPesanDiv.appendChild(button);
                 }
+            @else
+                    let h4Element = document.createElement("h4");
+                    h4Element.setAttribute("id", "h4Login");
+                    h4Element.textContent = "Login Terlebih Dahulu!";
+
+                    // Membuat elemen button
+                    let buttonElement = document.createElement("button");
+                    buttonElement.setAttribute("type", "button");
+                    buttonElement.setAttribute("class","btn");
+                    buttonElement.setAttribute("id", "butLoginn");
+                    buttonElement.textContent = "Login";
+                    buttonElement.style.backgroundColor="rgb(0,200,0";
+                    buttonElement.onclick =function(){
+                        window.location.href="/login"
+                    };
+                    // buttonElement.href="/login";
+                    // buttonElement.onclick=toLogin;
+                    //add
+                    contentPesanDiv.appendChild(h4Element);
+                    contentPesanDiv.appendChild(buttonElement);
             @endif
             // Clear any existing content in the contentPesan div
             
         }
-
+        
         // Function to capture current location
         function getCurrentLocation() {
             if (navigator.geolocation) {
@@ -832,8 +853,23 @@
             // Submit the form
             document.getElementById("myForm").submit();
         }
+
+        
     </script>
     <style>
+        #butLoginn{
+            border-radius: 3px; 
+            background-color:aqua; 
+            width: 200px; 
+            margin: 0 auto;
+            /* border-radius: 10px; */
+            border:none;
+        }
+        #h4Login{
+            text-align: center; 
+            padding-top: 10px; 
+            padding-left: 5px;
+        }
         /* ----------- STYLE TITIK IMG ----------------- */
         /* ----------- STYLE TITIK IMG ----------------- */
 

@@ -328,4 +328,21 @@
                 });
         }
     </script>
+<style>
+    #loginMessage {
+    text-align: center;
+    padding-top: 10px;
+    padding-left: 5px;
+  }
+  .btn {
+    border-radius: 10px;
+    background-color: rgb(0, 200, 0);
+    width: 200px;
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+    padding: 10px 0;
+    cursor: pointer;
+  }
+</style>
 @endsection
