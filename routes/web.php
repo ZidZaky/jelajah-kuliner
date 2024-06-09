@@ -47,6 +47,10 @@ Route::get('/profile', function () {
     return view('profile');
 });
 
+Route::get('/aboutus', function () {
+    return view('tidak terpakai.aboutus1');
+});
+
 Route::post('loginAccount', [AccountController::class, 'login']);
 Route::get('logout', [AccountController::class, 'logoutAccount']);
 Route::get('pesanDetail/{id}', [PesananController::class, 'pesanDetail']);
