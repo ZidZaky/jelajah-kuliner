@@ -7,8 +7,9 @@
             <li><a href="/your-history">Your History</a></li> -->
             <li><a href="/profile">My Profile</a></li>
             @php
-                $pklExists = \App\Models\PKL::where('idAccount', session('account')['id'])->exists();
-                use Illuminate\Support\Facades\Request;
+                    $pklExists = \App\Models\PKL::where('idAccount', session('account')['id'])->exists();
+                    use Illuminate\Support\Facades\Request;
+                
             @endphp
 
             @if (Request::is('dashboard'))

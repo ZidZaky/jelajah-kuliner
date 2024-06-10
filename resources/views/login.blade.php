@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.layout2')
 
 @section('title')
     Feel Free to "JELAJAH" Kuliner dsekitarmu!
@@ -9,9 +9,9 @@
 @endsection
 
 @section('isiAlert')
-    @if((session('banned'))!=null)
+    @if((session('alert'))!=null)
         
-            @php echo session('banned'); @endphp
+            @php echo session('alert'); @endphp
     @endif
 @endsection
 

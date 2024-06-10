@@ -9,6 +9,12 @@
 @endsection
 
 @section('main')
+@section('isiAlert')
+    @if((session('alert'))!=null)
+        
+            @php echo session('alert'); @endphp
+    @endif
+@endsection
     <div class="all">
         <div class="up border border-bottom d-flex justify-content-between align-items-center">
             <a href="/dashboard"><button class="btn btn-danger">Batalkan Pesanan</button></a>
@@ -19,7 +25,7 @@
         <div class="nmpkl">
 
         </div>
-
+        
         <div class="showmenu" style="padding-top: 5px; padding-bottom: 5px">
             <div class="kiri border border-right" style="width: 100%;">
                 <h3 class="namap" style="border-bottom: 1px solid #ccc;"><strong>{{ $pkl->namaPKL }}</strong></h3>

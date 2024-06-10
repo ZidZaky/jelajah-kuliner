@@ -8,7 +8,15 @@ List Account
 <link rel="stylesheet" href="css/dataPKL.css">
 @endsection
 
+@section('isiAlert')
+    @if((session('alert'))!=null)
+        
+            @php echo session('alert'); @endphp
+    @endif
+@endsection
+
 @section('main')
+
 <div class="content">
     <div class="up" style=" display: flex; justify-content: space-between;">
         <div class="back" style="text-align: center; margin-left: 10px; margin-top: -3px;">
@@ -30,7 +38,7 @@ List Account
             <img src="https://i.pinimg.com/236x/0d/c1/ba/0dc1babea2221d912247ca059e1231dd.jpg"
             alt="this should be the User's Profile Picture tho" class="profilePict2"
             style="
-            @if($a->status == 'pelanggan') box-shadow: 0px 0px 20px rgb(0, 255, 0);
+            @if($a->status == 'Pelanggan') box-shadow: 0px 0px 20px rgb(0, 255, 0);
             @elseif($a->status == 'PKL') box-shadow: 0px 0px 20px rgb(0, 0, 255);
             @else box-shadow: 0px 0px 20px rgb(0, 0, 0);
             @endif">

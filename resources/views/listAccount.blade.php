@@ -2,6 +2,13 @@
 
 @section('title', 'LIST ACCOUNT')
 
+@section('isiAlert')
+    @if((session('alert'))!=null)
+        
+            @php echo session('alert'); @endphp
+    @endif
+@endsection
+
 @section('main')
 
 <div class="container mt-5 ">

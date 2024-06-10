@@ -47,7 +47,7 @@ class ReportController extends Controller
         if ($report) {
             // Update the status to "Pesanan Diproses"
             $account = \App\Models\Account::where('id', $report->idPengguna)->first();
-            $account->status = 'Banned';
+            $account->status = 'alert';
 
             // Save the changes to the database
             $account->save();

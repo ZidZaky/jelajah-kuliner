@@ -25,21 +25,30 @@ use app\Models\PKL;
 */
 
 Route::get('/', function () {
-    return view('map');
+    return redirect('/dashboard');
 });
 Route::get('/dashboard', function () {
-    $pkl = new PKLController();
-    $ulasan = Ulasan::all(); // Fetch $ulasan from the database
+    if(isset($_SESSION)){
+        $pkl = new PKLController();
+        $ulasan = Ulasan::all(); // Fetch $ulasan from the database
 
-    $pesanan = Pesanan::all();
-    // $data = $pkl->getDataPKL();
-    // dd($data);
-    return view('dashboard', ['ulasan' => $ulasan, 'pesanan' => $pesanan]);
+        $pesanan = Pesanan::all();
+        // $data = $pkl->getDataPKL();
+        // dd($data);
+        return view('dashboard', ['ulasan' => $ulasan, 'pesanan' => $pesanan]);
+    }
+    return view('dashboard', ['ulasan' => [], 'pesanan' => []]);
+
+    
 });
 Route::get('/getData', [PKLController::class, 'getDataPKL']);
 
 Route::get('/profile', function () {
     return view('profile');
+});
+
+Route::get('/aboutus', function () {
+    return view('aboutus');
 });
 
 Route::post('loginAccount', [AccountController::class, 'login']);
@@ -86,7 +95,6 @@ Route::get('/pesanan/create/{id}', [PesananController::class, 'createWithId'])->
 
 Route::get('banUser/{id}', [ReportController::class, 'banUser']);
 Route::get('unbanUser/{id}', [ReportController::class, 'unbanUser']);
-
 
 // Define a route to fetch coordinates from the database
 Route::get('/getCoordinates', [PKLController::class, 'getCoordinates']);

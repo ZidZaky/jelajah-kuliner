@@ -1,7 +1,7 @@
 @extends('layouts.layout2')
 
 @section('title')
-    Feel Free to "JELAJAH" Kuliner dsekitarmu!
+    EDIT PROFILE!
 @endsection
 
 @section('css')
@@ -12,6 +12,14 @@
         }
     </style>
 @endsection
+
+@section('isiAlert')
+    @if((session('alert'))!=null)
+        
+            @php echo session('alert'); @endphp
+    @endif
+@endsection
+
 @php
     $account = App\Models\Account::find(session('account')['id']);
 @endphp
@@ -26,7 +34,7 @@
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Profil</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                        aria-label="Close" onclick="show('profile')"></button>
                 </div>
 
                 <form method="POST" action="/account/{{ $account->id }}" enctype="multipart/form-data">

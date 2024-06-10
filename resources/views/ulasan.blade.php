@@ -1,11 +1,19 @@
 @extends('layouts.layout2')
 
 @section('title')
-    Tracking Map - Jelajah Kuliner
+    ULASAN
 @endsection
 
 @section('css')
     <link rel="stylesheet" href="/css/ulasan.css">
+@endsection
+
+
+@section('isiAlert')
+    @if((session('alert'))!=null)
+        
+            @php echo session('alert'); @endphp
+    @endif
 @endsection
 
 @section('main')

@@ -23,10 +23,10 @@ class HistoryStokController extends Controller
        $stok = historyStok::findOrFail($idStok);
        $tes = $stok->TerjualOnline + $jumlah;
        $stok->TerjualOnline = $tes;
-// <<<<<<< HEAD
-//        $stok->save();
-// =======
-       
+        // dd($stok);
+       if($stok->statusIsi==1){
+            $this->UpdatestokAkhir(($stok->stokAkhir-$jumlah),$stok->id);
+       }
        return $stok->save();
 // >>>>>>> fa7102ddd6950ef6706450bf1323a6b5c945e902
     }
