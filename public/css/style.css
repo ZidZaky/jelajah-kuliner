@@ -633,11 +633,10 @@ body {
     margin-left: 2%;
 }
 
-.coba {
+.aboutus {
     --g: 4px;     /* the gap */
-    --b: 3px;    /* border thickness*/
+    --b: 5px;    /* border thickness*/
     --c: #001d9e; /* the color */
-    
     
     padding: calc(var(--g) + var(--b));
     --_c: #0000 0 25%, var(--c) 0 50%;
@@ -650,7 +649,7 @@ body {
     cursor: pointer;
     transition: .3s;
   }
-  .coba:hover {
+  .aboutus:hover {
     --_p: 75%;
     filter: grayscale(0%);
   }

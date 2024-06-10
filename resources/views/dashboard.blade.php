@@ -92,7 +92,7 @@
         <button onclick="hide('cari')">X</button>
         
     </div>
-    <a class="coba" href="/aboutus">About Us?</a>
+    <a class="aboutus" href="/aboutus"><strong>About Us?</strong></a>
     @if(session('account')!=null)
         @if(session('account')['status']=='PKL')
             <div class="listPesanan" style="display:none;">
@@ -347,7 +347,7 @@
         </div>
         <div id="contentWrapper">
             @if(session('account')!=null)
-                @if (session('account')['status'] != 'PKL')
+                @if(session('account')['status'] != 'PKL')
                     <button id="reviewButton">
                         <img src="https://www.gstatic.com/images/icons/material/system_gm/2x/rate_review_gm_blue_18dp.png"
                             alt="Gambar">
@@ -356,10 +356,6 @@
                 @endif
             @endif
             <div id="contentUlasan">
-
-
-
-
 
             </div>
 
@@ -375,16 +371,16 @@
                         <p id="deskrip"></p>
                         <hr>
                         <div class="forStok">
-                            <p id="stock">Stok :</p>
+                            <p id="stock">Stok: </p>
                             <p id="numstok"></p>
                         </div>
                     </div>
                 </div>
-
             </div>
             
-            <div id="contentPesan" style="display: none;">
-                
+            <div id="contentPesan" style="border: red 1px solid">
+                <h1>sosf</h1>
+                <button>hiesffdefdjbbjerbulesfsef</button>
             </div>
         </div>
     </div>
@@ -619,9 +615,6 @@
                 });
         }
 
-
-
-
         function fillContentUlasan(id) {
             // Fetch ulasan data for the specific PKL ID
             fetch(`/getUlasan/${id}`)
@@ -699,8 +692,6 @@
                     console.error('Error fetching ulasan:', error);
                 });
         }
-
-
 
         function fillContentMenu(id) {
             // Fetch product data for the specific PKL ID
@@ -787,33 +778,26 @@
         }
 
         function fillContentPesan(id) {
-            // clear
-
-            // Get the contentPesan div
-            var contentPesanDiv = document.getElementById("contentPesan");
+            const contentPesanDiv = document.getElementById("contentPesan");
 
             while(contentPesanDiv.firstChild){
                 contentPesanDiv.removeChild(contentPesanDiv.firstChild);
             }
             @if(session('account')!=null)
-                if(id!='{{$pkl->id}}'){
+                @if(isset($pkl) && isset($id) && $id != '{{ $pkl->id }}')
                     contentPesanDiv.innerHTML = '';
 
-                    // Create a button element
-                    var button = document.createElement("button");
+                    const button = document.createElement("button");
 
-                    // Set the button text
                     button.textContent = "Pesan Sekarang!";
 
-                    // Set up a click event listener
                     button.addEventListener("click", function() {
-                        // Redirect to the order page with the provided ID
-                        window.location.href = "pesanan/create/" + id;
+                        window.location.href = "pesanan/create/" + $id;
                     });
 
-                    // Append the button to the contentPesan div
                     contentPesanDiv.appendChild(button);
                 }
+                @endif
             @else
                     let h4Element = document.createElement("h4");
                     h4Element.setAttribute("id", "h4Login");
@@ -960,13 +944,13 @@
             justify-content: center;
         }
 
-        .coba {
+        .aboutus {
             position: absolute;
             display: flex;
             flex-direction: row;
             z-index: 100;
-            bottom: 3%;
-            right: 1.5%;
+            left: 50%;
+            bottom: 1%;
             transform: translateX(-50%);
             margin: 0 0;
             padding: 5px;
