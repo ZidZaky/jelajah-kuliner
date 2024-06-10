@@ -44,6 +44,7 @@
     @endif
 
     <div id="map"></div>
+
     <div class="toSearch" id="tosearch1" style="display:none;">
         <button onclick="hide('input')">
             <svg alt="Search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
@@ -89,7 +90,9 @@
             <button>Cari</button>
         </div>
         <button onclick="hide('cari')">X</button>
+        
     </div>
+    <a class="coba" href="/aboutus">About Us?</a>
     @if(session('account')!=null)
         @if(session('account')['status']=='PKL')
             <div class="listPesanan" style="display:none;">
@@ -331,7 +334,6 @@
         {{-- <button class="btn btn-danger">X</button> --}}
         <p id="namaPKL"></p><br>
         <img src="https://i.pinimg.com/736x/da/5e/ba/da5eba94367e1a2aaa683f1acc105f97.jpg" alt="PKL Photo Goes Here">
-
 
         <div id="tsur">
             <button id="butUlasan" onclick="changeContent('Ulasan')" type="button" class="btn btn-success"
@@ -956,6 +958,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .coba {
+            position: absolute;
+            display: flex;
+            flex-direction: row;
+            z-index: 100;
+            bottom: 3%;
+            right: 1.5%;
+            transform: translateX(-50%);
+            margin: 0 0;
+            padding: 5px;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: black;
         }
 
         .forsearch>* {
