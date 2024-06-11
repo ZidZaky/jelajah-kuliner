@@ -127,6 +127,7 @@ class ProdukController extends Controller
             'p.desc as deskripsi',
             'p.namaProduk as nama',
             'p.harga as harga',
+            'p.fotoProduk as foto',
             'p.idPKL as idPKL',
             DB::raw('CASE WHEN h.statusIsi = 0 THEN h.stokAwal - h.TerjualOnline WHEN h.statusIsi = 1 THEN h.stokAkhir END as sisaStok')
         ])

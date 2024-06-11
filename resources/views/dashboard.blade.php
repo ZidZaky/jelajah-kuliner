@@ -99,7 +99,7 @@
                     <p>Pesanan</p>
                     <button id="butClosePesanan"onclick="closePesanan()">X</button>
                 </div>
-                
+
 
                 <div class="ContentPesanan">
                     <div class="tablePesanan">
@@ -170,11 +170,11 @@
                                     <p class="ttotal">STATUS</p>
                                     <p class="tstatus">DETIL</p>
                                 </div>
-                                
+
                                 <div class="TableSide" id="SemuaPesanan" style="display: none;">
-                                    
+
                                     @if ($jmlh != 0)
-                                    
+
                                         @foreach ($pesanan as $pesan)
                                             @if ($pesan->idAccount == session('account')['id'] || @$pkl->id == $pesan->idPKL)
                                                 @php
@@ -529,7 +529,7 @@
                         fillContentUlasan(coordinates.id);
                         fillContentMenu(coordinates.id);
                         fillContentPesan(coordinates.id);
-                        
+
 
                         // Get the button element
                         const button = document.getElementById('reviewButton');
@@ -712,8 +712,8 @@
                             leftDiv.classList.add('leffft');
 
                             const img = document.createElement('img');
-                            img.src = "https://i.pinimg.com/564x/b8/cf/ab/b8cfabff7a8e6a304d82a0a33c2c5e8e.jpg";
-                            img.alt = product.nama;
+                            img.src = `/storage/${product.foto}`;
+                            img.alt = product.fotoProduk;
                             leftDiv.appendChild(img);
 
                             const hargaP = document.createElement('p');
@@ -775,7 +775,7 @@
         }
 
         function fillContentPesan(id) {
-            
+
             console.log("id 11 : "+id)
             // clear
 
@@ -805,9 +805,9 @@
                         while(contentPesanDiv.firstChild){
                         contentPesanDiv.removeChild(contentPesanDiv.firstChild);
                     }
-                    
-                }    
-                
+
+                }
+
                 @endif
             @else
                     let h4Element = document.createElement("h4");
