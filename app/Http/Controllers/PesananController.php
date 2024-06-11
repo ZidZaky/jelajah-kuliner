@@ -178,6 +178,7 @@ class PesananController extends Controller
                 'p.desc as deskripsi',
                 'p.namaProduk as nama',
                 'p.harga as harga',
+                'p.fotoProduk as foto',
                 'p.idPKL as idPKL',
                 DB::raw('CASE WHEN h.statusIsi = 0 THEN h.stokAwal - h.TerjualOnline WHEN h.statusIsi = 1 THEN h.stokAkhir END as sisaStok')
             ])
@@ -199,7 +200,7 @@ class PesananController extends Controller
         // Execute the query
         $produk = DB::select($query, [$pesan->id]);
         // dd($pesan,$produk);
-        
+
         // dd($produk);
         // $pesan = Pesanan::find($id);
         return view('detilPesan', [
@@ -343,6 +344,6 @@ class PesananController extends Controller
             ->where('status', 'Pesanan Selesai')
             ->get();
             dd($pesanans);
-        
+
     }
 }

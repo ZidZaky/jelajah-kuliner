@@ -11,7 +11,7 @@
 @section('main')
 @section('isiAlert')
     @if((session('alert'))!=null)
-        
+
             @php echo session('alert'); @endphp
     @endif
 @endsection
@@ -25,7 +25,7 @@
         <div class="nmpkl">
 
         </div>
-        
+
         <div class="showmenu" style="padding-top: 5px; padding-bottom: 5px">
             <div class="kiri border border-right" style="width: 100%;">
                 <h3 class="namap" style="border-bottom: 1px solid #ccc;"><strong>{{ $pkl->namaPKL }}</strong></h3>
@@ -34,12 +34,12 @@
                     @csrf
                     <input type="text" name="idAccount" id="idAccount" value="{{ session('account')['id'] }}" hidden>
                     <input type="text" name="idPKL" id="idPKL" value="{{ $pkl->id }}" hidden>
-
+                    {{-- {{dd($produk)}} --}}
                     @if ($produk->count() > 0)
                         @foreach ($produk as $p)
                             <div class="card" style="margin-top: 10px">
                                 <div class="inCard" id="theImage">
-                                    <img src="https://i.pinimg.com/564x/34/e1/30/34e13046e8f9fd9f3360568abd453685.jpg" alt="" style="border: black 1px solid; border-radius: 40px">
+                                    <img src="/storage/{{$p->foto}}" alt="" style="border: black 1px solid; border-radius: 40px">
 
                                 </div>
                                 <div class="inCard" id="mid">
@@ -72,7 +72,7 @@
                                     <div class="forStok">
                                         <p>Stok Tersisa: {{$p->sisaStok}}</p>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         @endforeach
