@@ -25,14 +25,16 @@ use app\Models\PKL;
 */
 
 Route::get('/', function () {
+
     return redirect('/dashboard');
 });
 Route::get('/dashboard', function () {
-    if(isset($_SESSION)){
+    if(session()->has('account')){
         $pkl = new PKLController();
         $ulasan = Ulasan::all(); // Fetch $ulasan from the database
 
         $pesanan = Pesanan::all();
+        // dd($pesanan);
         // $data = $pkl->getDataPKL();
         // dd($data);
         return view('dashboard', ['ulasan' => $ulasan, 'pesanan' => $pesanan]);
@@ -41,6 +43,20 @@ Route::get('/dashboard', function () {
 
     
 });
+// Route::middleware(['auth'])->group(function(){
+//     Route::get('/dashboard',function(){
+//         $pkl = new PKLController();
+//         $ulasan = Ulasan::all(); // Fetch $ulasan from the database
+
+//         $pesanan = Pesanan::all();
+//         // dd($pesanan);
+//         // $data = $pkl->getDataPKL();
+//         // dd($data);
+//         return view('dashboard', ['ulasan' => $ulasan, 'pesanan' => $pesanan]);
+//     });
+//         return view('dashboard', ['ulasan' => [], 'pesanan' => []]);
+
+// });
 Route::get('/getData', [PKLController::class, 'getDataPKL']);
 
 Route::get('/profile', function () {
@@ -78,7 +94,7 @@ Route::get('/login', function () {
         return redirect('/dashboard');
     }
     return view('login');
-});
+})->name('login');
 
 
 Route::post('/account/{id}', [AccountController::class,'editProfile']);
