@@ -8,13 +8,6 @@
     <link rel="stylesheet" href="/css/pesan.css">
 @endsection
 
-@section('isiAlert')
-    @if((session('alert'))!=null)
-        
-            @php echo session('alert'); @endphp
-    @endif
-@endsection
-
 @section('main')
     <div class="all">
         <div class="up border border-bottom d-flex justify-content-between align-items-center">
@@ -62,15 +55,16 @@
                 @else
                     <p class="namap" style="text-align: center">Produk Kosong</p>
                 @endif
-                @if ($pesan->status == 'Pesanan Baru' && @session('account')['status'] == 'PKL'&& $pesan->idAccount!=session('account')['id'])
+                @if ($pesan->status == 'Pesanan Baru' && @session('account')['status'] == 'PKL')
                     <br>
                     <div class="d-flex justify-content-between">
                         <button class="btn btn-danger me-2" onclick="confirmTolakPesanan('{{ $pesan->id }}')">
                             Tolak Pesanan
                         </button>
-                        <button class="btn btn-success" onclick="confirmTerimaPesanan('{{ $pesan->id }}')">
+
+                        {{-- <button class="btn btn-success" onclick="confirmTerimaPesanan('{{ $pesan->id }}')">
                             Terima Pesanan
-                        </button>
+                        </button> --}}
                     </div>
                     <br>
                 @endif
@@ -124,7 +118,7 @@
                 </table>
                     <div style="margin-top: 30vh; padding-left:10px; font-weight:600;">
                         <label for="keterangan">Status Pesanan</label><br>
-                        <input type="text" style=" width:250px;" name="keterangan" id="keterangan" value="@php 
+                        <input type="text" style=" width:250px;" name="keterangan" id="keterangan" value="@php
                         if(@session('account')['status'] == 'PKL'){
                             echo $pesan->status;
                         }
@@ -136,8 +130,8 @@
                                 echo $pesan->status;
                             }
                         }
-                        
-                        
+
+
                         @endphp" readonly>
                     </div>
                     <div style="margin-bottom: 20vh; padding-left:10px;">
@@ -169,7 +163,7 @@
                     @php
                         $report = \App\Models\Report::where('idPesanan', $pesan->id)->first();
                     @endphp
-                    @if (session('account')['status'] == 'PKL' && $pesan->status != 'Pesanan Selesai' && !$report && $pesan->idAccount!=session('account')['id'])
+                    @if (session('account')['status'] == 'PKL' && $pesan->status != 'Pesanan Selesai' && !$report)
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                             data-bs-target="#staticBackdrop" style="width: 40%">
