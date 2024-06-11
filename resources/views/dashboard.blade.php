@@ -530,6 +530,7 @@
                         fillContentUlasan(coordinates.id);
                         fillContentMenu(coordinates.id);
                         fillContentPesan(coordinates.id);
+                        
 
                         // Get the button element
                         const button = document.getElementById('reviewButton');
@@ -566,7 +567,7 @@
         }
 
         // Function to change content based on button click
-        function changeContent(buttonName) {
+        function changeContent(buttonName,idacc) {
             // Hide all content divs
 
             document.getElementById('contentUlasan').style.display = 'none';
@@ -785,6 +786,8 @@
         }
 
         function fillContentPesan(id) {
+            
+            
             // clear
 
             // Get the contentPesan div
@@ -794,24 +797,29 @@
                 contentPesanDiv.removeChild(contentPesanDiv.firstChild);
             }
             @if(session('account')!=null)
-                if(id!='{{$pkl->id}}'){
-                    contentPesanDiv.innerHTML = '';
+                contentPesanDiv.innerHTML = '';
 
-                    // Create a button element
-                    var button = document.createElement("button");
+                const button = document.createElement("button");
 
-                    // Set the button text
-                    button.textContent = "Pesan Sekarang!";
+                button.textContent = "Pesan Sekarang!";
 
-                    // Set up a click event listener
-                    button.addEventListener("click", function() {
-                        // Redirect to the order page with the provided ID
-                        window.location.href = "pesanan/create/" + id;
-                    });
+                button.addEventListener("click", function() {
+                    window.location.href = "pesanan/create/" + id;
+                });
 
-                    // Append the button to the contentPesan div
-                    contentPesanDiv.appendChild(button);
-                }
+                contentPesanDiv.appendChild(button);
+                @if(isset($pkl))
+                    let pkl = @json($pkl);
+                    if(pkl.id==id){
+                        console.log('masuk')
+                        contentPesanDiv.style.display
+                        while(contentPesanDiv.firstChild){
+                        contentPesanDiv.removeChild(contentPesanDiv.firstChild);
+                    }
+                    
+                }    
+                
+                @endif
             @else
                     let h4Element = document.createElement("h4");
                     h4Element.setAttribute("id", "h4Login");

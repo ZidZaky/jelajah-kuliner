@@ -177,6 +177,14 @@ class PKLController extends Controller
             return response()->json(['error' => 'PKL not found'], 404);
         }
     }
+    public function getIdPKL($id){
+        $rs = DB::select("select id from p_k_l_s
+                            where idAccount=".$id);
+        if($rs==[]){
+            return 0;
+        }
+        return ($rs[0]->id);
+    }
 
     public function getDataPKL()
     {

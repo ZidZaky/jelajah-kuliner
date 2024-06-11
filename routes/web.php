@@ -110,3 +110,4 @@ Route::post('/update-location', [PKLController::class,'updateLocation']);
 
 Route::get('/rwt/{idpklpidproduk}',[halamanController::class,'getrwtStok']);
 Route::get('/chartTahun',[halamanController::class,'ChartMonth']);
+Route::get('/getIDPkl/{id}',[PKLController::class,'getIdPKL']);
