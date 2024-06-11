@@ -62,9 +62,9 @@
                             Tolak Pesanan
                         </button>
 
-                        {{-- <button class="btn btn-success" onclick="confirmTerimaPesanan('{{ $pesan->id }}')">
+                        <button class="btn btn-success" onclick="confirmTerimaPesanan('{{ $pesan->id }}')">
                             Terima Pesanan
-                        </button> --}}
+                        </button>
                     </div>
                     <br>
                 @endif
