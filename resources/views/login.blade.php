@@ -10,7 +10,7 @@
 
 @section('isiAlert')
     @if((session('alert'))!=null)
-        
+
             @php echo session('alert'); @endphp
     @endif
 @endsection
@@ -23,16 +23,16 @@
         <div class="line-divider"></div>
         <form class="form-signin" action="/loginAccount" method="POST">
             @csrf
-            
-            
-            <div class="form-floating">
-                <input type="text" class="form-control" id="email" name="email" placeholder="name@example.com">
-                <label for="floatingInput">Email atau No Telepon</label>
+
+
+            <div class="form">
+                <input type="text" class="form-control" id="email" name="email" placeholder="Masukkan Email ">
+                {{-- <label for="floatingInput">Email atau No Telepon</label> --}}
             </div>
-            <div class="form-floating">
+            <div class="form">
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                <label for="floatingPassword">Password</label>
-                
+                {{-- <label for="floatingPassword">Password</label> --}}
+
             </div>
             <div class="mb-3" id="showPass">
                 <input type="checkbox" onchange="togglePasswordVisibility()" name="showPassword" value="none" id="cbShow" >
@@ -41,7 +41,7 @@
             <div class="form-floating">
                 <button id ="ButLogin" class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
             </div>
-            
+
         </form>
         <div class="line-divider"></div>
         <div class="regisPkl">
