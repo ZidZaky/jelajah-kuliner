@@ -39,7 +39,7 @@
                 <label for="ForCheckbox">Perlihatkan</label>
             </div>
             <div class="form-floating">
-                <button id ="ButLogin" class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+                <button id ="ButLogin" class="w-100 btn btn-lg btn-success" type="submit">Login</button>
             </div>
 
         </form>
