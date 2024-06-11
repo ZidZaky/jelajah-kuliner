@@ -22,7 +22,7 @@
 
 @section('isiAlert')
     @if((session('alert'))!=null)
-        
+
             @php echo session('alert'); @endphp
     @endif
 @endsection
@@ -90,7 +90,7 @@
             <button>Cari</button>
         </div>
         <button onclick="hide('cari')">X</button>
-        
+
     </div>
     <a class="aboutus" href="/aboutus"><strong>About Us?</strong></a>
     @if(session('account')!=null)
@@ -377,10 +377,8 @@
                     </div>
                 </div>
             </div>
-            
-            <div id="contentPesan" style="border: red 1px solid">
-                <h1>sosf</h1>
-                <button>hiesffdefdjbbjerbulesfsef</button>
+
+            <div id="contentPesan" >
             </div>
         </div>
     </div>
@@ -578,6 +576,9 @@
             // }
             document.getElementById('content' + buttonName).style.display = 'block';
             opacityList(buttonName);
+            if(buttonName=="Pesan"){
+                fillContentPesan();
+            }
         }
         // opacityList('Ulasan');
         // opacityList("Ulasan");
@@ -820,9 +821,9 @@
                     contentPesanDiv.appendChild(buttonElement);
             @endif
             // Clear any existing content in the contentPesan div
-            
+
         }
-        
+
         // Function to capture current location
         function getCurrentLocation() {
             if (navigator.geolocation) {
@@ -840,20 +841,20 @@
             document.getElementById("myForm").submit();
         }
 
-        
+
     </script>
     <style>
         #butLoginn{
-            border-radius: 3px; 
-            background-color:aqua; 
-            width: 200px; 
+            border-radius: 3px;
+            background-color:aqua;
+            width: 200px;
             margin: 0 auto;
             /* border-radius: 10px; */
             border:none;
         }
         #h4Login{
-            text-align: center; 
-            padding-top: 10px; 
+            text-align: center;
+            padding-top: 10px;
             padding-left: 5px;
         }
         /* ----------- STYLE TITIK IMG ----------------- */
