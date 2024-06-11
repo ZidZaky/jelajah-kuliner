@@ -9,7 +9,7 @@
 @endsection
 
 @section('main')
-    <div class="container">
+    <div class="container" >
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title text-center" style="color: #F08A5D"><strong>TAMBAHKAN PRODUKMU!</strong></h5><br>
