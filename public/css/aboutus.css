@@ -67,7 +67,6 @@
   }
   .border:hover {
     --_p: 75%;
-    filter: grayscale(0%);
   }
 
 /* card */

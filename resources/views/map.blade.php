@@ -29,10 +29,7 @@
         </div>
         <div id="contentWrapper">
 
-
             <div id="contentUlasan">
-
-
 
                 <div class="cardUlasan">
                     <div>

@@ -213,8 +213,7 @@ form>div {
 
 .form-floating>#ButLogin {
     width: 40%;
-    background-color: #72FF72;
-    color: #000000;
+    color: #fff;
     font-weight: 700;
     padding: 10px;
     border: 1px solid #000;
@@ -223,11 +222,6 @@ form>div {
     cursor: pointer;
     font-size: 16px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-#ButLogin:hover {
-    color: #ddd;
-    background-color: #316f31;
 }
 
 .form-control::placeholder {
@@ -274,7 +268,7 @@ a {
 a:hover {
     text-decoration: none;
     /* Tetap tidak ada garis bawah pada hover */
-    color: #3eb410;
+    color: blue;
     /* Warna teks saat dihover */
 }
 

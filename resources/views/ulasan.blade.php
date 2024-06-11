@@ -1,7 +1,7 @@
 @extends('layouts.layout2')
 
 @section('title')
-    Tracking Map - Jelajah Kuliner
+    ULASAN
 @endsection
 
 @section('css')

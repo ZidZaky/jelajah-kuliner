@@ -22,7 +22,7 @@
 
 @section('isiAlert')
     @if((session('alert'))!=null)
-        
+
             @php echo session('alert'); @endphp
     @endif
 @endsection
@@ -44,6 +44,7 @@
     @endif
 
     <div id="map"></div>
+
     <div class="toSearch" id="tosearch1" style="display:none;">
         <button onclick="hide('input')">
             <svg alt="Search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
@@ -89,7 +90,9 @@
             <button>Cari</button>
         </div>
         <button onclick="hide('cari')">X</button>
+
     </div>
+    <a class="aboutus" href="/aboutus"><strong>About Us?</strong></a>
     @if(session('account')!=null)
         @if(session('account')['status']=='PKL')
             <div class="listPesanan" style="display:none;">
@@ -332,7 +335,6 @@
         <p id="namaPKL"></p><br>
         <img src="https://i.pinimg.com/736x/da/5e/ba/da5eba94367e1a2aaa683f1acc105f97.jpg" alt="PKL Photo Goes Here">
 
-
         <div id="tsur">
             <button id="butUlasan" onclick="changeContent('Ulasan')" type="button" class="btn btn-success"
                 style="opacity:100%">Ulasan</button>
@@ -345,7 +347,7 @@
         </div>
         <div id="contentWrapper">
             @if(session('account')!=null)
-                @if (session('account')['status'] != 'PKL')
+                @if(session('account')['status'] != 'PKL')
                     <button id="reviewButton">
                         <img src="https://www.gstatic.com/images/icons/material/system_gm/2x/rate_review_gm_blue_18dp.png"
                             alt="Gambar">
@@ -354,10 +356,6 @@
                 @endif
             @endif
             <div id="contentUlasan">
-
-
-
-
 
             </div>
 
@@ -373,16 +371,14 @@
                         <p id="deskrip"></p>
                         <hr>
                         <div class="forStok">
-                            <p id="stock">Stok :</p>
+                            <p id="stock">Stok: </p>
                             <p id="numstok"></p>
                         </div>
                     </div>
                 </div>
-
             </div>
-            
-            <div id="contentPesan" style="display: none;">
-                
+
+            <div id="contentPesan" >
             </div>
         </div>
     </div>
@@ -581,6 +577,9 @@
             // }
             document.getElementById('content' + buttonName).style.display = 'block';
             opacityList(buttonName);
+            if(buttonName=="Pesan"){
+                fillContentPesan();
+            }
         }
         // opacityList('Ulasan');
         // opacityList("Ulasan");
@@ -617,9 +616,6 @@
                     console.error('Error fetching picture:', error);
                 });
         }
-
-
-
 
         function fillContentUlasan(id) {
             // Fetch ulasan data for the specific PKL ID
@@ -698,8 +694,6 @@
                     console.error('Error fetching ulasan:', error);
                 });
         }
-
-
 
         function fillContentMenu(id) {
             // Fetch product data for the specific PKL ID
@@ -842,9 +836,9 @@
                     contentPesanDiv.appendChild(buttonElement);
             @endif
             // Clear any existing content in the contentPesan div
-            
+
         }
-        
+
         // Function to capture current location
         function getCurrentLocation() {
             if (navigator.geolocation) {
@@ -862,20 +856,20 @@
             document.getElementById("myForm").submit();
         }
 
-        
+
     </script>
     <style>
         #butLoginn{
-            border-radius: 3px; 
-            background-color:aqua; 
-            width: 200px; 
+            border-radius: 3px;
+            background-color:aqua;
+            width: 200px;
             margin: 0 auto;
             /* border-radius: 10px; */
             border:none;
         }
         #h4Login{
-            text-align: center; 
-            padding-top: 10px; 
+            text-align: center;
+            padding-top: 10px;
             padding-left: 5px;
         }
         /* ----------- STYLE TITIK IMG ----------------- */
@@ -964,6 +958,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .aboutus {
+            position: absolute;
+            display: flex;
+            flex-direction: row;
+            z-index: 100;
+            left: 50%;
+            bottom: 1%;
+            transform: translateX(-50%);
+            margin: 0 0;
+            padding: 5px;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: black;
         }
 
         .forsearch>* {
