@@ -93,6 +93,7 @@
 
     </div>
     <a class="aboutus" href="/aboutus"><strong>About Us?</strong></a>
+    {{-- <a class="" href="/userguide"><strong>User Guide</strong></a> --}}
     @if(session('account')!=null)
             <div class="listPesanan" style="display:none;">
                 <div class="NavbarAtasPesanan">

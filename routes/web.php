@@ -41,7 +41,7 @@ Route::get('/dashboard', function () {
     }
     return view('dashboard', ['ulasan' => [], 'pesanan' => []]);
 
-    
+
 });
 // Route::middleware(['auth'])->group(function(){
 //     Route::get('/dashboard',function(){
@@ -118,8 +118,9 @@ Route::get('/getCoordinates', [PKLController::class, 'getCoordinates']);
 Route::get('/getUlasan/{id}', [UlasanController::class, 'getUlasan']);
 Route::get('/getProduk/{id}', [ProdukController::class, 'getProduk']);
 Route::get('/getPictureByID/{id}', [PKLController::class, 'getPictureByID']);
-
-
+Route::get('/userguide', function () {
+    return view('userguide');
+});
 Route::get('/ulasan/create/{id}', [UlasanController::class, 'createWithId']);
 
 Route::post('/update-location', [PKLController::class,'updateLocation']);

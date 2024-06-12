@@ -7,9 +7,9 @@
             <li><a href="/your-history">Your History</a></li> -->
             <li><a href="/profile">My Profile</a></li>
             @php
-                    $pklExists = \App\Models\PKL::where('idAccount', session('account')['id'])->exists();
-                    use Illuminate\Support\Facades\Request;
-                
+                $pklExists = \App\Models\PKL::where('idAccount', session('account')['id'])->exists();
+                use Illuminate\Support\Facades\Request;
+
             @endphp
 
             @if (Request::is('dashboard'))
@@ -20,8 +20,9 @@
 
             @if ($pklExists && session('account')['status'] == 'PKL')
                 <a class="btn btn-primary" href="/dataPKL/{{ session('account')['id'] }}" role="button">Dashboard PKL</a>
-                
-                <a class="btn btn-primary" href="/Dashboard-Penjualan/{{((session('account')['id']).'VToday')}}" role="button">Dashboard Penjualan</a>
+
+                <a class="btn btn-primary" href="/Dashboard-Penjualan/{{ session('account')['id'] . 'VToday' }}"
+                    role="button">Dashboard Penjualan</a>
             @elseif (session('account')['status'] == 'PKL')
                 <a class="btn btn-primary" href="/PKL/create" role="button">Create Data PKL</a>
             @elseif (session('account')['status'] == 'Admin')
@@ -35,6 +36,8 @@
         @if (session('account')['nama'] == 'Admin')
             <a class="btn btn-primary" href="/account" role="button">List Account</a>
         @endif
+        <a class="btn btn-primary" href="/userguide" role="button">User Guides</a>
+
 
     </nav>
     <div class="menu">
