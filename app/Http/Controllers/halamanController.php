@@ -223,7 +223,7 @@ class halamanController extends Controller
                     produks AS p
                 JOIN 
                     history_stoks AS h ON p.id=h.idProduk
-                where month(h.created_at)=".$bulan." and year(h.created_at)=".$taun."
+                where month(h.created_at)=".$bulan." and year(h.created_at)=".$taun." and p.idPKL = ".$idPKL."
                 GROUP by p.id,p.namaProduk,p.idPKL
                 order by p.namaProduk;");
             $Produs=$produkMonth;
@@ -243,7 +243,7 @@ class halamanController extends Controller
                     produks AS p
                 JOIN 
                     history_stoks AS h ON p.id=h.idProduk
-                where year(h.created_at)=".$taun."
+                where year(h.created_at)=".$taun." and p.idPKL = ".$idPKL."
                 GROUP by p.id,p.namaProduk,p.idPKL
                 order by p.namaProduk;");
             $Produs = $produkYear;
