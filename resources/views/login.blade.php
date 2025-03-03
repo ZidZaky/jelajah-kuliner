@@ -26,7 +26,7 @@
 
 
             <div class="form">
-                <input type="text" class="form-control" id="email" name="email" placeholder="Masukkan Email ">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan Email ">
                 {{-- <label for="floatingInput">Email atau No Telepon</label> --}}
             </div>
             <div class="form">
