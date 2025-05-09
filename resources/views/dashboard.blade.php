@@ -555,12 +555,12 @@
         }
 
         // Event listener for marker click event
-        marker
+        
 
         function closeAccountDetails() {
             document.getElementById('accountDetails').style.display = 'none'; // Hide the accountDetails div
             // Reset account details
-            document.getElementById('accountName').innerText = '';
+            // document.getElementById('accountName').innerText = '';
             document.getElementById('accountEmail').innerText = '';
             document.getElementById('accountNohp').innerText = '';
             document.getElementById('accountStatus').innerText = '';

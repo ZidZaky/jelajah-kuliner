@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\PKLController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\UlasanController;
@@ -28,6 +29,11 @@ Route::get('/', function () {
 
     return redirect('/dashboard');
 });
+
+// Route::get('/TS',function(){
+//     return view('testcaseblade');
+// });
+Route::get('/TS',[Controller::class,'TS']);
 Route::get('/dashboard', function () {
     if(session()->has('account')){
         $pkl = new PKLController();
