@@ -52,7 +52,7 @@
                         <p class="hrg" style="text-align: center; margin-top: 15px">" {{ $rep->alasan }} "</p>
                     </div>
                     <div class="reportButton">
-                        @if ($account->status != "Banned")
+                        @if ($account->status != "alert")
                             <button class="btn btn-danger" style="width: auto;" onclick="confirmBan('{{ $rep->id }}')">Ban</button><br>
                         
                         @else

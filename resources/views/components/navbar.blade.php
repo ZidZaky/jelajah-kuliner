@@ -8,7 +8,12 @@
     <a class="btn btn-primary" href="/userguide" role="button">userguide</a>
     <!-- iki lapo kok warning -->
 </nav>
-    <div class="menu">
+    <div class="menu" >
         <p>≡</p>
     </div>
 </div>
+
+<script>
+
+    
+</script>

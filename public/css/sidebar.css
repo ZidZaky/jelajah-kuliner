@@ -10,7 +10,9 @@ body {
     padding: 10px;
     background: #9c242c;
     /* left: -20%; */
-    left: -230px;
+    /* left: -230px; */
+    left: 0;
+
 
     transition: left 0.3s ease;
 }
@@ -18,9 +20,9 @@ body {
 @media screen and (max-width: 900px) {
 }
 
-.sidebar:hover {
+/* .sidebar:hover {
     left: 0;
-}
+} */
 .sidebar>a.btn.btn-primary{
     background-color:#d48338;
 }
