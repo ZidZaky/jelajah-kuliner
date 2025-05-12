@@ -71,7 +71,8 @@ class halamanController extends Controller
         }
 
     }
-
+    
+    //doneTest
     public function DashboardPenjualan($idAccVApa){
 
         // dd($idAccVApa);
@@ -215,6 +216,8 @@ class halamanController extends Controller
                 $Produs = $produkToday;
         }
         
+
+
         else if($apa == "Bulan Ini"){
             $produkMonth = DB::select("SELECT 
                     p.id AS id,

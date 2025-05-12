@@ -64,9 +64,44 @@ class HalamanControllerTest extends TestCase
         TestUnit::assertSame($a,$b);
     }
 
+    public function test_dashboard_penjualan_Today(){
+        $prepared = $this->prepared();
+        // dd($prepared[0]->id);
+
+        $res = $this->get('/Dashboard-Penjualan/{idAccVApa}'.$prepared[0]->id.'VToday');
+        // dd($prepared[0]->id,($res));
+        $res->assertViewIs('dp');
+        // $res->assertViewHasAll(['DataToday','DataMonth','DataYear','produs','startdate','apa']);
+        $res->assertViewHasAll(['DataToday','produs','apa']);
+    }
+
+    public function test_dashboard_penjualan_Bulan_Ini(){
+        $prepared = $this->prepared();
+        // dd($prepared[0]->id);
+
+        $res = $this->get('/Dashboard-Penjualan/{idAccVApa}'.$prepared[0]->id.'VBulan Ini');
+        // dd($prepared[0]->id,($res));
+        $res->assertViewIs('dp');
+        $res->assertViewHasAll(['DataMonth','produs','apa']);
+
+    }
+
+    public function test_dashboard_penjualan_Tahun_Ini(){
+        $prepared = $this->prepared();
+        // dd($prepared[0]->id);
+
+        $res = $this->get('/Dashboard-Penjualan/{idAccVApa}'.$prepared[0]->id.'VTahun Ini');
+        // dd($prepared[0]->id,($res));
+        $res->assertViewIs('dp');
+        $res->assertViewHasAll(['DataYear','produs','apa']);
+
+    }
+
 
     public function prepared(){
-        $akun = Account::factory()->count(1)->create();
+        $akun = Account::factory()->count(1)->create([
+            'status'=>'PKL',
+        ]);
 
         //buat akun pkl
         $pkl = PKL::factory()->create([
@@ -75,7 +110,14 @@ class HalamanControllerTest extends TestCase
         //buat 1 product
         $product = Produk::factory()->create([
             'idPKL'=>$pkl->id,
+            'created_at' => \Carbon\Carbon::now(),
         ]);
+
+        $res=$this->post('/loginAccount',[
+            'email' => $akun[0]->email,
+            'password' => 'pwCuy',
+        ]);
+
         return [$akun[0],$pkl,$product];
     } 
 }

@@ -7,15 +7,13 @@ use App\Models\historyStok;
 
 class HistoryStokController extends Controller
 {
-    
+    //onproses
     public function store($idproduk,$stokAwal,$idPKL){
         $stok = new historyStok();
         $stok->idPKL = $idPKL;
         $stok->idProduk = $idproduk;
         $stok->stokAwal = $stokAwal;
         $stok->save();
-
-        // dd($stok->id);
         return $stok->id;
     }
 
@@ -28,7 +26,6 @@ class HistoryStokController extends Controller
             $this->UpdatestokAkhir(($stok->stokAkhir-$jumlah),$stok->id);
        }
        return $stok->save();
-// >>>>>>> fa7102ddd6950ef6706450bf1323a6b5c945e902
     }
 
     public function UpdatestokAkhir($jumlah,$idStok){
