@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 
 class halamanController extends Controller
 {
+    //doneTest
     public function UpdateStatusStok(Request $req){
         // dd($req,'awl');
         
@@ -35,6 +36,7 @@ class halamanController extends Controller
 
     }
 
+    //doneTest
     public function getrwtStok($idPklpidProduk){
         $pisah = explode("p",$idPklpidProduk);
         $idPKL = $pisah[0];
@@ -43,9 +45,12 @@ class halamanController extends Controller
         $data = DB::select("SELECT * from history_stoks h where idPKL=".$idPKL." and idProduk=".$idProduk.";");
         // dd($data);
         if(count($data)>0){
+            // dd($data);
             return $data;
         }
     }
+
+    //doneTest
     public function UpdateStokAkhir(Request $req){
         // dd($req);
         $val = $req->validate([
@@ -66,6 +71,7 @@ class halamanController extends Controller
         }
 
     }
+
     public function DashboardPenjualan($idAccVApa){
         // dd($idAccVApa);
         $split = explode("V",$idAccVApa);
@@ -249,24 +255,10 @@ class halamanController extends Controller
             $Produs = $produkYear;
         }
             
-            // dd($produkMonth);
             
-            // dd($produkYear);
-            // dd();
-            // dd(date("Y"));
-            // if()
-            // dd(count($Produs));
-            // dd($this->hitung($Today[0]));
-            // dd($year[0]->TerjualKeseluruhan=="0");
-            // dd($year[0]->TerjualKeseluruhan!="0" && $this->hitung($Produs)>0);
-            // dd($year[0]);
-            // dd($year[0]->TerjualKeseluruhan!="0" && $this->hitung($Produs)>0);
             try{
                 if($Today[0]->TerjualKeseluruhan!="0" && $month[0]->TerjualKeseluruhan!="0" && $year[0]->TerjualKeseluruhan!="0" && $this->hitung($Produs)>0){
-                    // dd($month);
-                    // dd('masuk');
-                    // dd($Today[0]);
-                    // dd($this->hitung($Today)>0);
+                 
                         return view('dp',['DataToday'=>$Today[0],'DataMonth'=>$month[0],'DataYear'=>$year[0],'produs'=>$Produs,'startdate'=>$startdate,'apa'=>$apa]);
 
                 }
@@ -306,15 +298,6 @@ class halamanController extends Controller
     }
 
     
-
-    public function ChartMonth(){
-        $data = DB::select("SELECT p.namaProduk,p.idPKL idPKL,sum(case when h.statusIsi=0 then h.stokAkhir+h.TerjualOnline when h.statusIsi=1 then (h.stokAwal-h.stokAkhir-h.TerjualOnline)+h.TerjualOnline end) semua
-        from produks p 
-        join history_stoks h on p.id=h.idProduk
-        WHERE p.idPKL=2 and (month(h.created_at)=4 or month(h.updated_at)=4)
-        GROUP BY p.id");
-        // dd($data);
-    }
     public function hitung($array){
         $itg = 0;
         foreach($array as $ar){

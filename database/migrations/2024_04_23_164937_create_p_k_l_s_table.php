@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('p_k_l_s', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement();
             $table->string('namaPKL');
             $table->string('desc');
             $table->string('picture')->nullable();

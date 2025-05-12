@@ -155,43 +155,33 @@ class ProdukController extends Controller
 
     }
 
-    public function buatStokAkhir($id){
-        $produk = Produk::where('id',$id)->first();
-        return view('buatStokAkhir',['produk' => $produk]);
-    }
-    public function buatStokAwal($id){
-        $produk = Produk::where('id',$id)->first();
-        return view('buatStokAwal',['produk' => $produk]);
-    }
+    public function buatHistory(Request $request){
+        $valdata = $request->validate([
+            'idPKL' => 'required',
+            'idProduk' => 'required',
+            'stokAwal' => 'required'
+        ]);
 
-    public function buatHistory(Request $request)
-    {
-    $valdata = $request->validate([
-        'idPKL' => 'required',
-        'idProduk' => 'required',
-        'stokAwal' => 'required'
-    ]);
+        $berhasil = DB::update('UPDATE `produks` SET `stok` = ? WHERE `id` = ? AND `idpkl` = ?', [
+            $valdata['stokAwal'],  // Assuming you want to update the stok with stokAkhir value
+            $valdata['idProduk'],
+            $valdata['idPKL']
+        ]);
 
-    $berhasil = DB::update('UPDATE `produks` SET `stok` = ? WHERE `id` = ? AND `idpkl` = ?', [
-        $valdata['stokAwal'],  // Assuming you want to update the stok with stokAkhir value
-        $valdata['idProduk'],
-        $valdata['idPKL']
-    ]);
+        $berhasil2 = DB::insert('INSERT INTO history_stok (id, idProduk, stokAwal, stokAkhir, idPKL, created_at, updated_at) VALUES (NULL, ?, ?, ?, ?, ?, ?)', [
+            $valdata['idProduk'],
+            $valdata['stokAwal'],
+            0,
+            $valdata['idPKL'],
+            now(),
+            now()
+        ]);
 
-    $berhasil2 = DB::insert('INSERT INTO history_stok (id, idProduk, stokAwal, stokAkhir, idPKL, created_at, updated_at) VALUES (NULL, ?, ?, ?, ?, ?, ?)', [
-        $valdata['idProduk'],
-        $valdata['stokAwal'],
-        0,
-        $valdata['idPKL'],
-        now(),
-        now()
-    ]);
-
-    if ($berhasil && $berhasil2) {
-        return redirect("/riwayatProduk/{$valdata['idPKL']}");
-    } else {
-        return back()->with('error', 'Failed to save the history.');
-    }
+        if ($berhasil && $berhasil2) {
+            return redirect("/riwayatProduk/{$valdata['idPKL']}");
+        } else {
+            return back()->with('error', 'Failed to save the history.');
+        }
     }
 
 public function updateHistory(Request $request)

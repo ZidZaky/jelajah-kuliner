@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\factory;
+
 
 class PKLSeeder extends Seeder
 {
@@ -14,6 +16,6 @@ class PKLSeeder extends Seeder
      */
     public function run()
     {
-        //
+        
     }
 }

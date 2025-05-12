@@ -16,8 +16,18 @@ class PKLFactory extends Factory
      */
     public function definition()
     {
+        $picture=[
+            'Pentol.jpg',
+            'Seblak.png',
+        ];
         return [
-            //
+            // 'namaPKL'=>$this->faker->firstName().' '.$this->faker->firstName(),
+            'namaPKL'=>'evi',
+            'desc'=>$this->faker->word(),
+            'picture'=>$this->faker->randomElement($picture),
+            'latitude'=>'-7.' . $this->faker->numerify('########'),
+            'longitude'=>'-7.' . $this->faker->numerify('########'),
+            'idAccount'=>null,
         ];
     }
 }

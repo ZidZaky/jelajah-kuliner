@@ -16,8 +16,19 @@ class ProdukFactory extends Factory
      */
     public function definition()
     {
+        $picture=[
+            'Pentol.jpg',
+            'Seblak.png',
+        ];
         return [
-            //
+            "namaProduk"=>$this->faker->word(3),
+            "desc"=>$this->faker->word(15),
+            "harga"=>$this->faker->randomDigit(7),
+            "stokSaatIni"=>$this->faker->randomDigit(2),
+            "jenisProduk"=>$this->faker->randomElement(['Makanan','Minuman']),
+            "fotoProduk"=>$this->faker->randomElement($picture),
+            'idPKL'=>null,
+
         ];
     }
 }

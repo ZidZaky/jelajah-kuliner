@@ -14,8 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('produks', function (Blueprint $table) {
-            $table->dropColumn('stok');
-            $table->dropColumn('stokSaatIni');
+            // $table->dropColumn('stokSaatIni');
             $table->integer('stokAktif')->default(0);
         });
     }

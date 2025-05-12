@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('accounts', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement();
             $table->string('nama');
             $table->string('email');
             $table->string('nohp');
