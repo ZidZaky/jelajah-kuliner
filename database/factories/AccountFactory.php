@@ -9,20 +9,15 @@ use Illuminate\Support\Facades\Hash;
  */
 class AccountFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition()
+    public function definition(): array
     {
         $status = ['PKL','Pelanggan'];
         return [
-            'nama'=>$this->faker->name(),
-            'email'=>$this->faker->firstname().'@example.com',
-            'nohp'=>$this->faker->numerify('############'),
-            'password'=>Hash::make('password'),
-            'status'=>$this->faker->randomElement($status),
+            'nama' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'nohp' => $this->faker->phoneNumber(),
+            'password' => Hash::make('password'), // default password
+            'status' => $this->faker->randomElement(['aktif', 'nonaktif']),
         ];
     }
 }

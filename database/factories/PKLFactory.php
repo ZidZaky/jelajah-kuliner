@@ -3,31 +3,23 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Account;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PKL>
- */
 class PKLFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition()
+    public function definition(): array
     {
         $picture=[
             'Pentol.jpg',
             'Seblak.png',
         ];
         return [
-            // 'namaPKL'=>$this->faker->firstName().' '.$this->faker->firstName(),
-            'namaPKL'=>'evi',
-            'desc'=>$this->faker->word(),
-            'picture'=>$this->faker->randomElement($picture),
-            'latitude'=>'-7.' . $this->faker->numerify('########'),
-            'longitude'=>'-7.' . $this->faker->numerify('########'),
-            'idAccount'=>null,
+            'idAccount' => Account::factory(), // sesuaikan dengan nama kolom di migration
+            'namaPKL' => $this->faker->company,
+            'desc' => $this->faker->paragraph,
+            'picture' => $this->faker->randomElement($picture),
+            'longitude' => $this->faker->randomFloat(8, -180, 180),
+            'latitude' => $this->faker->randomFloat(8, -90, 90),
         ];
     }
 }

@@ -2,7 +2,8 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
+use function PHPUnit\Framework\assertSame;
 
 class HistoryStokControllerTest extends TestCase
 {

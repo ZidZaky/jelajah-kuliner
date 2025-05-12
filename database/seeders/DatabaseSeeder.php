@@ -15,9 +15,12 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    // database/seeders/DatabaseSeeder.php
+    public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        \App\Models\Account::factory(10)->create();
+        \App\Models\PKL::factory(10)->create();
+        \App\Models\Produk::factory(20)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
@@ -34,5 +37,10 @@ class DatabaseSeeder extends Seeder
         $product = Produk::factory()->create([
             'idPKL'=>$pkl->id,
         ]);
+        // Membuat pesanan dan menambahkan produk ke dalamnya
+        \App\Models\Pesanan::factory(15)->create(); // Ini akan memanggil factory dan memasukkan produk
+
+        \App\Models\Ulasan::factory(30)->create();
+        \App\Models\HistoryStok::factory(20)->create();
     }
 }

@@ -15,6 +15,15 @@ class PKL extends Model
 
     // Specify the columns that are mass assignable
     protected $fillable = [
-        'namaPKL', 'desc', 'latitude', 'longitude', 'idAccount'
+        'namaPKL',
+        'desc',
+        'latitude',
+        'longitude',
+        'idAccount'
     ];
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class, 'idAccount');
+    }
 }

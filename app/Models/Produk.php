@@ -20,4 +20,15 @@ class Produk extends Model
     protected $nullable = [
         'fotoProduk'
     ];
+
+    public function pkl()
+    {
+        return $this->belongsTo(PKL::class, 'idPKL'); // sesuaikan nama kolom
+    }
+
+    public function pesanans()
+    {
+        return $this->belongsToMany(Pesanan::class, 'produk_dipesan', 'idProduk', 'idPesanan')
+                    ->withPivot('JumlahProduk');
+    }
 }

@@ -19,4 +19,10 @@ class Pesanan extends Model
     protected $fillable = [
         'idPKL', 'idAccount', 'Keterangan', 'status'
     ];
+
+    public function produks()
+    {
+        return $this->belongsToMany(Produk::class, 'produk_dipesan', 'idPesanan', 'idProduk')
+                    ->withPivot('JumlahProduk');
+    }
 }
