@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use function PHPUnit\Framework\assertSame;
-class RekapControllerTest extends TestCase
+use PHPUnit\Framework\TestCase;
+
+class ReportControllerTest extends TestCase
 {
     /**
      * A basic unit test example.
