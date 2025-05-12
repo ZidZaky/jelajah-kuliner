@@ -14,7 +14,7 @@ class PKLFactory extends Factory
             'Seblak.png',
         ];
         return [
-            'idAccount' => Account::factory(), // sesuaikan dengan nama kolom di migration
+            'idAccount' => Account::factory(),
             'namaPKL' => $this->faker->company,
             'desc' => $this->faker->paragraph,
             'picture' => $this->faker->randomElement($picture),

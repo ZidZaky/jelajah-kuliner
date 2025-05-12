@@ -15,6 +15,8 @@ class HistoryStokFactory extends Factory
             'stokAkhir' => $this->faker->numberBetween(0, 100),
             'TerjualOnline' => $this->faker->numberBetween(0, 50),
             'statusIsi' => $this->faker->numberBetween(0, 1),
+            'created_at' => $this->faker->dateTimeBetween('2025-01-01', '2025-12-31'),
+            'updated_at' => $this->faker->dateTimeBetween('2025-01-01', '2025-12-31'),
         ];
     }
 }

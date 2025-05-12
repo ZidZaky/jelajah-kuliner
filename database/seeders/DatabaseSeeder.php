@@ -5,8 +5,10 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Account;
+use App\Models\historyStok;
 use App\Models\PKL;
 use App\Models\Produk;
+use \App\Models\Ulasan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,29 +20,42 @@ class DatabaseSeeder extends Seeder
     // database/seeders/DatabaseSeeder.php
     public function run(): void
     {
-        \App\Models\Account::factory(10)->create();
-        \App\Models\PKL::factory(10)->create();
-        \App\Models\Produk::factory(20)->create();
+        $accounts = \App\Models\Account::factory()->count(40)->create();
+        foreach ($accounts as $akun) {
+            if($akun->status=="PKL"){
+                $pkl = PKL::factory()->create(
+                    [
+                        'idAccount'=>$akun->id,
+                    ]
+                );
+                $products = Produk::factory()->count(10)->create([
+                    'idPKL'=>$pkl->id,
+                ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+                foreach($products as $product){
+                    
+                    $historyStok = historyStok::factory()->create([
+                        'idProduk'=>$product->id,
+                        'idPKL'=>$pkl->id,
+                        'stokAwal'=>fake()->numberBetween(3,100),
+                        'stokAkhir'=>0,
+                        'TerjualOnline'=>20,
+                        'statusIsi'=>1,
+                    ]);
 
-        $akun = Account::factory()->count(1)->create();
+                    $product->stokAktif = $historyStok->id;
+                    $product->save();
 
-        //buat akun pkl
-        $pkl = PKL::factory()->create([
-            'idAccount'=>$akun[0]->id,
-        ]);
-        //buat 1 product
-        $product = Produk::factory()->create([
-            'idPKL'=>$pkl->id,
-        ]);
+                }
+
+                $ulasans = Ulasan::factory()->count(3)->create([
+                    'idPKL'=>$pkl->id,
+                    'idAccount'=>fake()->numberBetween(1,40),
+                ]);
+            }
+        }
+        
         // Membuat pesanan dan menambahkan produk ke dalamnya
-        \App\Models\Pesanan::factory(15)->create(); // Ini akan memanggil factory dan memasukkan produk
-
-        \App\Models\Ulasan::factory(30)->create();
-        \App\Models\HistoryStok::factory(20)->create();
+        \App\Models\Pesanan::factory(15)->create();
     }
 }

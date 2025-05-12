@@ -15,11 +15,13 @@ return new class extends Migration
     {
         Schema::create('history_stoks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('idProduk')->constrained('produks'); // Correct the table name here
-            $table->foreignId('idPKL')->constrained('p_k_l_s'); // Correct the table name here
+            $table->foreignId('idProduk')->constrained('produks'); 
+            $table->foreignId('idPKL')->constrained('p_k_l_s'); 
             $table->integer('stokAwal')->default(0)->nullable();
             $table->integer('stokAkhir')->default(0)->nullable();
             $table->integer('TerjualOnline')->default(0)->nullable();
+            $table->integer('statusIsi')->default(0);
+
             $table->timestamps();
 
         });

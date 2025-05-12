@@ -73,49 +73,51 @@ class halamanController extends Controller
     }
 
     public function DashboardPenjualan($idAccVApa){
+
         // dd($idAccVApa);
         $split = explode("V",$idAccVApa);
         // dd($split);
         $idAcc = $split[0];
         $apa = $split[1];
-        $pkl = PKL::where('idAccount',$idAcc)->get();
+        $pkl = PKL::where('idAccount',session('account')->id)->get();
+        
+
         if(count($pkl)==1){
+
             $bulan = date("n");
             $taun = date("Y");
             $tgl = date("d");
             $idPKL = ($pkl[0]->id);
             // dd($idPKL)
-            $Today = DB::table('produks as p')
-            ->join('history_stoks as h', 'p.stokAktif', '=', 'h.id')
-            ->select(
-                DB::raw('GROUP_CONCAT(p.id SEPARATOR ",") as ids'),
-                DB::raw('GROUP_CONCAT(p.namaProduk SEPARATOR ",") as produks'),
-                'p.idPKL as idPKL',
-                DB::raw('SUM(h.TerjualOnline) as terjualOnline'),
-                DB::raw('SUM(CASE WHEN h.statusIsi = 0 THEN h.stokAkhir WHEN h.statusIsi = 1 THEN h.stokAwal - h.stokAkhir - h.TerjualOnline END) as terjualOffline'),
-                DB::raw('SUM(CASE WHEN h.statusIsi = 0 THEN h.stokAkhir + h.TerjualOnline WHEN h.statusIsi = 1 THEN (h.stokAwal - h.stokAkhir - h.TerjualOnline) + h.TerjualOnline END) as TerjualKeseluruhan'),
-                DB::raw('SUM(h.TerjualOnline * p.harga) as omzetOnline'),
-                DB::raw('SUM(CASE WHEN h.statusIsi = 0 THEN h.stokAkhir * p.harga WHEN h.statusIsi = 1 THEN (h.stokAwal - h.stokAkhir - h.TerjualOnline) * p.harga END) as omzetOffline'),
-                DB::raw('SUM(CASE WHEN h.statusIsi = 0 THEN (h.stokAkhir + h.TerjualOnline) * p.harga WHEN h.statusIsi = 1 THEN ((h.stokAwal - h.stokAkhir - h.TerjualOnline) + h.TerjualOnline) * p.harga END) as omzetKeseluruhan')
-            )
-            ->groupBy('p.idPKL')
-            ->having('p.idPKL', '=', $idPKL)
+            
+
+            $Today = DB::table('produks as a')
+            ->join('p_k_l_s as b', 'a.idPKL', '=', 'b.id')
+            ->join('history_stoks as c', 'c.idProduk', '=', 'a.id')
+            ->selectRaw("
+                GROUP_CONCAT(a.id SEPARATOR ',') as ids,
+                GROUP_CONCAT(a.namaProduk SEPARATOR ',') as produks,
+                SUM((c.stokAwal - c.TerjualOnline - c.stokAkhir) + c.TerjualOnline) as TerjualKeseluruhan,
+                SUM(c.TerjualOnline) as terjualOnline,
+                SUM(c.TerjualOnline * a.harga) as omzetOnline,
+                SUM(c.stokAwal - c.TerjualOnline - c.stokAkhir) as terjualOffline,
+                SUM((c.stokAwal - c.TerjualOnline - c.stokAkhir) * a.harga) as omzetOffline,
+                SUM(((c.stokAwal - c.TerjualOnline - c.stokAkhir) + c.TerjualOnline) * a.harga) as omzetKeseluruhan
+            ")
+            ->where('a.idPKL', $idPKL) // Replace 4 with the desired $idPKL value
+            ->whereRaw('MONTH(c.updated_at) = MONTH(NOW())')
+            ->whereRaw('YEAR(c.updated_at) = YEAR(NOW())')
+            ->whereRaw('DAY(c.updated_at) = DAY(NOW())')
+            ->groupBy('a.idPKL')
             ->get();
+
             // dd($Today);
             $startdate = DB::select("select date(created_at) as startdt FROM pesanans
             WHERE idPKL=".$idPKL." and status = 'Pesanan Selesai'
             ORDER BY created_at asc limit 1");
             if($startdate!=null){
                 $startdate = $startdate[0];
-
             }
-            // dd($Today);
-            // dd($startdate);
-            
-            
-            // dd($ProdukToday);
-                    // dd($getData[0]);
-                    // dd('dp');
             
             $month = DB::select("
                 SELECT group_concat(p.namaProduk) produks, p.idPKL idPKL,
@@ -211,10 +213,9 @@ class halamanController extends Controller
                 GROUP by p.id,p.namaProduk,p.idPKL
                 order by p.namaProduk;");
                 $Produs = $produkToday;
-                // dd($Produs);
         }
         
-        else if($apa == "Bulan"){
+        else if($apa == "Bulan Ini"){
             $produkMonth = DB::select("SELECT 
                     p.id AS id,
                     p.namaProduk AS produks,

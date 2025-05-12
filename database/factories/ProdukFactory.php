@@ -13,7 +13,7 @@ class ProdukFactory extends Factory
             'namaProduk' => $this->faker->word,
             'desc' => $this->faker->paragraph,
             'harga' => $this->faker->numberBetween(10000, 50000),
-            'stokAktif' => $this->faker->numberBetween(10, 100),
+            'stokAktif' => null,
             'jenisProduk' => $this->faker->randomElement(['makanan', 'minuman']),
             'fotoProduk' =>  $this->faker->imageUrl(640, 480, 'food', true), 
             'idPKL' => \App\Models\PKL::factory(), // Hubungkan dengan factory PKL
