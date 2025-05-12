@@ -89,17 +89,25 @@ class AccountController extends Controller
                 'password' => 'required',
                 'status' => 'required'
             ]);
-            $valdata['password'] = Hash::make($valdata['password']);
-            // Account::create($valdata);
-            DB::insert('INSERT INTO accounts (nama, email, nohp, password, status) VALUES (?, ?, ?, ?, ?)', [
-                $valdata['nama'],
-                $valdata['email'],
-                $valdata['nohp'],
-                $valdata['password'],
-                $valdata['status']
-            ]);
 
-            return redirect('/login');
+            $cekEmail = Account::firstWhere('email', $valdata['email']);
+            if($cekEmail==null){
+                $valdata['password'] = Hash::make($valdata['password']);
+                // Account::create($valdata);
+                DB::insert('INSERT INTO accounts (nama, email, nohp, password, status) VALUES (?, ?, ?, ?, ?)', [
+                    $valdata['nama'],
+                    $valdata['email'],
+                    $valdata['nohp'],
+                    $valdata['password'],
+                    $valdata['status']
+                ]);
+    
+                return redirect('/login');
+            }
+            else{
+                return redirect()->back()->with('alert', 'Email ini sudah pernah digunakan');
+            }
+
         } else {
             return redirect()->back()->with('alert', 'Password berbeda');
         }
