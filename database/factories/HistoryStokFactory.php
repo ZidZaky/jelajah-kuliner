@@ -4,20 +4,17 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\historyStok>
- */
 class HistoryStokFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition()
+     public function definition(): array
     {
         return [
-            //
+            'idProduk' => \App\Models\Produk::factory(),
+            'idPKL' => \App\Models\PKL::factory(), // Menambahkan ID PKL
+            'stokAwal' => $this->faker->numberBetween(10, 100),
+            'stokAkhir' => $this->faker->numberBetween(0, 100),
+            'TerjualOnline' => $this->faker->numberBetween(0, 50),
+            'statusIsi' => $this->faker->numberBetween(0, 1),
         ];
     }
 }

@@ -14,10 +14,28 @@ class Produk extends Model
     ];
     // Specify the columns that are mass assignable
     protected $fillable = [
-        'namaProduk', 'desc', 'harga', 'stok', 'stokSaatIni', 'jenisProduk', 'fotoProduk', 'idPKL'
+        'namaProduk',
+        'desc',
+        'harga',
+        'stok',
+        'stokSaatIni',
+        'jenisProduk',
+        'fotoProduk',
+        'idPKL'
     ];
 
     protected $nullable = [
         'fotoProduk'
     ];
+
+    public function pkl()
+    {
+        return $this->belongsTo(PKL::class, 'idPKL'); // sesuaikan nama kolom
+    }
+
+    public function pesanans()
+    {
+        return $this->belongsToMany(Pesanan::class, 'produk_dipesan', 'idProduk', 'idPesanan')
+                    ->withPivot('JumlahProduk');
+    }
 }

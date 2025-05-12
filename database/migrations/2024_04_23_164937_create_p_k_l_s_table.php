@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('p_k_l_s', function (Blueprint $table) {
             $table->id();
             $table->string('namaPKL');
-            $table->string('desc');
+            $table->text('desc');
             $table->string('picture')->nullable();
             $table->decimal('latitude', 10, 8); // Decimal for latitude with precision and scale
             $table->decimal('longitude', 11, 8);

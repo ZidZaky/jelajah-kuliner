@@ -3,21 +3,17 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Account>
- */
+use Illuminate\Support\Facades\Hash;
 class AccountFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition()
+    public function definition(): array
     {
         return [
-            //
+            'nama' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'nohp' => $this->faker->phoneNumber(),
+            'password' => Hash::make('password'), // default password
+            'status' => $this->faker->randomElement(['aktif', 'nonaktif']),
         ];
     }
 }

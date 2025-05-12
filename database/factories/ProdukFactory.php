@@ -3,21 +3,20 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\PKL;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Produk>
- */
 class ProdukFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition()
+    public function definition(): array
     {
         return [
-            //
+            'namaProduk' => $this->faker->word,
+            'desc' => $this->faker->paragraph,
+            'harga' => $this->faker->numberBetween(10000, 50000),
+            'stokAktif' => $this->faker->numberBetween(10, 100),
+            'jenisProduk' => $this->faker->randomElement(['makanan', 'minuman']),
+            'fotoProduk' =>  $this->faker->imageUrl(640, 480, 'food', true), 
+            'idPKL' => \App\Models\PKL::factory(), // Hubungkan dengan factory PKL
         ];
     }
 }
