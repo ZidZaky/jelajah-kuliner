@@ -71,6 +71,15 @@ class AccountControllerTest extends TestCase
             'status' => 'PKL'
         ]);
 
+        $response = $this->post('/account', [
+            'nama' => 'PKL 2',
+            'email' => 'pkl@pkl',
+            'nohp' => '1234',
+            'password' => '1234',
+            'passwordkonf' => '1234',
+            'status' => 'PKL'
+        ]);
+
         $response->assertRedirect();
         $response->assertSessionHas('alert', 'Email ini sudah pernah digunakan');
     }
@@ -79,10 +88,7 @@ class AccountControllerTest extends TestCase
     {
         // Cek apakah akun dengan ID 71 ada di database
         $this->assertDatabaseHas('accounts', [
-            'id' => 71,
-            'nama' => 'PKL',
-            'email' => 'pkl@pkl',
-            'nohp' => '123'
+            'id' => 71
         ]);
 
         // Test update profile

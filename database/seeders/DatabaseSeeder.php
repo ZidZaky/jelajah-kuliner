@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
                         'idProduk'=>$product->id,
                         'idPKL'=>$pkl->id,
                         'stokAwal'=>fake()->numberBetween(3,100),
-                        'stokAkhir'=>0,
+                        'stokAkhir'=>20,
                         'TerjualOnline'=>20,
                         'statusIsi'=>1,
                     ]);
