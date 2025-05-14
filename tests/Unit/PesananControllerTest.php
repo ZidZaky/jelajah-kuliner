@@ -308,7 +308,7 @@ class PesananControllerTest extends TestCase
         $response = $this->get('selesaiPesanan/' . $pesanan->id);
 
         // Assert response
-        // dd($response[0]);
+        dd($response[0]);
         $response->assertStatus(200);
         $this->assertEquals('Pesanan Selesai', $pesanan->fresh()->status);
     }

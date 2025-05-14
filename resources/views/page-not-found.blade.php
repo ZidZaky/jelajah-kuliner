@@ -8,28 +8,62 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #fff;
+            background-image: url('/assets/PROFILE.jpg');
+            background-size: cover;
             font-family: 'Arial', sans-serif;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background: linear-gradient(to bottom, #ff4500, #ffffff);
         }
 
-        p {
+        .card {
+            width: 450px;
+            height: 450px;
+            padding: 20px;
+            border: 2px solid #B83B5E;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            background-color: #9c242c;
+            text-align: center;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card h1 {
+            font-size: 5rem;
+            margin: 0;
+        }
+
+        .card p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card a {
+            text-decoration: none;
             color: #fff;
-            font-size: 2rem;
+            background-color: #B83B5E;
+            padding: 10px 20px;
+            border-radius: 5px;
             font-weight: bold;
-            background-color: #000;
-            padding: 30px 50px;
-            border: 5px solid #ff0000;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(255, 69, 0, 0.6);
+            transition: background-color 0.3s ease;
+        }
+
+        .card a:hover {
+            background-color: #c94f70;
         }
     </style>
 </head>
 <body>
-    <p>PAGE NOT FOUND</p>
+    <div class="card">
+        <h1>404</h1>
+        <p>Halaman yang kamu cari tidak ditemukan.</p>
+        <a href="/">Kembali ke Beranda</a>
+    </div>
 </body>
 </html>
