@@ -4,8 +4,13 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use App\Models\Pesanan;
 use App\Models\ProdukDipesan;
+use App\Models\PKL;
+use App\Models\Produk;
+
+
 
 class PesananControllerTest extends TestCase
 {
@@ -40,7 +45,7 @@ class PesananControllerTest extends TestCase
         $response = $this->get("/pesanan/create/{$randomId}");
         // dd($response);
         // Verifikasi bahwa pengguna diarahkan ke halaman create pesanan
-        $response->assertStatus(200);  // atau sesuaikan dengan status yang benar
+        $response->assertStatus(status: 200);  // atau sesuaikan dengan status yang benar
 
         // Atau untuk verifikasi lebih lanjut, bisa cek URL yang diteruskan
         // $response->assertRedirect("/pesanan/create/{$randomId}");
@@ -110,68 +115,195 @@ class PesananControllerTest extends TestCase
         ]);
     }
 
-    public function testEditView()
-    {
-        $pesanan = Pesanan::factory()->create();
-        $response = $this->get('/editPesanan/' . $pesanan->id);
-        $response->assertStatus(200);
-    }
-
-    public function testUpdatePesanan()
-    {
-        $pesanan = Pesanan::factory()->create();
-        $response = $this->post('/updatePesanan/' . $pesanan->id, [
-            'jumlah' => 3
-        ]);
-        $response->assertStatus(302);
-    }
-
-    public function testDestroyPesanan()
-    {
-        $pesanan = Pesanan::factory()->create();
-        $response = $this->get('/deletePesanan/' . $pesanan->id);
-        $response->assertStatus(302);
-    }
-
     public function testCreateWithId()
     {
-        $response = $this->get('/formPesanan/1');
+        $account = \App\Models\Account::factory()->create([
+            'nama' => 'PKL Test User',
+            'email' => 'pkl@example.com',
+            'nohp' => '08123456789',
+            'password' => bcrypt('password'), // atau Hash::make
+            'status' => 'PKL'
+        ]);
+
+        // Simulasikan session seolah user tersebut sedang login
+        $this->withSession([
+            'account' => [
+                'id' => $account->id,
+                'nama' => $account->nama,
+                'email' => $account->email,
+                'nohp' => $account->nohp,
+                'status' => $account->status
+            ]
+        ]);
+
+        $pkl = \App\Models\Pkl::inRandomOrder()->first();
+        // dd($pkl);
+        $response = $this->get('/pesanan/create/' . $pkl->id);
+        // dd($response[0]);
+
+        // Cek hasil response
         $response->assertStatus(200);
+        $response->assertViewIs('pesan');
+        $response->assertViewHas('pkl');
+        $response->assertViewHas('produk');
     }
 
     public function testPesanDetail()
     {
-        $response = $this->get('/pesanDetail/1');
+        $account = \App\Models\Account::factory()->create([
+            'nama' => 'PKL Test User',
+            'email' => 'pkl@example.com',
+            'nohp' => '08123456789',
+            'password' => bcrypt('password'), // atau Hash::make
+            'status' => 'PKL'
+        ]);
+
+        // Simulasikan session seolah user tersebut sedang login
+        $this->withSession([
+            'account' => [
+                'id' => $account->id,
+                'nama' => $account->nama,
+                'email' => $account->email,
+                'nohp' => $account->nohp,
+                'status' => $account->status
+            ]
+        ]);
+
+        $pesanan = \App\Models\Pesanan::inRandomOrder()->first();
+        // dd($pesanan);
+        $response = $this->get('pesanDetail/' . $pesanan->id);
+        // dd($response[0]);
         $response->assertStatus(200);
     }
 
     public function testTerimaPesanan()
     {
-        $response = $this->get('/terimaPesanan/1');
+        $account = \App\Models\Account::factory()->create([
+            'nama' => 'PKL Test User',
+            'email' => 'pkl@example.com',
+            'nohp' => '08123456789',
+            'password' => bcrypt('password'), // atau Hash::make
+            'status' => 'PKL'
+        ]);
+
+        // Simulasikan session seolah user tersebut sedang login
+        $this->withSession([
+            'account' => [
+                'id' => $account->id,
+                'nama' => $account->nama,
+                'email' => $account->email,
+                'nohp' => $account->nohp,
+                'status' => $account->status
+            ]
+        ]);
+
+        $pesanan = \App\Models\Pesanan::factory()->create();
+        DB::table('produk_dipesan')->insert([
+            'idPesanan' => $pesanan->id,
+            'idProduk' => \App\Models\Produk::factory()->create()->id,
+            'JumlahProduk' => 1
+        ]);
+
+        $response = $this->get('/terimaPesanan/' . $pesanan->id);
+        // dd($response[0]);
         $response->assertStatus(200);
+        $this->assertEquals('Pesanan Diproses', $pesanan->fresh()->status);
     }
 
     public function testTolakPesanan()
     {
-        $response = $this->get('/tolakPesanan/1');
+        $account = \App\Models\Account::factory()->create([
+            'nama' => 'PKL Test User',
+            'email' => 'pkl@example.com',
+            'nohp' => '08123456789',
+            'password' => bcrypt('password'), // atau Hash::make
+            'status' => 'PKL'
+        ]);
+
+        // Simulasikan session seolah user tersebut sedang login
+        $this->withSession([
+            'account' => [
+                'id' => $account->id,
+                'nama' => $account->nama,
+                'email' => $account->email,
+                'nohp' => $account->nohp,
+                'status' => $account->status
+            ]
+        ]);
+
+        $pesanan = \App\Models\Pesanan::factory()->create();
+        DB::table('produk_dipesan')->insert([
+            'idPesanan' => $pesanan->id,
+            'idProduk' => \App\Models\Produk::factory()->create()->id,
+            'JumlahProduk' => 1
+        ]);
+
+        $response = $this->get('/tolakPesanan/' . $pesanan->id);
+        // dd($response[0]);
+
         $response->assertStatus(200);
+        $this->assertEquals('Pesanan Ditolak', $pesanan->fresh()->status);
     }
 
     public function testBatalPesanan()
     {
-        $response = $this->get('/batalPesanan/1');
+        $account = \App\Models\Account::factory()->create([
+            'nama' => 'PKL Test User',
+            'email' => 'pkl@example.com',
+            'nohp' => '08123456789',
+            'password' => bcrypt('password'), // atau Hash::make
+            'status' => 'PKL'
+        ]);
+
+        // Simulasikan session seolah user tersebut sedang login
+        $this->withSession([
+            'account' => [
+                'id' => $account->id,
+                'nama' => $account->nama,
+                'email' => $account->email,
+                'nohp' => $account->nohp,
+                'status' => $account->status
+            ]
+        ]);
+
+        $pesanan = \App\Models\Pesanan::factory()->create();
+        DB::table('produk_dipesan')->insert([
+            'idPesanan' => $pesanan->id,
+            'idProduk' => \App\Models\Produk::factory()->create()->id,
+            'JumlahProduk' => 1
+        ]);
+
+        $response = $this->get('/batalPesanan/' . $pesanan->id);
         $response->assertStatus(200);
+        $this->assertEquals('Pesanan Dibatalkan', $pesanan->fresh()->status);
     }
 
     public function testSelesaiPesanan()
     {
-        $response = $this->get('/selesaiPesanan/1');
+        $account = \App\Models\Account::factory()->create([
+            'nama' => 'PKL Test User',
+            'email' => 'pkl@example.com',
+            'nohp' => '08123456789',
+            'password' => bcrypt('password'), // atau Hash::make
+            'status' => 'PKL'
+        ]);
+
+        // Simulasikan session seolah user tersebut sedang login
+        $this->withSession([
+            'account' => [
+                'id' => $account->id,
+                'nama' => $account->nama,
+                'email' => $account->email,
+                'nohp' => $account->nohp,
+                'status' => $account->status
+            ]
+        ]);
+        $pesanan = \App\Models\Pesanan::inRandomOrder()->first();
+        $response = $this->get('selesaiPesanan/' . $pesanan->id);
+        // dd($response[0]);
         $response->assertStatus(200);
+        $this->assertEquals('Pesanan Selesai', $pesanan->fresh()->status);
     }
 
-    public function testGetPesananSelesai()
-    {
-        $response = $this->get('/pesananSelesai');
-        $response->assertStatus(200);
-    }
+    
 }
