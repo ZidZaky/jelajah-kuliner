@@ -9,6 +9,8 @@ use App\Models\Pesanan;
 use App\Models\ProdukDipesan;
 use App\Models\PKL;
 use App\Models\Produk;
+use App\Http\Controllers\HistoryStokController;
+
 
 
 
@@ -298,12 +300,16 @@ class PesananControllerTest extends TestCase
                 'status' => $account->status
             ]
         ]);
-        $pesanan = \App\Models\Pesanan::inRandomOrder()->first();
+        
+        // Simulasikan pesanan yang ada
+        $pesanan = \App\Models\Pesanan::factory()->create(); // Jika perlu, tambahkan data produk dipesan di sini
+
+        // Test request
         $response = $this->get('selesaiPesanan/' . $pesanan->id);
+
+        // Assert response
         // dd($response[0]);
         $response->assertStatus(200);
         $this->assertEquals('Pesanan Selesai', $pesanan->fresh()->status);
     }
-
-    
 }
