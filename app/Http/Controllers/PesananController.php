@@ -9,6 +9,7 @@ use App\Models\PKL;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\HistoryStokController;
 use Illuminate\Support\Facades\Validator;
+
 class PesananController extends Controller
 {
     //
@@ -37,7 +38,7 @@ class PesananController extends Controller
     public function create($id)
     {
         return view('CreatePesanan');
-        dd($id);
+        // dd($id);
         // Retrieve Pesanan data
         $Pesanan = Pesanan::find($id);
 
@@ -62,12 +63,12 @@ class PesananController extends Controller
     {
         // Create a new Pesanan instance
         // dd($request);
-        $validate = Validator::make($request->all(),[
-            'totalHarga'=>'required|not_in:0'
-        ],['totalHarga.not_in'=>'Belum ada barang yang dicheckout']);
-        if($validate->fails()){
+        $validate = Validator::make($request->all(), [
+            'totalHarga' => 'required|not_in:0'
+        ], ['totalHarga.not_in' => 'Belum ada barang yang dicheckout']);
+        if ($validate->fails()) {
             // dd('masuk');
-            return redirect()->back()->with('alert','Belum ada barang yang dicheckout');
+            return redirect()->back()->with('alert', 'Belum ada barang yang dicheckout');
         }
         $pesanan = new Pesanan();
         $pesanan->idAccount = $request->input('idAccount');
@@ -147,6 +148,7 @@ class PesananController extends Controller
         return
             ['dataPesanan' => $Pesanan];
     }
+
     public static function showDetail($idAccount)
     {
         $PesananData = Pesanan::where('idAccount', $idAccount)->first();
@@ -169,21 +171,24 @@ class PesananController extends Controller
 
         // Check if Pesanan data exists
         if ($PKL) {
+            // dd($PKL);
             // Retrieve associated products
             $Produks = DB::table('produks as p')
-            ->join('history_stoks as h', 'p.stokAktif', '=', 'h.id')
-            ->where('p.idPKL', $id)
-            ->select([
-                'p.id as id',
-                'p.desc as deskripsi',
-                'p.namaProduk as nama',
-                'p.harga as harga',
-                'p.fotoProduk as foto',
-                'p.idPKL as idPKL',
-                DB::raw('CASE WHEN h.statusIsi = 0 THEN h.stokAwal - h.TerjualOnline WHEN h.statusIsi = 1 THEN h.stokAkhir END as sisaStok')
-            ])
-            ->get();
+                ->join('history_stoks as h', 'p.stokAktif', '=', 'h.id')
+                ->where('p.idPKL', $id)
+                ->select([
+                    'p.id as id',
+                    'p.desc as deskripsi',
+                    'p.namaProduk as nama',
+                    'p.harga as harga',
+                    'p.fotoProduk as foto',
+                    'p.idPKL as idPKL',
+                    DB::raw('CASE WHEN h.statusIsi = 0 THEN h.stokAwal - h.TerjualOnline WHEN h.statusIsi = 1 THEN h.stokAkhir END as sisaStok')
+                ])
+                ->get();
+            // dd($Produks);
 
+     
             return view('pesan', [
                 'pkl' => $PKL,
                 'produk' => $Produks
@@ -196,6 +201,7 @@ class PesananController extends Controller
     public function pesanDetail($id)
     {
         $pesan = Pesanan::find($id);
+        // dd($pesan);
         $query = "select * from produk_dipesan where idPesanan = ?";
         // Execute the query
         $produk = DB::select($query, [$pesan->id]);
@@ -312,7 +318,7 @@ class PesananController extends Controller
             // dd($barang);
             $stok = new HistoryStokController();
             // dd($p->JumlahProduk);
-            if($stok->UpdatestokOnline($p->JumlahProduk,$barang->stokAktif)){
+            if ($stok->UpdatestokOnline($p->JumlahProduk, $barang->stokAktif)) {
                 // dd('true');
             }
         };
@@ -338,12 +344,12 @@ class PesananController extends Controller
             return redirect()->back()->with('error', 'Pesanan not found.');
         }
     }
-    public function getPesananSelesai($idPkl){
+    public function getPesananSelesai($idPkl)
+    {
 
         $pesanans = Pesanan::where('idPKL', 1)
             ->where('status', 'Pesanan Selesai')
             ->get();
-            dd($pesanans);
-
+        dd($pesanans);
     }
 }
