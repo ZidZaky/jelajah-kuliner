@@ -37,7 +37,7 @@ class PesananController extends Controller
     public function create($id)
     {
         return view('CreatePesanan');
-        dd($id);
+        // dd($id);
         // Retrieve Pesanan data
         $Pesanan = Pesanan::find($id);
 
