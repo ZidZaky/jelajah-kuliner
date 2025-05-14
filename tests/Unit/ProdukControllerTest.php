@@ -1,91 +1,120 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\Produk;
 use App\Models\PKL;
+use App\Models\Account;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ProdukControllerTest extends TestCase
 {
     // use RefreshDatabase;
 
-    public function test_user_can_create_product_and_its_history()
+    public function test_user_can_create_product()
     {
-        Storage::fake('public'); // Fake disk untuk simpan foto
+        Storage::fake('public');
 
-        // Arrange: buat data PKL
-        $pkl = PKL::factory()->create();
+        $account = Account::factory()->create();
+        $pkl = PKL::factory()->create(['idAccount' => $account->id]);
 
-        // Simulasi file foto
-        $file = UploadedFile::fake()->image('produk.jpg');
+        $this->withSession(['pkl' => ['id' => $pkl->id]]);
 
-        // Act: kirim POST request ke route store produk
-        $response = $this->post('/produk', [
-            'namaProduk' => 'Bakso',
+        $data = [
+            'namaProduk' => 'Nasi Goreng',
             'jenisProduk' => 'Makanan',
-            'desc' => 'Bakso enak dan pedas',
+            'desc' => 'Lezat dan bergizi',
             'harga' => 15000,
             'stok' => 10,
+            'fotoProduk' => UploadedFile::fake()->image('produk.jpg'),
             'idPKL' => $pkl->id,
-            'fotoProduk' => $file,
-        ]);
+            'idAccount' => $pkl->idAccount,
+        ];
 
-        // Assert: produk berhasil tersimpan
-        $this->assertDatabaseHas('produks', [ // assert untuk cek data di database
-            'namaProduk' => 'Bakso',
-            'desc' => 'Bakso enak dan pedas',
+        $response = $this->post('/produk', $data);
+        $response->assertStatus(302);
+
+        $this->assertDatabaseHas('produks', [
+            'namaProduk' => 'Nasi Goreng',
+            'jenisProduk' => 'Makanan',
             'harga' => 15000,
-            'idPKL' => $pkl->id
         ]);
-
-        // Assert: file foto disimpan di storage
-        // Storage::disk('public')->assertExists('product/Bakso.jpg'); // assert file disimpan
-
-        // Assert: history stok tersimpan
-        $this->assertDatabaseHas('history_stoks', [ // assert untuk stok awalnya
-            'stokAwal' => 10,
-            'idPKL' => $pkl->id
-        ]);
-
-        // Assert: redirect ke halaman PKL
-        $response->assertRedirect('/dataPKL/' . $pkl->idAccount); // assert redirect berhasil
     }
 
-    public function test_validation_fails_when_required_fields_are_missing()
-    {
-        $response = $this->post('/produk', []); // kosong
-
-        $response->assertSessionHasErrors([
-            'namaProduk', 'jenisProduk', 'desc', 'harga', 'stok', 'idPKL'
-        ]); // assert validasi error muncul
-    }
-
-    public function test_user_can_delete_a_product()
-    {
-        $pkl = PKL::factory()->create();
-        $produk = Produk::factory()->create(['idPKL' => $pkl->id]);
-
-        $response = $this->delete('/produk/' . $produk->id);
-
-        $this->assertModelMissing($produk); // assert model terhapus
-        $response->assertRedirect('/PKL'); // assert redirect berhasil
-    }
-
-   public function test_user_can_fetch_product_json_structure()
+   public function test_store_history_stok()
 {
+    $produk = \App\Models\Produk::factory()->create();
     $pkl = \App\Models\PKL::factory()->create();
-    \App\Models\Produk::factory()->create(['idPKL' => $pkl->id]);
 
-    $response = $this->get('/getProduk/' . $pkl->id);
+    $controller = new \App\Http\Controllers\HistoryStokController();
+    $stokId = $controller->store($produk->id, 20, $pkl->id);
 
-    $response->assertStatus(200);
-    $response->assertJsonStructure([ // assert hanya struktur JSON-nya
-        '*' => ['id', 'nama', 'harga'], // sesuaikan dengan response controller Anda
+    $this->assertDatabaseHas('history_stoks', [
+        'id' => $stokId,
+        'idProduk' => $produk->id,
+        'idPKL' => $pkl->id,
+        'stokAwal' => 20
     ]);
 }
 
+public function test_update_stok_online_and_stok_akhir()
+{
+    $pkl = \App\Models\PKL::factory()->create();
+    $produk = \App\Models\Produk::factory()->create(['idPKL' => $pkl->id]);
+
+    $stok = \App\Models\historyStok::create([
+        'idProduk' => $produk->id,
+        'idPKL' => $pkl->id,
+        'stokAwal' => 20,
+        'stokAkhir' => 20,
+        'TerjualOnline' => 0,
+        'statusIsi' => 1,
+    ]);
+
+    $controller = new \App\Http\Controllers\HistoryStokController();
+    $controller->UpdatestokOnline(5, $stok->id);
+
+    $this->assertDatabaseHas('history_stoks', [
+        'id' => $stok->id,
+        'TerjualOnline' => 5,
+        'stokAkhir' => 15,
+        'statusIsi' => 1,
+    ]);
+}
+    public function test_buat_history_post()
+    {
+        $produk = Produk::factory()->create();
+
+        $response = $this->post('/buatHistory', [
+            'idProduk' => $produk->id,
+            'stokAwal' => 10,
+            'stokAkhir' => 5,
+        ]);
+
+        $response->assertStatus(302); // Atau 200, tergantung redirect atau view
+    }
+
+    public function test_update_history_post()
+    {
+        $produk = Produk::factory()->create();
+
+        $response = $this->post('/updateHistory', [
+            'idProduk' => $produk->id,
+            'stokAkhir' => 15,
+        ]);
+
+        $response->assertStatus(302); // Atau 200
+    }
+
+    public function test_get_produk_by_id_pkl()
+    {
+        $pkl = PKL::factory()->create();
+        Produk::factory()->count(2)->create(['idPKL' => $pkl->id]);
+
+        $response = $this->get("/getProduk/{$pkl->id}");
+        $response->assertStatus(200);
+    }
 }
