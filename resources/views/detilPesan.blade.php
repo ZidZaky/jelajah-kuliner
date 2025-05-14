@@ -193,7 +193,7 @@ DETIL PESANAN!
                                         id="" hidden>
                                     <input type="number" name="idPesanan" value="{{ $pesan->id }}"
                                         id="" hidden>
-                                    <input type="number" name="idPelapor" value="{{ $pkl->id }}"
+                                    <input type="number" name="idPelapor" value="{{ $pesan->idPKL }}"
                                         id="" hidden>
 
                                     {{-- dropdown alasan pelaporan --}}
