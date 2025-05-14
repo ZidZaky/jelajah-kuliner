@@ -163,7 +163,7 @@ body {
     align-items: center;
     /* justify-content: center; */
     width: auto;
-    background-color: yellow;
+    background-color: #9c242c;
     height: auto;
     padding: 0 0;
     margin: 0 0;
@@ -637,7 +637,7 @@ body {
     --g: 4px;     /* the gap */
     --b: 5px;    /* border thickness*/
     --c: #001d9e; /* the color */
-    
+
     padding: calc(var(--g) + var(--b));
     --_c: #0000 0 25%, var(--c) 0 50%;
     --_g1: repeating-linear-gradient(90deg ,var(--_c)) repeat-x;

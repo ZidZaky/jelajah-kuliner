@@ -10,8 +10,7 @@
 
 @section('isiAlert')
     @if((session('alert'))!=null)
-
-            @php echo session('alert'); @endphp
+        @php echo session('alert'); @endphp
     @endif
 @endsection
 
@@ -21,25 +20,21 @@
     <div class="card">
         <h1 class="h3 mb-3 fw-normal" id="titleLogin">LOGIN</h1>
         <div class="line-divider"></div>
-        <form class="form-signin" action="/loginAccount" method="POST">
+        <form class="form-signin" action="/loginAccount" method="POST" id="loginForm">
             @csrf
-
 
             <div class="form">
                 <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan Email ">
-                {{-- <label for="floatingInput">Email atau No Telepon</label> --}}
             </div>
             <div class="form">
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                {{-- <label for="floatingPassword">Password</label> --}}
-
             </div>
             <div class="mb-3" id="showPass">
-                <input type="checkbox" onchange="togglePasswordVisibility()" name="showPassword" value="none" id="cbShow" >
-                <label for="ForCheckbox">Perlihatkan</label>
+                <input type="checkbox" onchange="togglePasswordVisibility()" name="showPassword" id="cbShow">
+                <label for="cbShow">Perlihatkan</label>
             </div>
             <div class="form-floating">
-                <button id ="ButLogin" class="w-100 btn btn-lg btn-success" type="submit">Login</button>
+                <button id="ButLogin" class="w-100 btn btn-lg btn-success" type="submit">Login</button>
             </div>
 
         </form>
@@ -50,6 +45,23 @@
         </div>
     </div>
 </div>
+
 <script src="/js/login.js"></script>
+<script>
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById("password");
+        passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        if (email === "" || password === "") {
+            e.preventDefault(); // Mencegah form dikirim
+            alert("Email dan Password tidak boleh kosong!");
+        }
+    });
+</script>
 
 @endsection

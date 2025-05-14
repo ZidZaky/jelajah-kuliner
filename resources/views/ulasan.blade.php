@@ -11,7 +11,7 @@
 
 @section('isiAlert')
     @if((session('alert'))!=null)
-        
+
             @php echo session('alert'); @endphp
     @endif
 @endsection
@@ -55,11 +55,22 @@
     </div>
     </div>
     <script>
-        const slider = document.getElementById("rating");
-        const ratingValue = document.getElementById("ratingValue");
+    const slider = document.getElementById("rating");
+    const ratingValue = document.getElementById("ratingValue");
+    const form = document.querySelector(".form-ulasan");
+    const ulasanInput = document.getElementById("ulasan");
 
-        slider.addEventListener("input", function() {
-            ratingValue.textContent = this.value;
-        });
-    </script>
+    slider.addEventListener("input", function() {
+        ratingValue.textContent = this.value;
+    });
+
+    form.addEventListener("submit", function(e) {
+        if (ulasanInput.value.trim() === "") {
+            e.preventDefault(); // Mencegah form terkirim
+            alert("Ulasan tidak boleh kosong!");
+            ulasanInput.focus(); // Fokus ke input deskripsi
+        }
+    });
+</script>
+
 @endsection

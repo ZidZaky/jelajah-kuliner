@@ -14,7 +14,7 @@ class ProdukControllerTest extends TestCase
 {
     // use RefreshDatabase;
 
-    public function test_user_can_create_product()
+    public function test_buat_product()
     {
         Storage::fake('public');
 
