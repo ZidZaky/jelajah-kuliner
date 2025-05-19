@@ -282,33 +282,57 @@ class PesananControllerTest extends TestCase
 
     public function testSelesaiPesanan()
     {
+        // 1. Buat Account
         $account = \App\Models\Account::factory()->create([
-            'nama' => 'PKL Test User',
-            'email' => 'pkl@example.com',
-            'nohp' => '08123456789',
-            'password' => bcrypt('password'), // atau Hash::make
             'status' => 'PKL'
         ]);
 
-        // Simulasikan session seolah user tersebut sedang login
+        // 2. Buat PKL terkait account ini
+        $pkl = \App\Models\PKL::factory()->create([
+            'idAccount' => $account->id
+        ]);
+
+        // 3. Simulasi login session
         $this->withSession([
             'account' => [
-                'id' => $account->id,
+                'id' => $pkl->id, // ← pastikan ini ID PKL karena UpdatestokOnline pakai ini
                 'nama' => $account->nama,
                 'email' => $account->email,
                 'nohp' => $account->nohp,
                 'status' => $account->status
             ]
         ]);
-        
-        // Simulasikan pesanan yang ada
-        $pesanan = \App\Models\Pesanan::factory()->create(); // Jika perlu, tambahkan data produk dipesan di sini
 
-        // Test request
+        // 4. Produk yang akan dipesan
+        $produk = \App\Models\Produk::factory()->create([
+            'stokAktif' => 10
+        ]);
+
+        // 5. Create HistoryStok and capture the id for testing
+        $historyStok = \App\Models\HistoryStok::factory()->create([
+            'idProduk' => $produk->id,
+            'idPKL' => $pkl->id,
+            'stokAwal' => 20,
+            'stokAkhir' => 10, // ← harus sama dengan produk->stokAktif
+            'TerjualOnline' => 0,
+            'statusIsi' => 1
+        ]);
+
+        // 6. Now, use the ID from the created HistoryStok for the update
+        $pesanan = \App\Models\Pesanan::factory()->create([
+            'status' => 'Menunggu'
+        ]);
+
+        // 7. Insert produk_dipesan for the order
+        DB::table('produk_dipesan')->insert([
+            'idPesanan' => $pesanan->id,
+            'idProduk' => $produk->id,
+            'JumlahProduk' => 2
+        ]);
+
+        // 8. Call the selesaiPesanan route and verify the behavior
         $response = $this->get('selesaiPesanan/' . $pesanan->id);
-
-        // Assert response
-        dd($response[0]);
+        // dd($response[0]);
         $response->assertStatus(200);
         $this->assertEquals('Pesanan Selesai', $pesanan->fresh()->status);
     }
