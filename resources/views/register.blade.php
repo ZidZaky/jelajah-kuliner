@@ -47,7 +47,7 @@
 
                     <div class="mb-3">
                         <label for="nohp" class="form-label">Nomor Telepon</label>
-                        <input type="text" class="form-control" id="nohp" name="nohp" placeholder="Nomor Telepon Aktif">
+                        <input type="tel" class="form-control" id="nohp" name="nohp" placeholder="Nomor Telepon Aktif">
                     </div>
 
                     <div class="mb-3">
@@ -60,13 +60,27 @@
                         <input type="password" class="form-control" id="passwordkonf" name="passwordkonf" placeholder="Ulangi Password">
                     </div>
 
-                    <button type="submit" class="btn btn-success d-grid gap-2 col-4 mx-auto">Buat Akun!</button>
+                    <button type="submit" onclick="Validate(event,this)" class="btn btn-success d-grid gap-2 col-4 mx-auto">Buat Akun!</button>
                 </form>
             </div>
         </div>
     </div>
 
     <script>
+        function Validate(event,elemen){   
+            
+            let form = elemen.closest('form');
+            let inp = form.querySelector('#nama')
+            let noHp = form.querySelector('#nohp')
+            console.log(/\d/.test(inp))
+            console.log((!/^[0-9]{10,15}$/.test(noHp)))
+            
+            if(/\d/.test(inp.value)&&(!/^[0-9]{10,15}$/.test(noHp.value))){
+                event.preventDefault()
+                alert('Data tidak Valid');
+            }
+
+        }
         document.getElementById('registerForm').addEventListener('submit', function (e) {
             const nama = document.getElementById('nama').value.trim();
             const email = document.getElementById('email').value.trim();

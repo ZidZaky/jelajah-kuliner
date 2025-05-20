@@ -16,10 +16,10 @@ DETIL PESANAN!
     </div>
     <div class="nmpkl">
         @foreach ($produks as $p)
-        @php
-        $produk = App\Models\Produk::where('id', $p->idProduk)->first();
-        $pkl = App\Models\PKL::where('id', $produk->idPKL)->first();
-        @endphp
+            @php
+                $produk = App\Models\Produk::where('id', $p->idProduk)->first();
+                $pkl = App\Models\PKL::where('id', $produk->idPKL)->first();
+            @endphp
         @endforeach
     </div>
 

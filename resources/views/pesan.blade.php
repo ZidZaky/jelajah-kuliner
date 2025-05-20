@@ -28,6 +28,7 @@
 
         <div class="showmenu" style="padding-top: 5px; padding-bottom: 5px">
             <div class="kiri border border-right" style="width: 100%;">
+                
                 <h3 class="namap" style="border-bottom: 1px solid #ccc;"><strong>{{ $pkl->namaPKL }}</strong></h3>
                 <p class="deskri">{{ $pkl->desc }}</p>
 

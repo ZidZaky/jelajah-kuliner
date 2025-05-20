@@ -61,7 +61,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="foto" class="form-label">Foto Diri</label>
+                        <label for="foto" class="form-label">Foto Produk</label>
                         <input class="form-control" name="fotoProduk" type="file" id="foto">
                     </div>
                     <br>

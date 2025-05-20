@@ -16,7 +16,7 @@ class AccountFactory extends Factory
             'nama' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'nohp' => $this->faker->phoneNumber(),
-            'password' => Hash::make('pwCuy'), // default password
+            'password' => Hash::make('katasandi'), // default password
             'status' => $this->faker->randomElement($status),
         ];
     }

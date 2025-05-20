@@ -91,7 +91,10 @@ class AccountController extends Controller
             ]);
 
             $cekEmail = Account::firstWhere('email', $valdata['email']);
-            if($cekEmail==null){
+            $cekNomor = Account::firstWhere('nohp',$valdata['nohp']);
+            $cekNama='l';
+            
+            if($cekEmail==null&&$cekNomor==null){
                 $valdata['password'] = Hash::make($valdata['password']);
                 // Account::create($valdata);
                 DB::insert('INSERT INTO accounts (nama, email, nohp, password, status) VALUES (?, ?, ?, ?, ?)', [
@@ -105,7 +108,7 @@ class AccountController extends Controller
                 return redirect('/login');
             }
             else{
-                return redirect()->back()->with('alert', 'Email ini sudah pernah digunakan');
+                return redirect()->back()->with('alert', 'Nomor atau email ini sudah pernah digunakan');
             }
 
         } else {

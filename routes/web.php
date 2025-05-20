@@ -64,6 +64,8 @@ use app\Models\PKL;
         }
         return view('login');
     })->name('login');
+        Route::resource('/account', AccountController::class)->only('create');
+
 
     Route::middleware(['status:Pelanggan,PKL,Admin'])->group(function () {
         Route::get('/profile', function () {
@@ -73,7 +75,7 @@ use app\Models\PKL;
             return redirect('/profile');
         });
         Route::post('/account/{id}', [AccountController::class, 'editProfile']);
-        Route::resource('/account', AccountController::class);
+        Route::resource('/account', AccountController::class)->except('create');
         Route::resource('/PKL', PKLController::class);
         Route::resource('/produk', ProdukController::class);
         Route::resource('/ulasan', UlasanController::class);

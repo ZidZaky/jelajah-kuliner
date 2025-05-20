@@ -26,24 +26,24 @@ class PesananFactory extends Factory
             'idPKL' => \App\Models\PKL::factory(), // Misalnya PKL factory sudah ada
             'Keterangan' => $this->faker->sentence,
             'TotalBayar' => $this->faker->randomNumber(5),
-            'status' => $this->faker->randomElement(['pending', 'completed', 'cancelled']),
+            'status' => $this->faker->randomElement(['Pesanan Baru']),
         ];
     }
 
     /**
      * After a Pesanan is created, attach related products.
      */
-    public function configure()
-    {
-        return $this->afterCreating(function (Pesanan $pesanan) {
-            // Pilih produk secara acak dan tambahkan ke pesanan
-            $produkIds = Produk::inRandomOrder()->take(3)->pluck('id'); // Pilih 3 produk secara acak
-            foreach ($produkIds as $produkId) {
-                // Menambahkan produk yang dipesan ke dalam pesanan
-                $pesanan->produks()->attach($produkId, [
-                    'JumlahProduk' => $this->faker->numberBetween(1, 5), // Jumlah produk yang dipesan
-                ]);
-            }
-        });
-    }
+    // public function configure()
+    // {
+    //     return $this->afterCreating(function (Pesanan $pesanan) {
+    //         // Pilih produk secara acak dan tambahkan ke pesanan
+    //         $produkIds = Produk::inRandomOrder()->take(3)->pluck('id'); // Pilih 3 produk secara acak
+    //         foreach ($produkIds as $produkId) {
+    //             // Menambahkan produk yang dipesan ke dalam pesanan
+    //             $pesanan->produks()->attach($produkId, [
+    //                 'JumlahProduk' => $this->faker->numberBetween(1, 5),
+    //             ]);
+    //         }
+    //     });
+    // }
 }

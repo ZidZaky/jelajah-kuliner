@@ -351,13 +351,13 @@ Tracking Map - Jelajah Kuliner
     </div>
     <div id="contentWrapper">
         @if(session('account')!=null)
-        @if(session('account')['status'] != 'PKL')
-        <button id="reviewButton">
-            <img src="https://www.gstatic.com/images/icons/material/system_gm/2x/rate_review_gm_blue_18dp.png"
-                alt="Gambar">
-            <p>Berikan Reviewmu</p>
-        </button>
-        @endif
+            @if(session('account')['status'] != 'PKL')
+            <button id="reviewButton">
+                <img src="https://www.gstatic.com/images/icons/material/system_gm/2x/rate_review_gm_blue_18dp.png"
+                    alt="Gambar">
+                <p>Berikan Reviewmu</p>
+            </button>
+            @endif
         @endif
         <div id="contentUlasan">
 

@@ -9,6 +9,8 @@ use App\Models\historyStok;
 use App\Models\PKL;
 use App\Models\Produk;
 use \App\Models\Ulasan;
+use \App\Models\Pesanan;
+use \App\Models\produkDipesan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -52,10 +54,25 @@ class DatabaseSeeder extends Seeder
                     'idPKL'=>$pkl->id,
                     'idAccount'=>fake()->numberBetween(1,40),
                 ]);
+                $count=fake()->numberBetween(1,5);
+                if($count<5){
+                    $pesanan = Pesanan::factory()->count(5)->create([
+                        'idAccount'=>$akun->id,
+                        'idPKL'=>$pkl->id,
+                    ]);
+                    // dd($products[fake()->randomNumber(1,9)]->id);
+                    // dd()
+
+                    foreach($pesanan as $pesan){
+                        $produkDiPesan = produkDipesan::factory()->count(2)->create(
+                            [
+                                'idPesanan'=>$pesan->id,
+                                'idProduk'=>($products[fake()->randomNumber(1,9)]->id),
+                            ]
+                        );
+                    }
+                }
             }
         }
-        
-        // Membuat pesanan dan menambahkan produk ke dalamnya
-        \App\Models\Pesanan::factory(15)->create();
     }
 }
