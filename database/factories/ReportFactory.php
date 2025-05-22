@@ -17,7 +17,10 @@ class ReportFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'idPengguna'=>1,
+            'idPelapor'=>1,
+            'idPesanan'=> 1,
+            'alasan' => "Pesanan Scam",
         ];
     }
 }

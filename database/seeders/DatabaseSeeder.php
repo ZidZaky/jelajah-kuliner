@@ -11,6 +11,8 @@ use App\Models\Produk;
 use \App\Models\Ulasan;
 use \App\Models\Pesanan;
 use \App\Models\produkDipesan;
+use \App\Models\Report;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,6 +24,12 @@ class DatabaseSeeder extends Seeder
     // database/seeders/DatabaseSeeder.php
     public function run(): void
     {
+        $accounts = \App\Models\Account::factory()->create([
+            "nama" => "Admin",
+            'email' => "Admin@Admin",
+            'password' => Hash::make('Admin'),
+            'status' => "Admin",
+        ]);
         $accounts = \App\Models\Account::factory()->count(40)->create();
         foreach ($accounts as $akun) {
             if($akun->status=="PKL"){
@@ -62,7 +70,7 @@ class DatabaseSeeder extends Seeder
                     ]);
                     // dd($products[fake()->randomNumber(1,9)]->id);
                     // dd()
-
+                    $countReport = 0;
                     foreach($pesanan as $pesan){
                         $produkDiPesan = produkDipesan::factory()->count(2)->create(
                             [
@@ -70,7 +78,19 @@ class DatabaseSeeder extends Seeder
                                 'idProduk'=>($products[fake()->randomNumber(1,9)]->id),
                             ]
                         );
+
+                        if($countReport==0){
+                            $report = Report::factory()->create([
+                                'idPengguna'=>$pesan->idAccount,
+                                'idPelapor'=>$pesan->idPKL,
+                                'idPesanan'=>$pesan->id,
+                            ]);
+                        }
                     }
+
+                    
+
+
                 }
             }
         }

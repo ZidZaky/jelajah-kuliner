@@ -81,7 +81,7 @@ class AccountControllerTest extends TestCase
         ]);
 
         $response->assertRedirect();
-        $response->assertSessionHas('alert', 'Email ini sudah pernah digunakan');
+        $response->assertSessionHas('alert', 'Nomor atau email ini sudah pernah digunakan');
     }
 
     public function test_update_profile()
